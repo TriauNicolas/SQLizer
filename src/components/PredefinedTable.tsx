@@ -13,8 +13,8 @@ export const PredefinedTable: React.FC<PredefinedTableProps> = ({ callbackSelect
 
   return(
     <div className={styles.columnElements}>
-      <PredefinedButton nameButton='classic rectangle' elementClickHandler={elementClickHandler}/>
-      <PredefinedButton nameButton='SooS la Saucisse' elementClickHandler={elementClickHandler}/>
+      <PredefinedButton nameButton='circle' elementClickHandler={elementClickHandler}/>
+      <PredefinedButton nameButton='rectangle' elementClickHandler={elementClickHandler}/>
     </div>
   )
 }

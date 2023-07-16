@@ -9,11 +9,11 @@ interface CanvasElementProps {
 
 export const CanvasElement: React.FC<CanvasElementProps> = ({ elementToDraw }) => {
   const { canvasRef } = usePosition()
-  const { createElement } = useElement()
+  const { drawElement } = useElement({ canvasRef, elementToDraw });
 
   useEffect(() => {
-    console.log('Element to draw: ' + elementToDraw)
-  }, [elementToDraw, createElement])
+    drawElement();
+  }, [drawElement, canvasRef]);
 
 
   return <canvas ref={canvasRef} className={styles.canvasStyle} />
