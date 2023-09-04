@@ -4,14 +4,14 @@ import { useElement } from '../../hooks/useElement/useElement';
 import styles from './CanvasElement.module.css';
 
 interface CanvasElementProps {
-  elementToDraw: string;
+  elementsToDraw: {"type": string}[];
 }
 
 export const CanvasElement: React.FC<CanvasElementProps> = ({
-  elementToDraw,
+  elementsToDraw,
 }) => {
   const { canvasRef } = usePosition();
-  const { drawElement } = useElement({ canvasRef, elementToDraw });
+  const { drawElement } = useElement({ canvasRef, elementsToDraw });
   const [ windowWidth, setWindowWidth] = useState(0)
   const [ windowHeight, setWindowHeight] = useState(0)
 
@@ -28,7 +28,7 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
     }
 
     drawElement();
-  }, [drawElement, canvasRef]);
+  }, [drawElement, canvasRef, windowWidth, windowHeight]);
 
-  return <canvas ref={canvasRef} className={styles.canvasStyle} width={windowWidth} height={windowHeight}/>;
+  return <canvas ref={canvasRef} className={styles.canvasStyle} width={windowWidth} height={windowHeight} />;
 };
