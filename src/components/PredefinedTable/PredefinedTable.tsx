@@ -15,11 +15,7 @@ export const PredefinedTable: React.FC<PredefinedTableProps> = ({
   return (
     <div className={styles.columnElements}>
       <PredefinedButton
-        nameButton="circle"
-        elementClickHandler={elementClickHandler}
-      />
-      <PredefinedButton
-        nameButton="rectangle"
+        nameButton="blank"
         elementClickHandler={elementClickHandler}
       />
     </div>

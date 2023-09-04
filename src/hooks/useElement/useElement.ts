@@ -13,19 +13,26 @@ export const useElement = ({ canvasRef, elementsToDraw }: UseElementProps) => {
     const context = canvas.getContext('2d');
     if (!context) return;
 
+    const middleXCanvas = (canvas.width / 2) - 60;
+    const middleYCanvas = (canvas.height / 2) - 50;
+
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     for(let elementIndex = 0; elementIndex < elementsToDraw?.length; elementIndex++) {
-      if (elementsToDraw[elementIndex].type === 'circle') {
+      if (elementsToDraw[elementIndex].type === 'blank') {
+        context.lineWidth = 2
         context.beginPath();
-        context.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI);
-        context.fillStyle = 'blue';
-        context.fill();
-        context.closePath();
-      } else if (elementsToDraw[elementIndex].type === 'rectangle') {
-        context.beginPath();
-        context.fillStyle = 'red';
-        context.fillRect((canvas.width / 2) - 54, (canvas.height / 2) - 57, 100, 100);
+        
+        // Background
+        context.fillStyle = 'rgba(255, 255, 255, 1)';
+        context.fillRect(middleXCanvas, middleYCanvas, 200, 300);
+
+        // Title
+        context.strokeRect(middleXCanvas, middleYCanvas, 200, 50);
+        context.strokeRect(middleXCanvas, middleYCanvas, 200, 50);
+
+        // Body
+        context.strokeRect(middleXCanvas, middleYCanvas, 200, 300);
         context.closePath();
       }
     }
