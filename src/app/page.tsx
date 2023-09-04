@@ -20,7 +20,7 @@ export default function Home() {
         <h1>Canvas Test</h1>
         <div className={styles.containerCanvas}>
           <PredefinedTable callbackSelection={handlerForCallbackSelection} />
-          <CanvasElement elementToDraw={elementToDraw} />
+          <CanvasElement elementToDraw={elementToDraw} canvasWidth={window.innerWidth} canvasHeight={window.innerHeight} />
         </div>
       </div>
     </Layout>
