@@ -67,7 +67,7 @@ The different types are:
 
 PR without commentaries in the code or without description can be refused.
 
-** Name **
+#### Name
 
 - Name of your branch + main infos if necessary
 
@@ -75,7 +75,7 @@ If the branch as mainy features added
 
 - Name of the main feature + precise that there is other minors features
 
-** Description **
+#### Description
 
 - Bullet points divided in categories (bugs / features / add / delete...)
 - Each bullet point must represent a feature
