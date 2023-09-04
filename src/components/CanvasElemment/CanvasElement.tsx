@@ -21,6 +21,7 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
     setWindowHeight(window.innerHeight);
 
     const canvas = canvasRef.current;
+    
     if (canvas) {
       canvas.width = windowWidth;
       canvas.height = windowHeight;

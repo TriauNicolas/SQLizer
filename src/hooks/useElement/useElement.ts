@@ -22,8 +22,10 @@ export const useElement = ({ canvasRef, elementToDraw }: UseElementProps) => {
       context.fill();
       context.closePath();
     } else if (elementToDraw === 'rectangle') {
+      context.beginPath();
       context.fillStyle = 'red';
-      context.fillRect(50, 50, 100, 100);
+      context.fillRect((canvas.width / 2) - 54, (canvas.height / 2) - 57, 100, 100);
+      context.closePath();
     }
   }, [elementToDraw, canvasRef]);
 
