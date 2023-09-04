@@ -1,0 +1,1 @@
+export { PredefinedTable } from './PredefinedTable';

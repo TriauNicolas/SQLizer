@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import styles from './page.module.css'
-import { CanvasElement } from '@/components/CanvasElement'
-import { PredefinedTable } from '@/components/PredefinedTable'
+import styles from '../styles/page.module.css'
+import { CanvasElement } from '../components/CanvasElemment/CanvasElement'
+import { PredefinedTable } from '../components/PredefinedTable/PredefinedTable'
 
 export default function Home() {
   const [elementToDraw, setElementToDraw] = useState('')
