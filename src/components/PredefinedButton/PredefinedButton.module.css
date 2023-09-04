@@ -1,0 +1,21 @@
+.predifinedElementButton {
+  display: inline-block;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.predifinedElementButton:hover {
+  background-color: #0056b3;
+}
+
+.predifinedElementButton:active {
+  background-color: #003d80;
+}

@@ -1,0 +1,7 @@
+.canvasStyle {
+  width: 750px;
+  height: 750px;
+  border: 1px solid black;
+  border-radius: 12px;
+  margin: 0 0 0 1rem
+}
