@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { usePosition } from '../../hooks/usePosition/usePosition';
 import { useElement } from '../../hooks/useElement/useElement';
 import styles from './CanvasElement.module.css';
+import { useCanvasSize } from '@/hooks/useCanvasSize/useCanvasSize';
 
 interface CanvasElementProps {
   elementsToDraw: {"type": string}[];
@@ -12,23 +13,18 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
 }) => {
   const { canvasRef } = usePosition();
   const { drawElement } = useElement({ canvasRef, elementsToDraw });
-  const [ windowWidth, setWindowWidth] = useState(0)
-  const [ windowHeight, setWindowHeight] = useState(0)
+  const { size } = useCanvasSize()
 
-  useEffect(() => {
-    // Set the canvas width and height
-    setWindowWidth(window.innerWidth);
-    setWindowHeight(window.innerHeight);
-
+  useLayoutEffect(() => {
     const canvas = canvasRef.current;
     
     if (canvas) {
-      canvas.width = windowWidth;
-      canvas.height = windowHeight;
+      canvas.width = size.width;
+      canvas.height = size.height;
     }
 
     drawElement();
-  }, [drawElement, canvasRef, windowWidth, windowHeight]);
+  }, [drawElement, canvasRef, size.width, size.height]);
 
-  return <canvas ref={canvasRef} className={styles.canvasStyle} width={windowWidth} height={windowHeight} />;
+  return <canvas ref={canvasRef} className={styles.canvasStyle} width={size.width} height={size.height} />;
 };
