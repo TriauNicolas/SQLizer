@@ -80,3 +80,5 @@ If the branch as mainy features added
 - Bullet points divided in categories (bugs / features / add / delete...)
 - Each bullet point must represent a feature
 - If necessary, add bullet points poiting notarious changements in the code
+
+t
