@@ -42,7 +42,39 @@ export default function Home() {
             {
               "name": "name",
               "type": "varchar(20)",
-            }
+            },
+            {
+              "name": "SooS",
+              "type": "varchar(20)",
+            },
+            {
+              "name": "JaaJ",
+              "type": "integer",
+            },
+            {
+              "name": "JaaJ",
+              "type": "integer",
+            },
+            {
+              "name": "JaaJ",
+              "type": "integer",
+            },
+            {
+              "name": "JaaJ",
+              "type": "integer",
+            },
+            {
+              "name": "JaaJ",
+              "type": "integer",
+            },
+            {
+              "name": "JaaJ",
+              "type": "integer",
+            },
+            {
+              "name": "JaaJ",
+              "type": "integer",
+            },
           ]
         },
       ])

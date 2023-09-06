@@ -12,11 +12,12 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
   const fontSize = 18;
   const fontSizePx = `${fontSize}px`;
   const marginXBorder = 10;
+  const spaceYBetweenElements = 35
 
 
   const fontName = 'serif';
   const widthRectangleElements = 200;
-  const heightRectangleElements = 300;
+  let heightRectangleElements = 300;
   const heightRectangleTitleElements = 50;
 
   const drawElement = useCallback(() => {
@@ -36,6 +37,9 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
     for(let elementIndex = 0; elementIndex < drawnElements?.length; elementIndex++) {
       const posX = drawnElements[elementIndex].posX != 0 ? drawnElements[elementIndex].posX : middleXCanvas
       const posY = drawnElements[elementIndex].posY != 0 ? drawnElements[elementIndex].posY : middleYCanvas
+      if((drawnElements[elementIndex].fields).length > 7) {
+        heightRectangleElements += (((drawnElements[elementIndex].fields).length) - 7) * 18;
+      }
       
       if (drawnElements[elementIndex].type === 'blank') {
         ctx.beginPath();
@@ -109,12 +113,12 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
           ctx.textAlign = 'left';
           ctx.fillText(`${currentElement.fields[field_index].name}`, 
             (posX + marginXBorder), 
-            posY + heightRectangleTitleElements * 1.5)
+            posY + (heightRectangleTitleElements * 1.5) + (spaceYBetweenElements * field_index))
 
           ctx.textAlign = 'right';
           ctx.fillText(`${currentElement.fields[field_index].type}`, 
             (posX + widthRectangleElements - marginXBorder), 
-            (posY + (heightRectangleTitleElements * 1.5)))
+            (posY + (heightRectangleTitleElements * 1.5) + (spaceYBetweenElements * field_index)))
         }
       }
     }
