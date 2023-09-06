@@ -26,14 +26,16 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const middleXCanvas = (canvas.width / 2) - 60;
-    const middleYCanvas = (canvas.height / 2) - 50;
+    const middleXCanvas = (canvas.width / 2) - (widthRectangleElements / 2);
+    const middleYCanvas = (canvas.height / 2) - (heightRectangleElements / 2);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.lineWidth = 2
 
     console.log(drawnElements)
     for(let elementIndex = 0; elementIndex < drawnElements?.length; elementIndex++) {
+      const posX = drawnElements[elementIndex].posX != 0 ? drawnElements[elementIndex].posX : middleXCanvas
+      const posY = drawnElements[elementIndex].posY != 0 ? drawnElements[elementIndex].posY : middleYCanvas
       
       if (drawnElements[elementIndex].type === 'blank') {
         ctx.beginPath();
@@ -41,13 +43,13 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
         ///// Drawing of the table /////
         // Background
         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        ctx.fillRect(middleXCanvas, middleYCanvas, widthRectangleElements, heightRectangleElements);
+        ctx.fillRect(posX, posY, widthRectangleElements, heightRectangleElements);
 
         // Title rectangle
-        ctx.strokeRect(middleXCanvas, middleYCanvas, widthRectangleElements, heightRectangleTitleElements);
+        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleTitleElements);
 
         // Body
-        ctx.strokeRect(middleXCanvas, middleYCanvas, widthRectangleElements, heightRectangleElements);
+        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleElements);
         ctx.closePath();
 
         ///// TEXT /////
@@ -56,8 +58,8 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
         ctx.fillStyle = 'rgba(0, 0, 0, 1)';
         ctx.textAlign = 'center'
         ctx.fillText("My title", 
-          (middleXCanvas + (widthRectangleElements / 2)), 
-          middleYCanvas + (fontSizeTitle * 1.25))
+          (posX + (widthRectangleElements / 2)), 
+          posY + (fontSizeTitle * 1.25))
 
 
         // Body table text (normally will be in a loop)
@@ -65,12 +67,12 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
         ctx.fillStyle = 'rgba(0, 0, 0, 1)';
         ctx.textAlign = 'left'
         ctx.fillText("id", 
-          (middleXCanvas + marginXBorder), 
-          middleYCanvas + heightRectangleTitleElements * 1.5)
+          (posX + marginXBorder), 
+          posY + heightRectangleTitleElements * 1.5)
         ctx.textAlign = 'right'
         ctx.fillText("int", 
-          (middleXCanvas + widthRectangleElements - marginXBorder), 
-          middleYCanvas + heightRectangleTitleElements * 1.5)
+          (posX + widthRectangleElements - marginXBorder), 
+          posY + heightRectangleTitleElements * 1.5)
       }
       else if (drawnElements[elementIndex].type === 'custom') {
         const currentElement = drawnElements[elementIndex];
@@ -80,13 +82,13 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
         ///// Drawing of the table /////
         // Background
         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        ctx.fillRect(middleXCanvas, middleYCanvas, widthRectangleElements, heightRectangleElements);
+        ctx.fillRect(posX, posY, widthRectangleElements, heightRectangleElements);
 
         // Title rectangle
-        ctx.strokeRect(middleXCanvas, middleYCanvas, widthRectangleElements, heightRectangleTitleElements);
+        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleTitleElements);
 
         // Body
-        ctx.strokeRect(middleXCanvas, middleYCanvas, widthRectangleElements, heightRectangleElements);
+        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleElements);
         ctx.closePath();
 
         ///// TEXT /////
@@ -95,8 +97,8 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
         ctx.fillStyle = 'rgba(0, 0, 0, 1)';
         ctx.textAlign = 'center';
         ctx.fillText(`${currentElement.name}`, 
-          (middleXCanvas + (widthRectangleElements / 2)), 
-          middleYCanvas + (fontSizeTitle * 1.25))
+          (posX + (widthRectangleElements / 2)), 
+          posY + (fontSizeTitle * 1.25))
 
 
         // Body table text (normally will be in a loop)
@@ -106,13 +108,13 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
           
           ctx.textAlign = 'left';
           ctx.fillText(`${currentElement.fields[field_index].name}`, 
-            (middleXCanvas + marginXBorder), 
-            middleYCanvas + heightRectangleTitleElements * 1.5)
+            (posX + marginXBorder), 
+            posY + heightRectangleTitleElements * 1.5)
 
           ctx.textAlign = 'right';
           ctx.fillText(`${currentElement.fields[field_index].type}`, 
-            (middleXCanvas + widthRectangleElements - marginXBorder), 
-            (middleYCanvas + (heightRectangleTitleElements * 1.5)))
+            (posX + widthRectangleElements - marginXBorder), 
+            (posY + (heightRectangleTitleElements * 1.5)))
         }
       }
     }

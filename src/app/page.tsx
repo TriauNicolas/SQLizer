@@ -23,8 +23,8 @@ export default function Home() {
         {
           "type": 'custom',
           "name": 'First Table',
-          "posX": -150,
-          "posY": -200,
+          "posX": 650,
+          "posY": 50,
           "fields": [
             {
               "name": "id",
@@ -36,8 +36,8 @@ export default function Home() {
         {
           "type": 'custom',
           "name": 'Second Table',
-          "posX": 150,
-          "posY": 200,
+          "posX": 650,
+          "posY": 450,
           "fields": [
             {
               "name": "name",
