@@ -73,8 +73,6 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
           middleYCanvas + heightRectangleTitleElements * 1.5)
       }
       else if (drawnElements[elementIndex].type === 'custom') {
-        console.log("yes");
-        
         const currentElement = drawnElements[elementIndex];
         // const posX = drawnElements[elementIndex].posX;
         // const posY = drawnElements[elementIndex].posY;

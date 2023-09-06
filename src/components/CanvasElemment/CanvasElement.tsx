@@ -5,7 +5,12 @@ import { DrawnElement } from '@/types/drawnElements';
 import styles from './CanvasElement.module.css';
 import { useCanvasSize } from '@/hooks/useCanvasSize/useCanvasSize';
 
-export const CanvasElement = (drawnElements: DrawnElement[] | any) => {
+type CanvasElementProps = {
+  drawnElements: DrawnElement[];
+};
+
+export const CanvasElement = ({ drawnElements }: CanvasElementProps) => {
+  console.log(drawnElements);
   const { canvasRef } = usePosition();
   const { drawElement } = useElement({ canvasRef, elementsToDraw });
   const { size } = useCanvasSize()

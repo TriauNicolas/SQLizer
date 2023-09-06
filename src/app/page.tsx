@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react';
-// import '../styles/globals.css';
 import Layout from './layout'
 import styles from '../styles/page.module.css';
 import { CanvasElement } from '../components/CanvasElemment/CanvasElement';
@@ -9,7 +8,7 @@ import { PredefinedTable } from '../components/PredefinedTable';
 import { DrawnElement } from '@/types/drawnElements';
 
 export default function Home() {
-  const [ drawnElements, setDrawnElements ] = useState<DrawnElement[]>()
+  const [ drawnElements, setDrawnElements ] = useState<DrawnElement[]>([])
 
   // const relations = [{ 
   //   "from": "users",
@@ -65,15 +64,13 @@ export default function Home() {
         }]);
     }
   };
-
-  console.log(drawnElements);
   
   return (
     <Layout>
       <div className={styles.mainDiv}>
         <div className={styles.containerCanvas}>
           <PredefinedTable callbackSelection={handlerForCallbackSelection} />
-          <CanvasElement drawElements={drawnElements} />
+          {drawnElements ? <CanvasElement drawnElements={drawnElements} />: ''}
         </div>
       </div>
     </Layout>
