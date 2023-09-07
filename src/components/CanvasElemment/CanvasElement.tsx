@@ -12,7 +12,7 @@ type CanvasElementProps = {
 export const CanvasElement = ({ drawnElements }: CanvasElementProps) => {
   console.log(drawnElements);
   const { canvasRef } = usePosition();
-  const { drawElement } = useElement({ canvasRef, elementsToDraw });
+  const { drawElement } = useElement({ canvasRef, drawnElements });
   const { size } = useCanvasSize()
 
   useLayoutEffect(() => {
