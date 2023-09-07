@@ -35,8 +35,12 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
 
     console.log(drawnElements)
     for(let elementIndex = 0; elementIndex < drawnElements?.length; elementIndex++) {
+
+      // Positions
       const posX = drawnElements[elementIndex].posX != 0 ? drawnElements[elementIndex].posX : middleXCanvas
       const posY = drawnElements[elementIndex].posY != 0 ? drawnElements[elementIndex].posY : middleYCanvas
+      
+      // Manage adptative height
       let heightRectangleElement = heightRectangleElements;
       if((drawnElements[elementIndex].fields).length > 7) {
         heightRectangleElement += (((drawnElements[elementIndex].fields).length) - 7) * 35;
