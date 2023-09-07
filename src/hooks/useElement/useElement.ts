@@ -17,7 +17,7 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
 
   const fontName = 'serif';
   const widthRectangleElements = 200;
-  let heightRectangleElements = 300;
+  const heightRectangleElements = 300;
   const heightRectangleTitleElements = 50;
 
   const drawElement = useCallback(() => {
@@ -37,8 +37,9 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
     for(let elementIndex = 0; elementIndex < drawnElements?.length; elementIndex++) {
       const posX = drawnElements[elementIndex].posX != 0 ? drawnElements[elementIndex].posX : middleXCanvas
       const posY = drawnElements[elementIndex].posY != 0 ? drawnElements[elementIndex].posY : middleYCanvas
+      let heightRectangleElement = heightRectangleElements;
       if((drawnElements[elementIndex].fields).length > 7) {
-        heightRectangleElements += (((drawnElements[elementIndex].fields).length) - 7) * 18;
+        heightRectangleElement += (((drawnElements[elementIndex].fields).length) - 7) * 35;
       }
       
       if (drawnElements[elementIndex].type === 'blank') {
@@ -47,52 +48,50 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
         ///// Drawing of the table /////
         // Background
         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        ctx.fillRect(posX, posY, widthRectangleElements, heightRectangleElements);
+        ctx.fillRect(posX, posY, widthRectangleElements, heightRectangleElement);
 
         // Title rectangle
         ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleTitleElements);
 
         // Body
-        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleElements);
+        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleElement);
         ctx.closePath();
 
-        ///// TEXT /////
-        // Title text
-        ctx.font = `${fontSizeTitlePx} ${fontName}`;
-        ctx.fillStyle = 'rgba(0, 0, 0, 1)';
-        ctx.textAlign = 'center'
-        ctx.fillText("My title", 
-          (posX + (widthRectangleElements / 2)), 
-          posY + (fontSizeTitle * 1.25))
+      //   ///// TEXT /////
+      //   // Title text
+      //   ctx.font = `${fontSizeTitlePx} ${fontName}`;
+      //   ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+      //   ctx.textAlign = 'center'
+      //   ctx.fillText("My title", 
+      //     (posX + (widthRectangleElements / 2)), 
+      //     posY + (fontSizeTitle * 1.25))
 
 
-        // Body table text (normally will be in a loop)
-        ctx.font = `${fontSizePx} ${fontName}`;
-        ctx.fillStyle = 'rgba(0, 0, 0, 1)';
-        ctx.textAlign = 'left'
-        ctx.fillText("id", 
-          (posX + marginXBorder), 
-          posY + heightRectangleTitleElements * 1.5)
-        ctx.textAlign = 'right'
-        ctx.fillText("int", 
-          (posX + widthRectangleElements - marginXBorder), 
-          posY + heightRectangleTitleElements * 1.5)
+      //   // Body table text (normally will be in a loop)
+      //   ctx.font = `${fontSizePx} ${fontName}`;
+      //   ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+      //   ctx.textAlign = 'left'
+      //   ctx.fillText("id", 
+      //     (posX + marginXBorder), 
+      //     posY + heightRectangleTitleElements * 1.5)
+      //   ctx.textAlign = 'right'
+      //   ctx.fillText("int", 
+      //     (posX + widthRectangleElements - marginXBorder), 
+      //     posY + heightRectangleTitleElements * 1.5)
       }
       else if (drawnElements[elementIndex].type === 'custom') {
         const currentElement = drawnElements[elementIndex];
-        // const posX = drawnElements[elementIndex].posX;
-        // const posY = drawnElements[elementIndex].posY;
 
         ///// Drawing of the table /////
         // Background
         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        ctx.fillRect(posX, posY, widthRectangleElements, heightRectangleElements);
+        ctx.fillRect(posX, posY, widthRectangleElements, heightRectangleElement);
 
         // Title rectangle
         ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleTitleElements);
 
         // Body
-        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleElements);
+        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleElement);
         ctx.closePath();
 
         ///// TEXT /////

@@ -23,21 +23,29 @@ export default function Home() {
         {
           "type": 'custom',
           "name": 'First Table',
-          "posX": 650,
-          "posY": 50,
+          "posX": 1000,
+          "posY": 200,
           "fields": [
             {
               "name": "id",
               "type": "uuid",
               "primaryKey": true
-            }
+            },
+            {
+              "name": "SooS",
+              "type": "varchar(20)"
+            },
+            {
+              "name": "name",
+              "type": "varchar(20)"
+            },
           ]
         },
         {
           "type": 'custom',
           "name": 'Second Table',
-          "posX": 650,
-          "posY": 450,
+          "posX": 1300,
+          "posY": 200,
           "fields": [
             {
               "name": "name",
@@ -52,27 +60,11 @@ export default function Home() {
               "type": "integer",
             },
             {
-              "name": "JaaJ",
+              "name": "JooJ",
               "type": "integer",
             },
             {
-              "name": "JaaJ",
-              "type": "integer",
-            },
-            {
-              "name": "JaaJ",
-              "type": "integer",
-            },
-            {
-              "name": "JaaJ",
-              "type": "integer",
-            },
-            {
-              "name": "JaaJ",
-              "type": "integer",
-            },
-            {
-              "name": "JaaJ",
+              "name": "SaaS",
               "type": "integer",
             },
           ]
