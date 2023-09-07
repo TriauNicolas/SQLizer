@@ -7,7 +7,7 @@ export const usePosition = () => {
     const mouseHandler = (event: MouseEvent) => {
       const currentMousePosition = computeMouseInCanvas(event);
 
-      console.log(currentMousePosition);
+      // console.log(currentMousePosition);
 
       // if(!canvasRef.current?.getContext('2d') || !currentMousePosition) return
       // const ctx = canvasRef.current?.getContext('2d')

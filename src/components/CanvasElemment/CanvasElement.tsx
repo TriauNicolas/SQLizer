@@ -1,18 +1,18 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { usePosition } from '../../hooks/usePosition/usePosition';
 import { useElement } from '../../hooks/useElement/useElement';
+import { DrawnElement } from '@/types/drawnElements';
 import styles from './CanvasElement.module.css';
 import { useCanvasSize } from '@/hooks/useCanvasSize/useCanvasSize';
 
-interface CanvasElementProps {
-  elementsToDraw: {"type": string}[];
-}
+type CanvasElementProps = {
+  drawnElements: DrawnElement[];
+};
 
-export const CanvasElement: React.FC<CanvasElementProps> = ({
-  elementsToDraw,
-}) => {
+export const CanvasElement = ({ drawnElements }: CanvasElementProps) => {
+  console.log(drawnElements);
   const { canvasRef } = usePosition();
-  const { drawElement } = useElement({ canvasRef, elementsToDraw });
+  const { drawElement } = useElement({ canvasRef, drawnElements });
   const { size } = useCanvasSize()
 
   useLayoutEffect(() => {
