@@ -6,6 +6,8 @@
   padding: 1rem;
   overflow-x: hidden;
   position: fixed;
+  z-index: 999;
   left: 0;
+  width: 120px;
   background: var(--whiteColor);
 }
