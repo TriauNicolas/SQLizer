@@ -1,12 +1,12 @@
 import { useEffect, RefObject, useCallback } from 'react';
-import { DrawnRelation } from '@/types/drawnRelations';
+import { Relation } from '@/types/Relation';
 
 interface UseElementRelationsProps {
   canvasRef: RefObject<HTMLCanvasElement>;
-  drawnRelations: DrawnRelation[]
+  completedRelationsInfos: Relation[]
 }
 
-export const useElementRelations = ({ canvasRef, drawnRelations }: UseElementRelationsProps) => {
+export const useElementRelations = ({ canvasRef, completedRelationsInfos }: UseElementRelationsProps) => {
 
   const drawRelations = useCallback(() => {
     const canvas = canvasRef.current;

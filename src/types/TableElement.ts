@@ -1,5 +1,4 @@
-export type DrawnElement = {
-  type: string;
+export type TableElement = {
   name: string;
   posX: number;
   posY: number;
@@ -9,5 +8,8 @@ export type DrawnElement = {
 export type Field = {
   name: string;
   type: string;
-  primaryKey?: boolean;
+  nullable: boolean;
+  pk?: boolean;
+  fk?: boolean;
+  defaultValue?: string;
 }

@@ -1,9 +1,9 @@
 import { useEffect, RefObject, useCallback } from 'react';
-import { DrawnElement } from '@/types/drawnElements';
+import { TableElement } from '@/types/TableElement';
 
 interface UseElementProps {
   canvasRef: RefObject<HTMLCanvasElement>;
-  drawnElements: DrawnElement[]
+  drawnElements: TableElement[]
 }
 
 export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
@@ -33,7 +33,6 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.lineWidth = 2
 
-    console.log(drawnElements)
     for(let elementIndex = 0; elementIndex < drawnElements?.length; elementIndex++) {
 
       // Positions
@@ -46,45 +45,7 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
         heightRectangleElement += (((drawnElements[elementIndex].fields).length) - 7) * 35;
       }
       
-      if (drawnElements[elementIndex].type === 'blank') {
-        ctx.beginPath();
-        
-        ///// Drawing of the table /////
-        // Background
-        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        ctx.fillRect(posX, posY, widthRectangleElements, heightRectangleElement);
-
-        // Title rectangle
-        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleTitleElements);
-
-        // Body
-        ctx.strokeRect(posX, posY, widthRectangleElements, heightRectangleElement);
-        ctx.closePath();
-
-      //   ///// TEXT /////
-      //   // Title text
-      //   ctx.font = `${fontSizeTitlePx} ${fontName}`;
-      //   ctx.fillStyle = 'rgba(0, 0, 0, 1)';
-      //   ctx.textAlign = 'center'
-      //   ctx.fillText("My title", 
-      //     (posX + (widthRectangleElements / 2)), 
-      //     posY + (fontSizeTitle * 1.25))
-
-
-      //   // Body table text (normally will be in a loop)
-      //   ctx.font = `${fontSizePx} ${fontName}`;
-      //   ctx.fillStyle = 'rgba(0, 0, 0, 1)';
-      //   ctx.textAlign = 'left'
-      //   ctx.fillText("id", 
-      //     (posX + marginXBorder), 
-      //     posY + heightRectangleTitleElements * 1.5)
-      //   ctx.textAlign = 'right'
-      //   ctx.fillText("int", 
-      //     (posX + widthRectangleElements - marginXBorder), 
-      //     posY + heightRectangleTitleElements * 1.5)
-      }
-      else if (drawnElements[elementIndex].type === 'custom') {
-        const currentElement = drawnElements[elementIndex];
+      const currentElement = drawnElements[elementIndex];
 
         ///// Drawing of the table /////
         // Background
@@ -123,7 +84,6 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
             (posX + widthRectangleElements - marginXBorder), 
             (posY + (heightRectangleTitleElements * 1.5) + (spaceYBetweenElements * field_index)))
         }
-      }
     }
   }, [drawnElements, canvasRef, fontSizeTitlePx, fontSizePx]);
 
