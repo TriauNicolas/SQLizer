@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Layout from './layout'
-import ReactFlow, { Background, Panel, BackgroundVariant } from 'reactflow';
+import ReactFlow, { Background, Panel, Controls, BackgroundVariant } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styles from '../styles/page.module.css'
 
@@ -21,8 +21,9 @@ export default function Home() {
       <div className={styles.canvasContainer}>
         <ReactFlow defaultNodes={initialNodes} defaultEdges={initialEdges} fitView>
           <Background color="#ccc" variant={variant} />
+          <Controls />
             <Panel position="top-left">
-              <div>variant:</div>
+              <div>Variants :</div>
               <button onClick={() => setVariant(BackgroundVariant.Dots)}>dots</button>
               <button onClick={() => setVariant(BackgroundVariant.Lines)}>lines</button>
               <button onClick={() => setVariant(BackgroundVariant.Cross)}>cross</button>
