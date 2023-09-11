@@ -1,4 +1,4 @@
-import { useCallback, RefObject, useState, useEffect } from 'react';
+import { RefObject, useCallback } from 'react';
 import { useElement } from '../../hooks/useElement/useElement';
 import { useElementRelations } from '../../hooks/useElementRelations/useElementRelations';
 import { TableElement } from '@/types/TableElement';
@@ -18,10 +18,6 @@ export const useDrawAll = ({ canvasRef, drawnElements, drawnRelations }: UseDraw
     drawElement();
     drawRelations();
   }, [drawElement, drawRelations]);
-
-  useEffect(() => {
-    drawAll();
-  }, [drawAll]);
 
   return { drawAll };
 }

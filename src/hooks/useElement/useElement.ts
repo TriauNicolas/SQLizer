@@ -1,4 +1,4 @@
-import { useEffect, RefObject, useCallback } from 'react';
+import { RefObject, useCallback } from 'react';
 import { TableElement } from '@/types/TableElement';
 
 interface UseElementProps {
@@ -86,10 +86,6 @@ export const useElement = ({ canvasRef, drawnElements }: UseElementProps) => {
         }
     }
   }, [drawnElements, canvasRef, fontSizeTitlePx, fontSizePx]);
-
-  useEffect(() => {
-    drawElement();
-  }, [drawElement]);
 
   return { drawElement };
 };

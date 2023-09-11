@@ -1,4 +1,4 @@
-import { useEffect, RefObject, useCallback } from 'react';
+import { RefObject, useCallback } from 'react';
 import { useFillRelations } from '../useFillRelations/useFillRelations';
 import { useDrawingRelations } from '../useDrawingRelations/useDrawingRelations';
 import { TableElement } from '@/types/TableElement';
@@ -23,10 +23,6 @@ export const useElementRelations = ({ canvasRef, drawnElements, drawnRelations }
     
     drawingRelations();
   }, [canvasRef, drawingRelations])
-
-  useEffect(() => {
-    drawRelations();
-  }, [drawRelations]);
 
   return { drawRelations };
 }

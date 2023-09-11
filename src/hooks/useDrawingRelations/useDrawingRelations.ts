@@ -1,4 +1,4 @@
-import { useEffect, RefObject, useCallback } from 'react';
+import { RefObject, useCallback } from 'react';
 import { Relation } from '@/types/Relation';
 
 interface UseDrawingRelationsProps {
@@ -9,12 +9,8 @@ interface UseDrawingRelationsProps {
 export const useDrawingRelations = ({ canvasRef, fillRelations }: UseDrawingRelationsProps) => {
 
   const drawingRelations = useCallback(() => {
-    console.log(`Filled Relations : ${fillRelations}`)
+    console.log(fillRelations)
   }, [fillRelations])
-
-  useEffect(() => {
-    drawingRelations()
-  }, [drawingRelations])
 
   return { drawingRelations }
 }
