@@ -1,16 +1,10 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { Handle, Position } from 'reactflow';
 import fieldStyle from './FieldNode.module.css'
+import { Field } from '../../types/convertedData'
 
 type FieldNodeProps = {
-  data: {
-    name: string;
-    type: string;
-    autoIncrement?: boolean;
-    pk?: boolean;
-    fk?: boolean;
-    nullable?: boolean;
-  }
+  data: Field
 }
 
 export const FieldNode = ({ data }: FieldNodeProps) => {
