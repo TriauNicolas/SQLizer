@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
 import tableStyle from './TableNode.module.css'
 
 type TableNodeProps = {
@@ -9,10 +9,12 @@ type TableNodeProps = {
 
 export const TableNode = ({ data }: TableNodeProps) => {
   const [ titleTable, setTitleTable ] = useState<string>()
-  if (!data?.label) setTitleTable(data.label)
-
   const [isEditing, setIsEditing] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (data?.label) setTitleTable(data.label)
+  }, [data?.label])
 
   const handleNodeClick = useCallback(() => {
     setIsEditing(!isEditing);
