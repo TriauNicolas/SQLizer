@@ -6,6 +6,10 @@ type FieldNodeProps = {
   data: {
     name: string;
     type: string;
+    autoIncrement?: boolean;
+    pk?: boolean;
+    fk?: boolean;
+    nullable?: boolean;
   }
 }
 
