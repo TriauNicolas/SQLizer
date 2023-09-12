@@ -16,7 +16,7 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styles from '../styles/page.module.css'
-import { TableNode } from './TableNode';
+import { TableNode } from './TableNode/TableNode';
 
 const initialNodes = [
   { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, data: { label: '1' } },
