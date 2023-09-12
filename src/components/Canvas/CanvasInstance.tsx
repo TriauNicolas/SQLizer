@@ -21,6 +21,8 @@ import 'reactflow/dist/style.css';
 import styles from '../../styles/page.module.css'
 import { TableNode } from '../TableNode/TableNode';
 import { FieldNode } from '../FieldNode/FieldNode';
+import { useDataToJson } from '@/hooks/useDataToJson';
+import { ConvertedData } from '../../types/convertedData'
 
 const initialNodes = [
   { id: 'Users', type: 'tableNode', position: { x: 0, y: 0 }, data: {}, expandParent: true },
@@ -42,6 +44,7 @@ export const CanvasInstance = () => {
   const [ nodes, setNodes ] = useState<Node[]>(initialNodes);
   const [ edges, setEdges ] = useState<Edge[]>(initialEdges);
   const { getNodes } = useReactFlow()
+  const convertedData: ConvertedData | null= useDataToJson({ nodes, edges })
 
   // Basic functions doc ReactFlow
   const onNodesChange: OnNodesChange = useCallback(
@@ -102,6 +105,7 @@ export const CanvasInstance = () => {
           <button onClick={() => setVariant(BackgroundVariant.Cross)}>Cross</button>
           <button onClick={() => console.log(nodesList)}>Get Nodes</button>
           <button onClick={() => addTable()}>Add a Table</button>
+          <button onClick={() => console.log(convertedData)}>Get converted Data</button>
         </Panel>
       </ReactFlow>
     </div>
