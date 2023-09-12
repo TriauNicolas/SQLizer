@@ -35,7 +35,6 @@ const nodeTypes: NodeTypes = {
 
 export const CanvasElement = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Lines);
-  // const nodeTypes = useMemo(() => ({ tableNode: TableNode }), []);
   const [ nodes, setNodes ] = useState<Node[]>(initialNodes);
   const [ edges, setEdges ] = useState<Edge[]>(initialEdges);
 
