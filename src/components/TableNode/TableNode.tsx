@@ -19,7 +19,7 @@ export const TableNode = ({ data }: TableNodeProps) => {
   }, [isEditing]);
 
   return (
-    <div className={tableStyle.tableNode} onClick={handleNodeClick} onBlur={handleNodeClick}>
+    <div className={tableStyle.tableNode} onBlur={handleNodeClick}>
       {isEditing ? (
         <input
           className={tableStyle.tableInput}
@@ -30,7 +30,7 @@ export const TableNode = ({ data }: TableNodeProps) => {
           autoFocus
         />
       ) : (
-        <div className={tableStyle.tableTitle}>
+        <div className={tableStyle.tableTitle} onClick={handleNodeClick}>
           {titleTable}
         </div>
         )}

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback } from 'react'
 import ReactFlow, {
   addEdge,
   Panel,
@@ -19,8 +19,8 @@ import styles from '../styles/page.module.css'
 import { TableNode } from './TableNode/TableNode';
 
 const initialNodes = [
-  { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, data: { label: '1' } },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: '2', customProperty: "SaaS" } },
+  { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, data: { label: '1' }, expandParent: true },
+  { id: '2', position: { x: 0, y: 100 }, data: { label: '2', customProperty: "SaaS" }, parentNode: '1' },
 ];
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
@@ -59,7 +59,7 @@ export const CanvasElement = () => {
         fitView
         nodeTypes={nodeTypes}
         >
-      <Background color="#ccc" variant={variant} />
+      <Background color="#ccc" variant={variant} gap={12} size={1}/>
       <Controls />
         <Panel position="top-left">
           <div>Variants :</div>
