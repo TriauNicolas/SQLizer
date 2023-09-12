@@ -20,11 +20,13 @@ import { TableNode } from './TableNode/TableNode';
 import { FieldNode } from './FieldNode/FieldNode';
 
 const initialNodes = [
-  { id: 'TitleTest', type: 'tableNode', position: { x: 0, y: 0 }, data: { label: 'TitleTest' }, expandParent: true },
-  { id: '2', type: 'fieldNode', position: { x: 0, y: 100 }, data: { label: '2', customProperty: "SaaS" }, parentNode: 'TitleTest' },
+  { id: 'Users', type: 'tableNode', position: { x: 0, y: 0 }, data: { label: 'Users' }, expandParent: true },
+  { id: '2', type: 'fieldNode', position: { x: 0, y: 50 }, data: { label: '2' }, parentNode: 'Users', draggable: false },
+  { id: 'Group', type: 'tableNode', position: { x: -400, y: 50 }, data: { label: 'Group' }, expandParent: true },
+  { id: '3', type: 'fieldNode', position: { x: 0, y: 50 }, data: { label: '3' }, parentNode: 'Group', draggable: false },
 ];
 
-const initialEdges = [{ id: 'eTitleTest-2', source: 'TitleTest', target: '2' }];
+const initialEdges = [{ id: 'Users.2-Group.3', source: '2', target: '3', animated: true }];
 
 const nodeTypes: NodeTypes = {
   tableNode: TableNode,
