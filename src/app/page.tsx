@@ -1,5 +1,3 @@
-'use client'
-
 import Layout from './layout'
 import { CanvasElement } from '../components/CanvasElement'
 
