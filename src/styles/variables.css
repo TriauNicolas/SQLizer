@@ -1,0 +1,7 @@
+:root {
+  --whiteColor: #fff;
+  --borderColorTableNode: #222222;
+
+  --baseWidthTableNode: 150px;
+  --baseHeightTableNode: 250px
+}
