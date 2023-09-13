@@ -11,7 +11,7 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
   const [ dataJSON, setDataJSON ] = useState<ConvertedData | null>(null)
 
   useEffect(() => {
-    const objectJSON: ConvertedData = {"dbName": 'MyFirstDB', 'tables': []}
+    const objectJSON: ConvertedData = {"dbName": 'MyFirstDB', 'tables': [], 'relations': []}
 
     const tables = nodes.filter((node): boolean => node.expandParent == true)
 

@@ -1,6 +1,7 @@
 export type ConvertedData = {
   dbName: string;
   tables: Table[];
+  relations: []
 }
 
 export type Table = {

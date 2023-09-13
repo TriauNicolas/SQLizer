@@ -29,11 +29,11 @@ import { useApi } from '@/hooks/useApi';
 const initialNodes = [
   { id: 'Users', type: 'tableNode', position: { x: 0, y: 0 }, data: {}, expandParent: true },
   { id: 'Users.name', type: 'fieldNode', position: { x: 0, y: 50 }, data: { name: 'name', type: 'varchar(20)' }, parentNode: 'Users', draggable: false },
-  { id: 'Group', type: 'tableNode', position: { x: -400, y: 50 }, data: {}, expandParent: true },
-  { id: 'Group.name', type: 'fieldNode', position: { x: 0, y: 50 }, data: { name: 'name', type: 'varchar(20)' }, parentNode: 'Group', draggable: false },
+  { id: 'UsersGroup', type: 'tableNode', position: { x: -400, y: 50 }, data: {}, expandParent: true },
+  { id: 'UsersGroup.name', type: 'fieldNode', position: { x: 0, y: 50 }, data: { name: 'name', type: 'varchar(20)' }, parentNode: 'UsersGroup', draggable: false },
 ];
 
-const initialEdges = [{ id: 'Users.2-Group.3', source: '2', target: '3', animated: true }];
+const initialEdges = [{ id: 'Users.2-UsersGroup.3', source: '2', target: '3', animated: true }];
 
 const nodeTypes: NodeTypes = {
   tableNode: TableNode,
@@ -48,7 +48,7 @@ export const CanvasInstance = () => {
   const { getNodes } = useReactFlow()
   const convertedData: ConvertedData | null= useDataToJson({ nodes, edges })
   const { downloadSql } = useDownloadSql(convertedData)
-  const apiCall = useApi();
+  const apiCall = useApi(convertedData);
 
   // Basic functions doc ReactFlow
   const onNodesChange: OnNodesChange = useCallback(
