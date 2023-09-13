@@ -22,6 +22,7 @@ import styles from '../../styles/page.module.css'
 import { TableNode } from '../TableNode/TableNode';
 import { FieldNode } from '../FieldNode/FieldNode';
 import { useDataToJson } from '@/hooks/useDataToJson';
+import { useDownloadSql } from '@/hooks/useDownloadSql'
 import { ConvertedData } from '../../types/convertedData'
 
 const initialNodes = [
@@ -45,6 +46,7 @@ export const CanvasInstance = () => {
   const [ edges, setEdges ] = useState<Edge[]>(initialEdges);
   const { getNodes } = useReactFlow()
   const convertedData: ConvertedData | null= useDataToJson({ nodes, edges })
+  const { downloadSql } = useDownloadSql(convertedData)
 
   // Basic functions doc ReactFlow
   const onNodesChange: OnNodesChange = useCallback(
@@ -106,6 +108,7 @@ export const CanvasInstance = () => {
           <button onClick={() => console.log(nodesList)}>Get Nodes</button>
           <button onClick={() => addTable()}>Add a Table</button>
           <button onClick={() => console.log(convertedData)}>Get converted Data</button>
+          <button onClick={downloadSql}>Download SQL</button>
         </Panel>
       </ReactFlow>
     </div>
