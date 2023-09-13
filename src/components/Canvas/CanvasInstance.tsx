@@ -24,6 +24,7 @@ import { FieldNode } from '../FieldNode/FieldNode';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
 import { ConvertedData } from '../../types/convertedData'
+import { useApi } from '@/hooks/useApi';
 
 const initialNodes = [
   { id: 'Users', type: 'tableNode', position: { x: 0, y: 0 }, data: {}, expandParent: true },
@@ -47,6 +48,7 @@ export const CanvasInstance = () => {
   const { getNodes } = useReactFlow()
   const convertedData: ConvertedData | null= useDataToJson({ nodes, edges })
   const { downloadSql } = useDownloadSql(convertedData)
+  const apiCall = useApi();
 
   // Basic functions doc ReactFlow
   const onNodesChange: OnNodesChange = useCallback(
@@ -109,6 +111,7 @@ export const CanvasInstance = () => {
           <button onClick={() => addTable()}>Add a Table</button>
           <button onClick={() => console.log(convertedData)}>Get converted Data</button>
           <button onClick={downloadSql}>Download SQL</button>
+          <button onClick={() => console.log(apiCall)}>API Call</button>
         </Panel>
       </ReactFlow>
     </div>
