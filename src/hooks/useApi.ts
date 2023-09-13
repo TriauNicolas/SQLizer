@@ -16,7 +16,6 @@ export const useApi = (convertedData: ConvertedData | null) => {
       data: myJson
     })
     .then(response => {
-      console.log(response.data);
       if (response.data) setSqlData(response.data.sql);
     })
     .catch(function (error) {
