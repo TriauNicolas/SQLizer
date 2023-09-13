@@ -44,7 +44,7 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
           type="text"
           ref={fieldNameRef}
           defaultValue={nameField}
-          onChange={(event) => setNameField(event.target.value)}
+          onChange={(event) => data.name = event.target.value}
           autoFocus
         />
       ) : (
@@ -58,7 +58,7 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
           type="text"
           ref={fieldTypeRef}
           defaultValue={typeField}
-          onChange={(event) => setTypeField(event.target.value)}
+          onChange={(event) => data.type = event.target.value}
           autoFocus
         />
       ) : (
