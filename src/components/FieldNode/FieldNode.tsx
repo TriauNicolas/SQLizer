@@ -1,12 +1,10 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { Handle, Position } from 'reactflow';
 import fieldStyle from './FieldNode.module.css'
+import { Field } from '../../types/convertedData'
 
 type FieldNodeProps = {
-  data: {
-    name: string;
-    type: string;
-  }
+  data: Field
 }
 
 export const FieldNode = ({ data }: FieldNodeProps) => {
@@ -46,7 +44,7 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
           type="text"
           ref={fieldNameRef}
           defaultValue={nameField}
-          onChange={(event) => setNameField(event.target.value)}
+          onChange={(event) => data.name = event.target.value}
           autoFocus
         />
       ) : (
@@ -60,7 +58,7 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
           type="text"
           ref={fieldTypeRef}
           defaultValue={typeField}
-          onChange={(event) => setTypeField(event.target.value)}
+          onChange={(event) => data.type = event.target.value}
           autoFocus
         />
       ) : (
