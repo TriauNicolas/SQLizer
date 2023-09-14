@@ -18,7 +18,7 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
 
     tables.forEach((table: Node) => {
       const objectTable: Table = { 
-        "name": table.id, 
+        name: table.data.title, 
         posX: table.position.x, 
         posY: table.position.y, 
         fields: []
@@ -27,12 +27,12 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
       const fieldsTable = nodes.filter((node: Node) => table.id == node.parentNode)
       fieldsTable.forEach((node: Node) => {
         const objectField = {
-          "title": node.data.title,
-          "name": node.data.name, 
-          "type": node.data.type, 
-          "autoIncrement": node.data.autoIncrement ? node.data.autoIncrement: false,
-          "pk": node.data.pk ? node.data.pk : false,
-          "nullable": node.data.nullable ? node.data.nullable: false
+          title: node.data.title,
+          name: node.data.name, 
+          type: node.data.type, 
+          autoIncrement: node.data.autoIncrement ? node.data.autoIncrement: false,
+          pk: node.data.pk ? node.data.pk : false,
+          nullable: node.data.nullable ? node.data.nullable: false
         }
 
         objectTable.fields.push(objectField)
