@@ -31,10 +31,8 @@ export const TableNode = ({ id, data }: TableNodeProps) => {
     })
     setNodes(currentNodes.map((node) => {
       if (nodesIdToChange.includes(node.id)) {
-        console.log("Here " + node.data.name)
         return ({...node, data: { title: `${titleTable}.${node.data.name}`, name: node.data.name, type: node.data.type}})
       }
-      console.log("Not Here " + node.data.name)
       return ({...node})
     }))
 
