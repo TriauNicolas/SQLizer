@@ -3,11 +3,10 @@ import tableStyle from './TableNode.module.css'
 import { DataTable } from '../../types/convertedData'
 
 type TableNodeProps = {
-  id: string;
   data: DataTable;
 }
 
-export const TableNode = ({ id, data }: TableNodeProps) => {
+export const TableNode = ({ data }: TableNodeProps) => {
   const [ titleTable, setTitleTable ] = useState<string>(data.title ? data.title : '')
   const [isEditing, setIsEditing] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
