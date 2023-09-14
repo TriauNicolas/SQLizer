@@ -1,19 +1,21 @@
-import { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useState, useRef, useEffect, ChangeEvent } from 'react';
 import tableStyle from './TableNode.module.css'
 import { DataTable } from '../../types/convertedData'
 
 type TableNodeProps = {
-  data: DataTable
+  id: string;
+  data: DataTable;
 }
 
-export const TableNode = ({ data }: TableNodeProps) => {
+export const TableNode = ({ id, data }: TableNodeProps) => {
   const [ titleTable, setTitleTable ] = useState<string>(data.title ? data.title : '')
   const [isEditing, setIsEditing] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
 
-  // useEffect(() => {
-  //   const nodesArray: Node[] = getNodes()
-  // }, [titleTable])
+  const handleChangeTitle = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    data.title = event.target.value
+    setTitleTable(event.target.value)
+  }, [data])
 
   const handleNodeClick = useCallback(() => {
     setIsEditing(!isEditing);
@@ -27,7 +29,7 @@ export const TableNode = ({ data }: TableNodeProps) => {
           type="text"
           ref={titleRef}
           defaultValue={titleTable}
-          onChange={(event) => setTitleTable(event.target.value)}
+          onChange={(event) => handleChangeTitle(event)}
           autoFocus
         />
       ) : (

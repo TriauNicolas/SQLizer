@@ -4,17 +4,17 @@ import { ConvertedData, Table } from '@/types/convertedData';
 import { useReactFlow } from 'reactflow'
 
 type DataToJsonProps = {
-  canvasNodes: Node[];
-  canvasEdges: Edge[];
+  nodes: Node[];
+  edges: Edge[];
 }
 
-export const useDataToJson = ({ canvasNodes, canvasEdges }: DataToJsonProps) => {
+export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
   const [ dataJSON, setDataJSON ] = useState<ConvertedData | null>(null);
 
   useEffect(() => {
     const objectJSON: ConvertedData = {"dbName": 'MyFirstDB', 'tables': [], 'relations': []}
 
-    const tables = canvasNodes.filter((node: Node): boolean => node.expandParent == true)
+    const tables = nodes.filter((node: Node): boolean => node.expandParent == true)
 
     tables.forEach((table: Node) => {
       const objectTable: Table = { 
@@ -24,7 +24,7 @@ export const useDataToJson = ({ canvasNodes, canvasEdges }: DataToJsonProps) => 
         fields: []
       }
       
-      const fieldsTable = canvasNodes.filter((node: Node) => table.id == node.parentNode)
+      const fieldsTable = nodes.filter((node: Node) => table.id == node.parentNode)
       fieldsTable.forEach((node: Node) => {
         const objectField = {
           "title": node.data.title,
@@ -42,7 +42,7 @@ export const useDataToJson = ({ canvasNodes, canvasEdges }: DataToJsonProps) => 
     })
 
     setDataJSON(objectJSON)
-  }, [canvasNodes])
+  }, [nodes])
 
   return dataJSON
 }

@@ -43,16 +43,18 @@ const nodeTypes: NodeTypes = {
 export const CanvasInstance = () => {
   const edgeUpdateSuccessful = useRef(true);
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
-  const [ canvasNodes, setCanvasNodes ] = useState<Node[]>(initialNodes);
-  const [ canvasEdges, setCanvasEdges ] = useState<Edge[]>(initialEdges);
+
+  const [ nodes, setNodes ] = useState<Node[]>(initialNodes);
+  const [ edges, setEdges ] = useState<Edge[]>(initialEdges);
+  
   const { getNodes, getEdges } = useReactFlow();
-  const convertedData: ConvertedData | null = useDataToJson({ canvasNodes, canvasEdges });
+  const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
   // const apiCall = useApi(convertedData);
 
   // Basic functions doc ReactFlow
   const onNodesChange: OnNodesChange = useCallback(
-    (changes) => setCanvasNodes((nds) => applyNodeChanges(changes, nds)),
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     []
   );
 
@@ -62,26 +64,26 @@ export const CanvasInstance = () => {
 
   const onEdgeUpdate = useCallback((oldEdge: Edge, newConnection: Connection) => {
     edgeUpdateSuccessful.current = true;
-    setCanvasEdges((els) => updateEdge(oldEdge, newConnection, els));
+    setEdges((els) => updateEdge(oldEdge, newConnection, els));
   }, []);
 
   const onEdgeUpdateEnd = useCallback((_: any, edge: Edge) => {
     if (!edgeUpdateSuccessful.current) {
-      setCanvasEdges((eds) => eds.filter((e) => e.id !== edge.id));
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
     }
 
     edgeUpdateSuccessful.current = true;
   }, []);
 
   const onConnect: OnConnect = useCallback(
-    (connection) => setCanvasEdges((eds) => addEdge(connection, eds)),
-    [setCanvasEdges]
+    (connection) => setEdges((eds) => addEdge(connection, eds)),
+    [setEdges]
   );
 
   // Test Function Add Table
   const addTable = () => {
     const tableToAdd = {id: 'New Table', type: 'tableNode', position: { x: 400, y: 0 }, data: {}, expandParent: true}
-    setCanvasNodes([...canvasNodes, tableToAdd])
+    setNodes([...nodes, tableToAdd])
   }
 
   // Test Getting nodes
@@ -90,15 +92,15 @@ export const CanvasInstance = () => {
   return (
     <div className={styles.canvasContainer}>
       <ReactFlow 
-        nodes={canvasNodes}
-        edges={canvasEdges}
+        nodes={nodes}
+        nodeTypes={nodeTypes}
+        edges={edges}
         onNodesChange={onNodesChange}
         onEdgeUpdate={onEdgeUpdate}
         onEdgeUpdateStart={onEdgeUpdateStart}
         onEdgeUpdateEnd={onEdgeUpdateEnd}
         onConnect={onConnect}
         fitView
-        nodeTypes={nodeTypes}
         >
       <Background color="#ccc" variant={variant} />
       <Controls />
@@ -107,9 +109,9 @@ export const CanvasInstance = () => {
           <button onClick={() => setVariant(BackgroundVariant.Dots)}>Dots</button>
           <button onClick={() => setVariant(BackgroundVariant.Lines)}>Lines</button>
           <button onClick={() => setVariant(BackgroundVariant.Cross)}>Cross</button>
-          <button onClick={() => console.log(canvasNodes)}>Get Nodes</button>
+          <button onClick={() => console.log(nodes)}>Get Nodes</button>
           <button onClick={() => console.log(nodesList)}>Get nodesList</button>
-          <button onClick={() => { if (JSON.stringify(nodesList) != JSON.stringify(canvasNodes)) setCanvasNodes(nodesList); else console.log('Not Necessary') }}>Crush nodes by getNodes</button>
+          <button onClick={() => { if (JSON.stringify(nodesList) != JSON.stringify(nodes)) setNodes(nodesList); else console.log('Not Necessary') }}>Crush nodes by getNodes</button>
           <button onClick={() => addTable()}>Add a Table</button>
           <button onClick={() => console.log(convertedData)}>Get converted Data</button>
           <button onClick={downloadSql}>Download SQL</button>
