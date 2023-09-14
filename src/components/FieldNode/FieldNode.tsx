@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useState, useRef, useEffect, ChangeEvent } from 'react';
 import { Handle, Position } from 'reactflow';
 import fieldStyle from './FieldNode.module.css'
 import { DataTable } from '../../types/convertedData'
@@ -20,6 +20,16 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
     if (data?.type) setTypeField(data.type)
   }, [data?.name, data?.type])
 
+  const handleChangeNameandType = ((event: ChangeEvent<HTMLInputElement>) => {
+    if (isEditingName) {
+      data.name = event.target.value
+      setNameField(event.target.value)
+    }
+    else if (isEditingType) {
+      data.type = event.target.value
+      setTypeField(event.target.value)
+    }
+  })
 
   const handleNodeClick = useCallback(() => {
     setIsEditingName(false);
@@ -44,7 +54,7 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
           type="text"
           ref={fieldNameRef}
           defaultValue={nameField}
-          onChange={(event) => data.name = event.target.value}
+          onChange={(event) => handleChangeNameandType(event)}
           autoFocus
         />
       ) : (
@@ -58,7 +68,7 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
           type="text"
           ref={fieldTypeRef}
           defaultValue={typeField}
-          onChange={(event) => data.type = event.target.value}
+          onChange={(event) => handleChangeNameandType(event)}
           autoFocus
         />
       ) : (
