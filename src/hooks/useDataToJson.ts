@@ -1,19 +1,20 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Node, Edge } from 'reactflow';
 import { ConvertedData, Table } from '@/types/convertedData';
+import { useReactFlow } from 'reactflow'
 
 type DataToJsonProps = {
-  nodes: Node[];
-  edges: Edge[];
+  canvasNodes: Node[];
+  canvasEdges: Edge[];
 }
 
-export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
-  const [ dataJSON, setDataJSON ] = useState<ConvertedData | null>(null)
+export const useDataToJson = ({ canvasNodes, canvasEdges }: DataToJsonProps) => {
+  const [ dataJSON, setDataJSON ] = useState<ConvertedData | null>(null);
 
   useEffect(() => {
     const objectJSON: ConvertedData = {"dbName": 'MyFirstDB', 'tables': [], 'relations': []}
 
-    const tables = nodes.filter((node): boolean => node.expandParent == true)
+    const tables = canvasNodes.filter((node: Node): boolean => node.expandParent == true)
 
     tables.forEach((table: Node) => {
       const objectTable: Table = { 
@@ -23,9 +24,10 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
         fields: []
       }
       
-      const fieldsTable = nodes.filter((node: Node) => table.id == node.parentNode)
-      fieldsTable.forEach((node) => {
+      const fieldsTable = canvasNodes.filter((node: Node) => table.id == node.parentNode)
+      fieldsTable.forEach((node: Node) => {
         const objectField = {
+          "title": node.data.title,
           "name": node.data.name, 
           "type": node.data.type, 
           "autoIncrement": node.data.autoIncrement ? node.data.autoIncrement: false,
@@ -40,7 +42,7 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
     })
 
     setDataJSON(objectJSON)
-  }, [nodes, edges])
+  }, [canvasNodes])
 
   return dataJSON
 }

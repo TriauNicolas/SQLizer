@@ -8,8 +8,6 @@ export const useDownloadSql = (convertedData: ConvertedData | null) => {
 
   const downloadSql = useCallback(() => {
 
-    console.log(apiCall)
-
     // Create the SQL content (replace with your data)
     const sqlContent = apiCall;
 

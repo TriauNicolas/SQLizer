@@ -8,10 +8,11 @@ export type Table = {
   name: string;
   posX: number;
   posY: number;
-  fields: Field[]
+  fields: DataTable[]
 }
 
-export type Field = {
+export type DataTable = {
+  title: string;
   name: string;
   type: string;
   autoIncrement?: boolean;
