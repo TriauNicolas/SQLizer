@@ -1,19 +1,19 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import tableStyle from './TableNode.module.css'
-import { FieldNode } from '../FieldNode/FieldNode';
+import { DataTable } from '../../types/convertedData'
 
 type TableNodeProps = {
-  id: string
+  data: DataTable
 }
 
-export const TableNode = ({ id  }: TableNodeProps) => {
-  const [ titleTable, setTitleTable ] = useState<string>()
+export const TableNode = ({ data }: TableNodeProps) => {
+  const [ titleTable, setTitleTable ] = useState<string>(data.title ? data.title : '')
   const [isEditing, setIsEditing] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (id) setTitleTable(id)
-  }, [id])
+  // useEffect(() => {
+  //   const nodesArray: Node[] = getNodes()
+  // }, [titleTable])
 
   const handleNodeClick = useCallback(() => {
     setIsEditing(!isEditing);

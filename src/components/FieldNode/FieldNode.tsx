@@ -1,10 +1,10 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { Handle, Position } from 'reactflow';
 import fieldStyle from './FieldNode.module.css'
-import { Field } from '../../types/convertedData'
+import { DataTable } from '../../types/convertedData'
 
 type FieldNodeProps = {
-  data: Field
+  data: DataTable
 }
 
 export const FieldNode = ({ data }: FieldNodeProps) => {

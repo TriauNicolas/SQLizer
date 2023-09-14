@@ -1,6 +1,6 @@
 .fieldNode {
   width: var(--baseWidthTableNode);
-  height: 40px;
+  height: var(--baseHeightFieldNode);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -10,12 +10,12 @@
 .fieldInput:focus {
   outline: none;
   width: calc(var(--baseWidthTableNode) / 2);
-  height: 40px;
+  height: var(--baseHeightFieldNode);
 }
 
 .fieldName {
   width: calc(var(--baseWidthTableNode) / 2);
-  height: 40px;
+  height: var(--baseHeightFieldNode);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -24,7 +24,7 @@
 
 .fieldType {
   width: calc(var(--baseWidthTableNode) / 2);
-  height: 40px;
+  height: var(--baseHeightFieldNode);
   display: flex;
   justify-content: flex-end;
   align-items: center;
