@@ -22,9 +22,11 @@ import 'reactflow/dist/style.css';
 import styles from '../../styles/page.module.css'
 import { TableNode } from '../TableNode/TableNode';
 import { FieldNode } from '../FieldNode/FieldNode';
+import { InfosTable } from '../InfosTable/InfosTable';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
 import { ConvertedData } from '../../types/convertedData'
+import { InfosTableType } from '../../types/infosTable';
 import { useApi } from '@/hooks/useApi';
 
 const initialNodes = [
@@ -44,13 +46,12 @@ const nodeTypes: NodeTypes = {
 export const CanvasInstance = () => {
   const edgeUpdateSuccessful = useRef(true);
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
-
   const [ nodes, setNodes ] = useState<Node[]>(initialNodes);
   const [ edges, setEdges ] = useState<Edge[]>(initialEdges);
-  
   const { getNodes, getEdges } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
+  const [ tableInfos, setTableInfos ] = useState<InfosTableType>()
   // const apiCall = useApi(convertedData);
 
   ///// Basic functions doc ReactFlow /////
@@ -81,6 +82,19 @@ export const CanvasInstance = () => {
     [setEdges]
   );
 
+  useMemo(() => {
+    const tableParent = nodes.find((node) => node.selected === true);
+    let fieldsChildren: any = []
+    if (tableParent) {
+      fieldsChildren = getNodes().filter((node: Node) => node.parentNode === tableParent.id)
+    }
+
+    setTableInfos({ 
+      tableParent: { id: tableParent?.id, data: tableParent?.data }, 
+      fieldsChildren: fieldsChildren
+      });
+  }, [nodes, getNodes])
+
   // Test Function Add Table
   const addTable = () => {
     const tableToAdd = {id: 'New Table', type: 'tableNode', position: { x: 400, y: 0 }, data: {}, expandParent: true}
@@ -93,38 +107,47 @@ export const CanvasInstance = () => {
   const nodesList: Node[] = getNodes()
 
   return (
-    <div className={styles.canvasContainer}>
-      <ReactFlow 
-        nodes={nodes}
-        nodeTypes={nodeTypes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgeUpdate={onEdgeUpdate}
-        onEdgeUpdateStart={onEdgeUpdateStart}
-        onEdgeUpdateEnd={onEdgeUpdateEnd}
-        onConnect={onConnect}
-        fitView
-        panOnScroll
-        selectionOnDrag
-        panOnDrag={panOnDrag}
-        selectionMode={SelectionMode.Partial}
-        >
-      <Background color="#ccc" variant={variant} />
-      <Controls />
-        <Panel position="top-left">
-          <div>Variants :</div>
-          <button onClick={() => setVariant(BackgroundVariant.Dots)}>Dots</button>
-          <button onClick={() => setVariant(BackgroundVariant.Lines)}>Lines</button>
-          <button onClick={() => setVariant(BackgroundVariant.Cross)}>Cross</button>
-          <button onClick={() => console.log(nodes)}>Get Nodes</button>
-          <button onClick={() => console.log(nodesList)}>Get nodesList</button>
-          <button onClick={() => { if (JSON.stringify(nodesList) != JSON.stringify(nodes)) setNodes(nodesList); else console.log('Not Necessary') }}>Crush nodes by getNodes</button>
-          <button onClick={() => addTable()}>Add a Table</button>
-          <button onClick={() => console.log(convertedData)}>Get converted Data</button>
-          <button onClick={downloadSql}>Download SQL</button>
-          {/* <button onClick={() => console.log(apiCall)}>API Call</button> */}
-        </Panel>
-      </ReactFlow>
+    <div className={styles.pagesContainer}>
+      
+      {/* TABLE INFOS ON CLICK */}
+      <div className={styles.infosTableContainer}>
+        <InfosTable infos={tableInfos} />
+      </div>
+
+      {/* CANVAS */}
+      <div className={styles.canvasContainer}>
+        <ReactFlow 
+          nodes={nodes}
+          nodeTypes={nodeTypes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgeUpdate={onEdgeUpdate}
+          onEdgeUpdateStart={onEdgeUpdateStart}
+          onEdgeUpdateEnd={onEdgeUpdateEnd}
+          onConnect={onConnect}
+          fitView
+          panOnScroll
+          selectionOnDrag
+          panOnDrag={panOnDrag}
+          selectionMode={SelectionMode.Partial}
+          >
+        <Background color="#ccc" variant={variant} />
+        <Controls />
+          <Panel position="top-left">
+            <div>Variants :</div>
+            <button onClick={() => setVariant(BackgroundVariant.Dots)}>Dots</button>
+            <button onClick={() => setVariant(BackgroundVariant.Lines)}>Lines</button>
+            <button onClick={() => setVariant(BackgroundVariant.Cross)}>Cross</button>
+            <button onClick={() => console.log(nodes)}>Get Nodes</button>
+            <button onClick={() => console.log(nodesList)}>Get nodesList</button>
+            <button onClick={() => { if (JSON.stringify(nodesList) != JSON.stringify(nodes)) setNodes(nodesList); else console.log('Not Necessary') }}>Crush nodes by getNodes</button>
+            <button onClick={() => addTable()}>Add a Table</button>
+            <button onClick={() => console.log(convertedData)}>Get converted Data</button>
+            <button onClick={downloadSql}>Download SQL</button>
+            {/* <button onClick={() => console.log(apiCall)}>API Call</button> */}
+          </Panel>
+        </ReactFlow>
+      </div>
     </div>
   )
 }

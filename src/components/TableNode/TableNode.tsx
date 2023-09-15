@@ -1,8 +1,8 @@
 import { useCallback, useState, useRef, ChangeEvent, useEffect } from 'react';
-import tableStyle from './TableNode.module.css'
-import { DataTable } from '../../types/convertedData'
+import tableStyle from './TableNode.module.css';
+import { DataTable } from '../../types/convertedData';
 import { useReactFlow } from 'reactflow';
-import { AddFieldNode } from '../AddFieldNode/AddFieldNode'
+import { AddFieldNode } from '../AddFieldNode/AddFieldNode';
 import { AddFieldModal } from '../AddFieldModal/AddFieldModal';
 
 type TableNodeProps = {
@@ -28,8 +28,8 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const openModal = () => {
     setDisplayModal(true)
 
+    // Determine the position of the camera
     const currentNode = getNode(id)
-
     if (currentNode) {
       setViewport({ 
           x: (window.innerWidth / 2) + Math.abs(currentNode?.position.x) - 75, 
@@ -51,7 +51,6 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
     setDisplayModal(false)
 
     const allNodes = getNodes();
-    console.log(allNodes)
     setNodes(allNodes.map((node) => {
       if (node.type === "fieldNode") {
         return ({...node, hidden: false})
@@ -100,7 +99,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
           {titleTable}
         </div>
         )}
-      {selected ? <AddFieldNode numberFields={numberOfFields} openModal={openModal}/> : ''}
+      {selected ? <AddFieldNode numberFields={numberOfFields} openModal={openModal} /> : ''}
       {displayModal ? <AddFieldModal idTable={id} closeModal={closeModal} /> : ''}
     </div>
   );

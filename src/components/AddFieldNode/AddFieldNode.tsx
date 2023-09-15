@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
-import Image from 'next/image'
-import { AddFieldModal } from '../AddFieldModal/AddFieldModal';
-import styleAddField from './AddFieldNode.module.css'
-import svgAdd from '../../../public/SVGAddField.svg'
+import Image from 'next/image';
+import svgAdd from '../../../public/SVGAddField.svg';
 
 type AddFieldNodeProps = {
   numberFields: number;
@@ -19,7 +16,7 @@ export const AddFieldNode = ({ numberFields, openModal }: AddFieldNodeProps) => 
     width: '32px',
     height: '32px',
     top: `${offsetY}px`,
-    left: '45%',
+    left: '42%',
   }
   
   return (
