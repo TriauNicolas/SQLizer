@@ -26,7 +26,6 @@ import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
 import { ConvertedData } from '../../types/convertedData'
 import { useApi } from '@/hooks/useApi';
-import { AddFieldModal } from '../AddFieldModal/AddFieldModal';
 
 const initialNodes = [
   { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "Users" }, expandParent: true, selected: false, draggable: true },
@@ -110,7 +109,7 @@ export const CanvasInstance = () => {
         panOnDrag={panOnDrag}
         selectionMode={SelectionMode.Partial}
         >
-      <Background color="#fff" variant={variant} />
+      <Background color="#ccc" variant={variant} />
       <Controls />
         <Panel position="top-left">
           <div>Variants :</div>

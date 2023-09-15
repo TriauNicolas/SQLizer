@@ -6,16 +6,10 @@ import svgAdd from '../../../public/SVGAddField.svg'
 
 type AddFieldNodeProps = {
   numberFields: number;
-  onChange: () => void;
+  openModal: () => void;
 }
 
-export const AddFieldNode = ({ numberFields, onChange }: AddFieldNodeProps) => {
-  const [ displayModal, setDisplayModal ] = useState(false);
-
-  const handleDisplayModal = () => {
-    setDisplayModal(true)
-    onChange()
-  }
+export const AddFieldNode = ({ numberFields, openModal }: AddFieldNodeProps) => {
 
   // 50 (under title rectangle) & 60 (40 height field & 20 middle height field) * numberFieldsTable to repeat the operation
   const offsetY = (50 + (numberFields * 60));
@@ -35,7 +29,7 @@ export const AddFieldNode = ({ numberFields, onChange }: AddFieldNodeProps) => {
         height={32}
         width={32}
         alt="Add a field to the table"
-        onClick={handleDisplayModal}
+        onClick={() => openModal()}
       />
     </div>
   )

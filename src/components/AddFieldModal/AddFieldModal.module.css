@@ -10,14 +10,92 @@
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+.containerForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  box-shadow: 17px 25px 36px -3px rgba(0,0,0,0.3);
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 45vw;
+  height: 45vh;
+}
+
+.fieldInfosContainer {
+  max-width: 980px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.closeCross {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  top: 25%;
+  left: 71%;
+}
+
+.infosContainer, .optionsContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 .infosContainer {
-  background-color: #fff; /* Background color for the modal box */
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  width: 80%; /* Adjust the width as needed */
-  max-width: 980px; /* Adjust the maximum width as needed */
-  text-align: center;
+  width: 50%;
+  padding-right: 64px;
+}
+
+.optionsContainer {
+  width: 35%;
+}
+
+.nameContainer, .typeContainer, .defaultContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 0
+}
+
+.autoIncContainer, .pkContainer, .fkContainer, .isNullContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 0
+}
+
+.infosContainer > div, .optionsContainer > div {
+  margin-bottom: 10px;
+}
+
+.validationContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 18%;
+}
+
+.lineValidation {
+  width: 80%;
+  height: 1px;
+  background-color: #000;
+  margin-bottom: 10px;
+}
+
+.validationContainer button {
+  padding: 10px 20px;
+  background-color: #1B9CFC;
+  border: none;
+  border-radius: 5px;
+  color: #fff; 
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.validationContainer button:hover {
+  background-color: #1572ba;
 }

@@ -18,7 +18,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const { getNodes, setNodes } = useReactFlow();
   const [ displayModal, setDisplayModal ] = useState(false)
-  const { setViewport, getViewport, getNode } = useReactFlow()
+  const { setViewport, getNode } = useReactFlow()
 
   useEffect(() => {
     if (selected) {
@@ -26,7 +26,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
     }
   }, [selected, getNodes, numberOfFields, id])
 
-  const gotIt = () => {
+  const openModal = () => {
     setDisplayModal(true)
 
     const currentNode = getNode(id)
@@ -38,6 +38,26 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
           zoom: 1 
         })
     }
+
+    const allNodes = getNodes()
+    setNodes(allNodes.map((node) => {
+      if (node.type === "fieldNode") {
+        return ({...node, hidden: true})
+      }
+      return ({...node})
+    }))
+  }
+
+  const closeModal = () => {
+    setDisplayModal(false)
+
+    const allNodes = getNodes()
+    setNodes(allNodes.map((node) => {
+      if (node.type === "fieldNode") {
+        return ({...node, hidden: false})
+      }
+      return ({...node})
+    }))
   }
 
   const handleChangeTitle = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -80,8 +100,8 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
           {titleTable}
         </div>
         )}
-      {selected ? <AddFieldNode numberFields={numberOfFields} onChange={gotIt}/> : ''}
-      {displayModal ? <AddFieldModal /> : ''}
+      {selected ? <AddFieldNode numberFields={numberOfFields} openModal={openModal}/> : ''}
+      {displayModal ? <AddFieldModal closeModal={closeModal} /> : ''}
     </div>
   );
 };
