@@ -101,7 +101,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
         </div>
         )}
       {selected ? <AddFieldNode numberFields={numberOfFields} openModal={openModal}/> : ''}
-      {displayModal ? <AddFieldModal closeModal={closeModal} /> : ''}
+      {displayModal ? <AddFieldModal idTable={id} closeModal={closeModal} /> : ''}
     </div>
   );
 };

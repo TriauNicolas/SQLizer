@@ -28,6 +28,7 @@ export const AddFieldNode = ({ numberFields, openModal }: AddFieldNodeProps) => 
         src={svgAdd}
         height={32}
         width={32}
+        priority
         alt="Add a field to the table"
         onClick={() => openModal()}
       />
