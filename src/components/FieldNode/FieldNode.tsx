@@ -1,7 +1,7 @@
 import { useCallback, useState, useRef, useEffect, ChangeEvent } from 'react';
 import { Handle, Position } from 'reactflow';
 import fieldStyle from './FieldNode.module.css'
-import { DataTable } from '../../types/convertedData'
+import { DataTable } from '../../types/tables'
 
 type FieldNodeProps = {
   data: DataTable

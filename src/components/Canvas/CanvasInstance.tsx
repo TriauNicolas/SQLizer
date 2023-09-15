@@ -25,7 +25,7 @@ import { FieldNode } from '../FieldNode/FieldNode';
 import { InfosTable } from '../InfosTable/InfosTable';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
-import { ConvertedData } from '../../types/convertedData'
+import { ConvertedData } from '../../types/tables'
 import { InfosTableType } from '../../types/infosTable';
 import { useApi } from '@/hooks/useApi';
 
@@ -83,16 +83,17 @@ export const CanvasInstance = () => {
   );
 
   useMemo(() => {
-    const tableParent = nodes.find((node) => node.selected === true);
+    const tableParent = nodes.find((node) => node.selected === true && node.type != "fieldNode");
     let fieldsChildren: any = []
     if (tableParent) {
       fieldsChildren = getNodes().filter((node: Node) => node.parentNode === tableParent.id)
+
+      setTableInfos({ 
+        tableParent: { id: tableParent?.id, data: tableParent?.data }, 
+        fieldsChildren: fieldsChildren
+        });
     }
 
-    setTableInfos({ 
-      tableParent: { id: tableParent?.id, data: tableParent?.data }, 
-      fieldsChildren: fieldsChildren
-      });
   }, [nodes, getNodes])
 
   // Test Function Add Table

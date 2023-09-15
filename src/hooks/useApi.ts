@@ -1,4 +1,4 @@
-import { ConvertedData } from '@/types/convertedData';
+import { ConvertedData } from '@/types/tables';
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 

@@ -1,4 +1,4 @@
-import { ConvertedData } from '@/types/convertedData';
+import { ConvertedData } from '@/types/tables';
 import { saveAs } from 'file-saver';
 import { useCallback } from 'react';
 import { useApi } from '@/hooks/useApi';

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Node, Edge } from 'reactflow';
-import { ConvertedData, Table } from '@/types/convertedData';
+import { ConvertedData, Table } from '@/types/tables';
 import { useReactFlow } from 'reactflow'
 
 type DataToJsonProps = {

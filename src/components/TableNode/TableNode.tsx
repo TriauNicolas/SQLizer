@@ -1,6 +1,6 @@
 import { useCallback, useState, useRef, ChangeEvent, useEffect } from 'react';
 import tableStyle from './TableNode.module.css';
-import { DataTable } from '../../types/convertedData';
+import { DataTable } from '../../types/tables';
 import { useReactFlow } from 'reactflow';
 import { AddFieldNode } from '../AddFieldNode/AddFieldNode';
 import { AddFieldModal } from '../AddFieldModal/AddFieldModal';
