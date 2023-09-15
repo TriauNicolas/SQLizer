@@ -43,6 +43,10 @@
   margin: 8px 0;
 }
 
+.fieldOptions {
+  width: 100%;
+}
+
 .option {
   width: 100%;
   display: flex;

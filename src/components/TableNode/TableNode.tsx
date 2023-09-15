@@ -32,7 +32,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
     const currentNode = getNode(id)
     if (currentNode) {
       setViewport({ 
-          x: (window.innerWidth / 2) + Math.abs(currentNode?.position.x) - 75, 
+          x: ((window.innerWidth / 2) * 0.80) + Math.abs(currentNode?.position.x) - 75, 
           y: (window.innerHeight / 2) + ((currentNode?.position.y) * -1) - 125, 
           zoom: 1 
         })
