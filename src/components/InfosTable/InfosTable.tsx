@@ -11,14 +11,6 @@ type InfosTableProps = {
 
 export const InfosTable = ({ infos }: InfosTableProps) => {
 
-  useEffect(() => {
-    // console.log(infos)
-    // console.log(infos?.fieldsChildren)
-    // infos?.fieldsChildren.map((node: any) => {
-    //   console.log(node.data)
-    // })
-  }, [infos])
-
   return (
     <>
     { infos?.tableParent?.data?.title ? (
@@ -26,7 +18,7 @@ export const InfosTable = ({ infos }: InfosTableProps) => {
         <h2 className={styleTableInfos.titleTable}>{infos?.tableParent?.data?.title}</h2>
         <div className={styleTableInfos.infosFields}>
           { infos.fieldsChildren.map((node: any) => {
-              return <InfosField data={node.data} />
+              return <InfosField key={node.id} idNode={node.id} data={node.data} />
           }) }
         </div>
         <button className={styleTableInfos.dropTable}>DROP TABLE</button>

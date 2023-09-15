@@ -9,7 +9,7 @@ type AddFieldNodeProps = {
 export const AddFieldNode = ({ numberFields, openModal }: AddFieldNodeProps) => {
 
   // 50 (under title rectangle) & 60 (40 height field & 20 middle height field) * numberFieldsTable to repeat the operation
-  const offsetY = (50 + (numberFields * 60));
+  const offsetY = (50 + (numberFields * 45));
 
   const addButtonStyle: {} = {
     position: "absolute",
