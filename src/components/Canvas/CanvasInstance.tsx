@@ -15,7 +15,8 @@ import ReactFlow, {
   BackgroundVariant,
   NodeTypes,
   useReactFlow,
-  Connection
+  Connection,
+  SelectionMode
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styles from '../../styles/page.module.css'
@@ -25,19 +26,20 @@ import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
 import { ConvertedData } from '../../types/convertedData'
 import { useApi } from '@/hooks/useApi';
+import { AddFieldModal } from '../AddFieldModal/AddFieldModal';
 
 const initialNodes = [
-  { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "Users" }, expandParent: true },
-  { id: '2', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "Users.name", name: 'name', type: 'varchar(20)' }, parentNode: '1', draggable: false },
-  { id: '3', type: 'tableNode', position: { x: -400, y: 50 }, positionAbsolute: { x: -400, y: 50 }, data: { title: "UsersGroup" }, expandParent: true },
-  { id: '4', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "UsersGroup.name", name: 'name', type: 'varchar(20)' }, parentNode: '3', draggable: false },
+  { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "Users" }, expandParent: true, selected: false, draggable: true },
+  { id: '2', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "Users.name", name: 'name', type: 'varchar(20)' }, parentNode: '1', draggable: false, selected: false },
+  { id: '3', type: 'tableNode', position: { x: -400, y: 50 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "UsersGroup" }, expandParent: true, selected: false, draggable: true },
+  { id: '4', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "UsersGroup.name", name: 'name', type: 'varchar(20)' }, parentNode: '3', draggable: false, selected: false },
 ];
 
 const initialEdges = [{ id: 'Users.2-UsersGroup.3', source: '2', target: '4', animated: true }];
 
 const nodeTypes: NodeTypes = {
   tableNode: TableNode,
-  fieldNode: FieldNode
+  fieldNode: FieldNode,
 };
 
 export const CanvasInstance = () => {
@@ -52,7 +54,7 @@ export const CanvasInstance = () => {
   const { downloadSql } = useDownloadSql(convertedData);
   // const apiCall = useApi(convertedData);
 
-  // Basic functions doc ReactFlow
+  ///// Basic functions doc ReactFlow /////
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     []
@@ -86,6 +88,8 @@ export const CanvasInstance = () => {
     setNodes([...nodes, tableToAdd])
   }
 
+  const panOnDrag = [1, 2];
+
   // Test Getting nodes
   const nodesList: Node[] = getNodes()
 
@@ -101,8 +105,12 @@ export const CanvasInstance = () => {
         onEdgeUpdateEnd={onEdgeUpdateEnd}
         onConnect={onConnect}
         fitView
+        panOnScroll
+        selectionOnDrag
+        panOnDrag={panOnDrag}
+        selectionMode={SelectionMode.Partial}
         >
-      <Background color="#ccc" variant={variant} />
+      <Background color="#fff" variant={variant} />
       <Controls />
         <Panel position="top-left">
           <div>Variants :</div>
