@@ -12,6 +12,10 @@
   overflow-x: hidden;
 }
 
+.tableNode:hover {
+  border: 2.5px solid var(--borderColorTableNode);
+}
+
 .tableInput {
   width: var(--baseWidthTableNode);
   height: 50px;

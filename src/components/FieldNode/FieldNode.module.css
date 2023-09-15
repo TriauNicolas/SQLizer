@@ -4,7 +4,8 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #ccc;
+  /* background: #ccc; */
+  font-size: 12px;
 }
 
 .fieldInput:focus {
