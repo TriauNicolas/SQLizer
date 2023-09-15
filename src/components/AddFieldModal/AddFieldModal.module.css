@@ -1,0 +1,23 @@
+.modalContainer {
+  position: absolute;
+  top: -360px;
+  left: -885px;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.infosContainer {
+  background-color: #fff; /* Background color for the modal box */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 80%; /* Adjust the width as needed */
+  max-width: 980px; /* Adjust the maximum width as needed */
+  text-align: center;
+}
