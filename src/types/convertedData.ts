@@ -15,6 +15,7 @@ export type DataTable = {
   title: string;
   name: string;
   type: string;
+  default?: string;
   autoIncrement?: boolean;
   pk?: boolean;
   fk?: boolean;

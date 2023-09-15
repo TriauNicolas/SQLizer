@@ -12,13 +12,12 @@ type TableNodeProps = {
 }
 
 export const TableNode = ({ id, data, selected }: TableNodeProps) => {
-  const [ titleTable, setTitleTable ] = useState<string>(data.title ? data.title : '')
+  const [ titleTable, setTitleTable ] = useState<string>(data.title ? data.title : '');
   const [ isEditing, setIsEditing ] = useState(false);
-  const [ numberOfFields, setNumberOfFields ] = useState(0)
+  const [ numberOfFields, setNumberOfFields ] = useState(0);
   const titleRef = useRef<HTMLInputElement>(null);
-  const { getNodes, setNodes } = useReactFlow();
-  const [ displayModal, setDisplayModal ] = useState(false)
-  const { setViewport, getNode } = useReactFlow()
+  const { getNodes, setNodes, setViewport, getNode } = useReactFlow();
+  const [ displayModal, setDisplayModal ] = useState(false);
 
   useEffect(() => {
     if (selected) {
@@ -51,7 +50,8 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const closeModal = () => {
     setDisplayModal(false)
 
-    const allNodes = getNodes()
+    const allNodes = getNodes();
+    console.log(allNodes)
     setNodes(allNodes.map((node) => {
       if (node.type === "fieldNode") {
         return ({...node, hidden: false})
