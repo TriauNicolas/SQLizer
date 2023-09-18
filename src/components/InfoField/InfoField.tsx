@@ -9,9 +9,10 @@ import { useReactFlow } from 'reactflow';
 type InfosFieldProps = {
   idNode: string;
   data: DataTable | undefined
+  updateField: () => void;
 }
 
-export const InfosField = ({ idNode, data }: InfosFieldProps) => {
+export const InfosField = ({ idNode, data, updateField }: InfosFieldProps) => {
   const { setNodes } = useReactFlow();
   const [ isDeleted, setIsDeleted ] = useState(false)
 
@@ -53,7 +54,7 @@ export const InfosField = ({ idNode, data }: InfosFieldProps) => {
             width={32}
             priority
             alt="Modify the field"
-            onClick={() => console.log("Modify")}
+            onClick={() => updateField()}
           />
         </div>
       </div>

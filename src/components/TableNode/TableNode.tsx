@@ -3,7 +3,7 @@ import tableStyle from './TableNode.module.css';
 import { DataTable } from '../../types/tables';
 import { useReactFlow } from 'reactflow';
 import { AddFieldNode } from '../AddFieldNode/AddFieldNode';
-import { AddFieldModal } from '../AddFieldModal/AddFieldModal';
+import { FieldModal } from '../FieldModal/FieldModal';
 
 type TableNodeProps = {
   id: string;
@@ -31,6 +31,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
     // Determine the position of the camera
     const currentNode = getNode(id)
     if (currentNode) {
+      // Set the camera in order to make the modal taking the full canvas screen
       setViewport({ 
           x: ((window.innerWidth / 2) * 0.80) + Math.abs(currentNode?.position.x) - 75, 
           y: (window.innerHeight / 2) + ((currentNode?.position.y) * -1) - 125, 
@@ -38,6 +39,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
         })
     }
 
+    // Make the modal go in front of the z axe
     const allNodes = getNodes()
     setNodes(allNodes.map((node) => {
       if (node.type === "fieldNode") {
@@ -100,7 +102,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
         </div>
         )}
       {selected ? <AddFieldNode numberFields={numberOfFields} openModal={openModal} /> : ''}
-      {displayModal ? <AddFieldModal idTable={id} closeModal={closeModal} /> : ''}
+      {displayModal ? <FieldModal idTable={id} closeModal={closeModal} /> : ''}
     </div>
   );
 };

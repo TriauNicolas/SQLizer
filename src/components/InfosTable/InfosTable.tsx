@@ -4,12 +4,35 @@ import { InfosTableType } from '../../types/infosTable';
 import { Node } from 'reactflow'
 import { InfosField } from '../InfoField/InfoField';
 import { DataTable } from '@/types/tables';
+import { FieldModal } from '../FieldModal/FieldModal';
+import { useReactFlow } from 'reactflow';
 
 type InfosTableProps = {
   infos: InfosTableType | undefined;
 }
 
 export const InfosTable = ({ infos }: InfosTableProps) => {
+  const [ displayModal, setDisplayModal ] = useState(false);
+  const { getNodes, setNodes } = useReactFlow();
+  const [ fieldToDisplay, setFieldToDisplay ] = useState("")
+
+  const handleUpdateField = (idField: string) => {
+    setDisplayModal(true)
+    setFieldToDisplay(idField)
+    console.log(idField)
+  }
+
+  const closeModal = () => {
+    setDisplayModal(false)
+
+    const allNodes = getNodes();
+    setNodes(allNodes.map((node) => {
+      if (node.type === "fieldNode") {
+        return ({...node, hidden: false})
+      }
+      return ({...node})
+    }))
+  }
 
   return (
     <>
@@ -18,10 +41,11 @@ export const InfosTable = ({ infos }: InfosTableProps) => {
         <h2 className={styleTableInfos.titleTable}>{infos?.tableParent?.data?.title}</h2>
         <div className={styleTableInfos.infosFields}>
           { infos.fieldsChildren.map((node: any) => {
-              return <InfosField key={node.id} idNode={node.id} data={node.data} />
+              return <InfosField key={node.id} idNode={node.id} data={node.data} updateField={() => handleUpdateField(node.id)} />
           }) }
         </div>
         <button className={styleTableInfos.dropTable}>DROP TABLE</button>
+        {displayModal ? <FieldModal idTable={infos?.tableParent.id} closeModal={closeModal} idField={fieldToDisplay} /> : ''}
       </div>
     ) : ('')}
     </>
