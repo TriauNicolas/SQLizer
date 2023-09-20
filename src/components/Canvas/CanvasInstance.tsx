@@ -7,10 +7,12 @@ import ReactFlow, {
   Panel,
   Controls,
   Background,
-  applyNodeChanges,
   Node,
   Edge,
   OnNodesChange,
+  applyNodeChanges,
+  OnEdgesChange,
+  applyEdgeChanges,
   OnConnect,
   BackgroundVariant,
   NodeTypes,
@@ -63,6 +65,11 @@ export const CanvasInstance = () => {
   const onEdgeUpdateStart = useCallback(() => {
     edgeUpdateSuccessful.current = false;
   }, []);
+
+  const onEdgesChange: OnEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
 
   const onEdgeUpdate = useCallback((oldEdge: Edge, newConnection: Connection) => {
     edgeUpdateSuccessful.current = true;
@@ -122,6 +129,7 @@ export const CanvasInstance = () => {
           nodeTypes={nodeTypes}
           edges={edges}
           onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
           onEdgeUpdate={onEdgeUpdate}
           onEdgeUpdateStart={onEdgeUpdateStart}
           onEdgeUpdateEnd={onEdgeUpdateEnd}
@@ -140,6 +148,7 @@ export const CanvasInstance = () => {
             <button onClick={() => setVariant(BackgroundVariant.Lines)}>Lines</button>
             <button onClick={() => setVariant(BackgroundVariant.Cross)}>Cross</button>
             <button onClick={() => console.log(nodes)}>Get Nodes</button>
+            <button onClick={() => console.log(edges)}>Get Edges</button>
             <button onClick={() => console.log(nodesList)}>Get nodesList</button>
             <button onClick={() => { if (JSON.stringify(nodesList) != JSON.stringify(nodes)) setNodes(nodesList); else console.log('Not Necessary') }}>Crush nodes by getNodes</button>
             <button onClick={() => addTable()}>Add a Table</button>

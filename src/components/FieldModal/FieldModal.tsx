@@ -34,11 +34,7 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
       setBoolNullable(fieldToUpdate?.data.nullable)
     }
   }, [idField, getNode, infosField])
-
-  useEffect(() => {
-
-  }, [])
-
+  
   // Manage possibilities with options
   const handleClickOptions = (type: string) => {
     switch (type) {
