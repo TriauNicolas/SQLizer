@@ -16,7 +16,8 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const [ isEditing, setIsEditing ] = useState(false);
   const [ numberOfFields, setNumberOfFields ] = useState(0);
   const titleRef = useRef<HTMLInputElement>(null);
-  const { getNodes, setNodes, setViewport, getNode } = useReactFlow();
+  const { getNodes, setNodes, setViewport, setCenter, getNode } = useReactFlow();
+  const refCanvas = useReactFlow();
   const [ displayModal, setDisplayModal ] = useState(false);
 
   useEffect(() => {
@@ -30,11 +31,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
     const currentNode = getNode(id)
     if (currentNode) {
       // Set the camera in order to make the modal taking the full canvas screen
-      setViewport({ 
-          x: ((window.innerWidth / 2) * 0.80) + Math.abs(currentNode?.position.x) - 75, 
-          y: (window.innerHeight / 2) + ((currentNode?.position.y) * -1) - 125, 
-          zoom: 1 
-        })
+      setCenter(currentNode.position.x, currentNode.position.y, {zoom: 1})
     }
 
     // Make the modal go in front of the z axe
