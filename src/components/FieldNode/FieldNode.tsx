@@ -40,10 +40,6 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
     setIsEditingName(!isEditingName);
   }, [isEditingName]);
 
-  const handleTypeClick = useCallback(() => {
-    setIsEditingType(!isEditingType);
-  }, [isEditingType]);
-
   return (
     <div className={fieldStyle.fieldNode} onBlur={handleNodeClick}>
       <Handle type="source" position={Position.Left} />
@@ -62,20 +58,9 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
           {nameField}
         </div>
         )}
-      {isEditingType ? (
-        <input
-          className={fieldStyle.fieldInput}
-          type="text"
-          ref={fieldTypeRef}
-          defaultValue={typeField}
-          onChange={(event) => handleChangeNameandType(event)}
-          autoFocus
-        />
-      ) : (
-        <div className={fieldStyle.fieldType} onClick={handleTypeClick}>
-          {typeField}
-        </div>
-        )}
+      <div className={fieldStyle.fieldType}>
+        {typeField}
+      </div>
     </div>
   )
 }

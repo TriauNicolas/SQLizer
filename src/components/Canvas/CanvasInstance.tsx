@@ -49,8 +49,8 @@ export const CanvasInstance = () => {
   const [ nodes, setNodes ] = useState<Node[]>(initialNodes);
   const [ edges, setEdges ] = useState<Edge[]>(initialEdges);
   const { getNodes, getEdges } = useReactFlow();
-  const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
-  const { downloadSql } = useDownloadSql(convertedData);
+  // const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
+  // const { downloadSql } = useDownloadSql(convertedData);
   const [ tableInfos, setTableInfos ] = useState<InfosTableType>()
   // const apiCall = useApi(convertedData);
 
@@ -82,11 +82,11 @@ export const CanvasInstance = () => {
     [setEdges]
   );
 
-  useMemo(() => {
+  useEffect(() => {
     const tableParent = nodes.find((node) => node.selected === true && node.type != "fieldNode");
     let fieldsChildren: any = []
     if (tableParent) {
-      fieldsChildren = getNodes().filter((node: Node) => node.parentNode === tableParent.id)
+      fieldsChildren = getNodes().filter((node: Node) => node.parentNode === tableParent.id);
 
       setTableInfos({ 
         tableParent: { id: tableParent?.id, data: tableParent?.data }, 
@@ -143,8 +143,8 @@ export const CanvasInstance = () => {
             <button onClick={() => console.log(nodesList)}>Get nodesList</button>
             <button onClick={() => { if (JSON.stringify(nodesList) != JSON.stringify(nodes)) setNodes(nodesList); else console.log('Not Necessary') }}>Crush nodes by getNodes</button>
             <button onClick={() => addTable()}>Add a Table</button>
-            <button onClick={() => console.log(convertedData)}>Get converted Data</button>
-            <button onClick={downloadSql}>Download SQL</button>
+            {/* <button onClick={() => console.log(convertedData)}>Get converted Data</button> */}
+            {/* <button onClick={downloadSql}>Download SQL</button> */}
             {/* <button onClick={() => console.log(apiCall)}>API Call</button> */}
           </Panel>
         </ReactFlow>

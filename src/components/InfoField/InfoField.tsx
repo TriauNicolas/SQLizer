@@ -4,7 +4,7 @@ import { DataTable } from '../../types/tables';
 import Image from 'next/image';
 import deleteSVG from '../../../public/delete-circle.svg';
 import modifySVG from '../../../public/edit-pencil.svg'
-import { useReactFlow } from 'reactflow';
+import { useReactFlow, Node } from 'reactflow';
 
 type InfosFieldProps = {
   idNode: string;
@@ -13,11 +13,16 @@ type InfosFieldProps = {
 }
 
 export const InfosField = ({ idNode, data, updateField }: InfosFieldProps) => {
-  const { setNodes } = useReactFlow();
+  const { setNodes, getNode } = useReactFlow();
   const [ isDeleted, setIsDeleted ] = useState(false)
 
   const deleteField = () => {
-    setIsDeleted(true)
+    setIsDeleted(true);
+    setNodes((nodes: Node<any>[]) => nodes.map((node):any => {
+      if (node.id != idNode && parseInt(node.id) > parseInt(idNode) && getNode(idNode)?.parentNode === node.parentNode) {
+        if (node.positionAbsolute) node.position.y -= 40;
+      }
+    }))
     setNodes((nodes) => nodes.filter((node) => node.id != idNode))
   }
 
@@ -33,10 +38,10 @@ export const InfosField = ({ idNode, data, updateField }: InfosFieldProps) => {
           <div className={styleInfoField.separationLine}></div>
           <div className={styleInfoField.fieldOptions}>
             <div className={styleInfoField.option}><strong>Default Value : </strong><div>{data?.default ? data?.default: 'No Default value'}</div></div>
-            <div className={styleInfoField.option}><strong>Auto Increment : </strong><div>{data?.autoIncrement == true ? 'true': 'false'}</div></div>
-            <div className={styleInfoField.option}><strong>Primary Key : </strong><div>{data?.pk == true ? 'true': 'false'}</div></div>
-            <div className={styleInfoField.option}><strong>Foreign Key : </strong><div>{data?.fk == true ? 'true': 'false'}</div></div>
-            <div className={styleInfoField.option}><strong>isNull : </strong><div>{data?.nullable == true ? 'true': 'false'}</div></div>
+            <div className={styleInfoField.option}><strong>Auto Increment : </strong><div>{data?.autoIncrement ? data?.autoIncrement.toString() : 'false'}</div></div>
+            <div className={styleInfoField.option}><strong>Primary Key : </strong><div>{data?.pk ? data?.pk.toString() : 'false'}</div></div>
+            <div className={styleInfoField.option}><strong>Foreign Key : </strong><div>{data?.fk ? data?.fk.toString() : 'false'}</div></div>
+            <div className={styleInfoField.option}><strong>isNull : </strong><div>{data?.nullable ? data?.nullable.toString() : 'false'}</div></div>
           </div>
         </div>
         <div className={styleInfoField.fieldActions}>

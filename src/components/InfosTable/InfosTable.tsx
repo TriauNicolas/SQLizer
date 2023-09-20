@@ -14,12 +14,16 @@ type InfosTableProps = {
 export const InfosTable = ({ infos }: InfosTableProps) => {
   const [ displayModal, setDisplayModal ] = useState(false);
   const { getNodes, setNodes } = useReactFlow();
-  const [ fieldToDisplay, setFieldToDisplay ] = useState("")
+  const [ fieldToDisplay, setFieldToDisplay ] = useState("");
+  const [ currentTableInfo, setCurrentTableInfo ] = useState<any>();
+
+  useEffect(() => {
+    setCurrentTableInfo(infos)
+  }, [infos])
 
   const handleUpdateField = (idField: string) => {
     setDisplayModal(true)
     setFieldToDisplay(idField)
-    console.log(idField)
   }
 
   const closeModal = () => {
@@ -36,16 +40,16 @@ export const InfosTable = ({ infos }: InfosTableProps) => {
 
   return (
     <>
-    { infos?.tableParent?.data?.title ? (
+    { currentTableInfo?.tableParent?.data?.title ? (
       <div className={styleTableInfos.infosContainer}>
-        <h2 className={styleTableInfos.titleTable}>{infos?.tableParent?.data?.title}</h2>
+        <h2 className={styleTableInfos.titleTable}>{currentTableInfo?.tableParent?.data?.title}</h2>
         <div className={styleTableInfos.infosFields}>
-          { infos.fieldsChildren.map((node: any) => {
+          { currentTableInfo.fieldsChildren.map((node: any) => {
               return <InfosField key={node.id} idNode={node.id} data={node.data} updateField={() => handleUpdateField(node.id)} />
           }) }
         </div>
         <button className={styleTableInfos.dropTable}>DROP TABLE</button>
-        {displayModal ? <FieldModal idTable={infos?.tableParent.id} closeModal={closeModal} idField={fieldToDisplay} /> : ''}
+        {displayModal ? <FieldModal idTable={currentTableInfo?.tableParent.id} closeModal={closeModal} idField={fieldToDisplay} /> : ''}
       </div>
     ) : ('')}
     </>

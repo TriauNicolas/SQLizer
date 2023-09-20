@@ -20,9 +20,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const [ displayModal, setDisplayModal ] = useState(false);
 
   useEffect(() => {
-    if (selected) {
       setNumberOfFields((getNodes().filter((node) => node.parentNode === id)).length)
-    }
   }, [selected, getNodes, numberOfFields, id])
 
   const openModal = () => {
@@ -78,7 +76,16 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
     })
     setNodes(currentNodes.map((node) => {
       if (nodesIdToChange.includes(node.id)) {
-        return ({...node, data: { title: `${titleTable}.${node.data.name}`, name: node.data.name, type: node.data.type}})
+        return ({...node, data: { 
+          title: `${titleTable}.${node.data.name}`, 
+          name: node.data.name, 
+          type: node.data.type, 
+          default: node.data.default, 
+          autoIncrement: node.data.autoIncrement,
+          pk: node.data.pk,
+          fk: node.data.fk,
+          nullable: node.data.nullable,
+        }})
       }
       return ({...node})
     }))
