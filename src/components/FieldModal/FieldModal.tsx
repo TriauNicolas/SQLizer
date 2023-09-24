@@ -17,7 +17,6 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
   const [ infosField, setInfosField ] = useState<Node<any> | undefined>();
   const [ boolAutoInc, setBoolAutoInc ] = useState(false);
   const [ boolPK, setBoolPK ] = useState(false);
-  const [ boolFK, setBoolFK ] = useState(false);
   const [ boolNullable, setBoolNullable ] = useState(false);
 
   // Determine if the modal is for adding or update a field
@@ -30,7 +29,6 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
 
       setBoolAutoInc(fieldToUpdate?.data.autoIncrement)
       setBoolPK(fieldToUpdate?.data.pk)
-      setBoolFK(fieldToUpdate?.data.fk)
       setBoolNullable(fieldToUpdate?.data.nullable)
     }
   }, [idField, getNode, infosField])
@@ -44,18 +42,11 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
         break;
       case 'pk':
         setBoolPK(!boolPK);
-        setBoolFK(false);
-        setBoolNullable(false);
-        break;
-      case 'fk':
-        setBoolFK(!boolFK);
-        setBoolPK(false);
         setBoolNullable(false);
         break;
       case 'nullable':
         setBoolNullable(!boolNullable);
         setBoolPK(false);
-        setBoolFK(false);
         setBoolAutoInc(false);
         break;
     }
@@ -87,8 +78,7 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
               default: (event.target[2].value).toString(),
               autoIncrement: event.target[3].checked,
               pk: event.target[4].checked,
-              fk: event.target[5].checked,
-              nullable: event.target[6].checked,
+              nullable: event.target[5].checked,
             },
             parentNode: idTable,
             draggable: false,
@@ -118,8 +108,7 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
           default: (event.target[2].value).toString(),
           autoIncrement: event.target[3].checked,
           pk: event.target[4].checked,
-          fk: event.target[5].checked,
-          nullable: event.target[6].checked,
+          nullable: event.target[5].checked,
         }
 
         setNodes(allNodes.map((node) => {
@@ -173,10 +162,6 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
               <div className={modalStyle.pkContainer}>
                 <label htmlFor="primaryKey">Primary Key: </label>
                 <input type="checkbox" id="optionKey" name="primaryKey" checked={boolPK} onChange={() => handleClickOptions("pk")} />
-              </div>
-              <div className={modalStyle.fkContainer}>
-                <label htmlFor="foreignKey">Foreign Key: </label>
-                <input type="checkbox" id="optionKey" name="foreignKey" checked={boolFK} onChange={() => handleClickOptions("fk")} />
               </div>
               <div className={modalStyle.isNullContainer}>
                 <label htmlFor="isNull">isNull: </label>

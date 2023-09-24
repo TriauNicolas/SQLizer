@@ -80,7 +80,6 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
           default: node.data.default, 
           autoIncrement: node.data.autoIncrement,
           pk: node.data.pk,
-          fk: node.data.fk,
           nullable: node.data.nullable,
         }})
       }

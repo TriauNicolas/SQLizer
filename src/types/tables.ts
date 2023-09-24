@@ -18,6 +18,5 @@ export type DataTable = {
   default: string;
   autoIncrement: boolean;
   pk: boolean;
-  fk: boolean;
   nullable: boolean;
 }

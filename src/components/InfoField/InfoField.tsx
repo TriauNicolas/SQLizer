@@ -40,7 +40,6 @@ export const InfosField = ({ idNode, data, updateField }: InfosFieldProps) => {
             <div className={styleInfoField.option}><strong>Default Value : </strong><div>{data?.default ? data?.default: 'No Default value'}</div></div>
             <div className={styleInfoField.option}><strong>Auto Increment : </strong><div>{data?.autoIncrement ? data?.autoIncrement.toString() : 'false'}</div></div>
             <div className={styleInfoField.option}><strong>Primary Key : </strong><div>{data?.pk ? data?.pk.toString() : 'false'}</div></div>
-            <div className={styleInfoField.option}><strong>Foreign Key : </strong><div>{data?.fk ? data?.fk.toString() : 'false'}</div></div>
             <div className={styleInfoField.option}><strong>isNull : </strong><div>{data?.nullable ? data?.nullable.toString() : 'false'}</div></div>
           </div>
         </div>

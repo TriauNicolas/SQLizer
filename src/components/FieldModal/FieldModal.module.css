@@ -76,7 +76,7 @@
   margin: 24px 0
 }
 
-.autoIncContainer, .pkContainer, .fkContainer, .isNullContainer {
+.autoIncContainer, .pkContainer, .isNullContainer {
   display: flex;
   justify-content: space-between;
   margin: 24px 0
