@@ -18,8 +18,10 @@ export const useApi = (convertedData: ConvertedData | null) => {
     .then(response => {
       if (response.data) setSqlData(response.data.sql);
     })
-    .catch(function (error) {
-      console.error(error);
+    .catch((error: unknown) => {
+      if (error instanceof Error) {
+        return `Things exploded (${error.message})`
+      }
     });
   }, [myJson])
 
