@@ -143,10 +143,37 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
               <div className={modalStyle.typeContainer}>
                 <label htmlFor="type">Type: </label>
                 <select name="type" id="type" className={modalStyle.selectType} defaultValue={infosField ? infosField.data.type : ''}>
-                  <option className="typeOptions" value="int">int</option>
-                  <option className="typeOptions" value="varchar">varchar</option>
-                  <option className="typeOptions" value="text">text</option>
-                  <option className="typeOptions" value="boolean">boolean</option>
+                {[
+                  "int",
+                  "bit",
+                  "tinyint",
+                  "smallint",
+                  "int",
+                  "bigint",
+                  "decimal",
+                  "numeric",
+                  "float",
+                  "real",
+                  "bool",
+                  "decimal",
+                  "varchar",
+                  "char",
+                  "Text",
+                  "Date",
+                  "time",
+                  "datetime",
+                  "timestamp",
+                  "year",
+                  "Json",
+                  "Clob",
+                  "Blob",
+                  "Xml",
+                  "Json"
+                ].map((type, index) => (
+                  <option className="typeOptions" key={index} value={type}>
+                    {type}
+                  </option>
+                ))}
                 </select>
               </div>
               <div className={modalStyle.defaultContainer}>
