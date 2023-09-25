@@ -1,0 +1,42 @@
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 40px 48px;
+  background-color: transparent;
+
+  input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--primary35);
+  }
+
+  .userContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .userAvatar {
+      overflow: hidden;
+      object-fit: cover;
+      border-radius: 100%;
+    }
+    .notifications {
+      margin-left: 10px;
+    }
+
+    .userAvatar,
+    .notifications {
+      cursor: pointer;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+
+    input[type="text"] {
+      margin-bottom: 10px;
+    }
+  }
+}
