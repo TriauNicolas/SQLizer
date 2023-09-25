@@ -49,12 +49,16 @@ export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const [ nodes, setNodes ] = useState<Node[]>(initialNodes);
   const [ edges, setEdges ] = useState<Edge[]>(initialEdges);
-  const { getNodes, getEdges } = useReactFlow();
+  const { getNodes } = useReactFlow();
   const edgeUpdateSuccessful = useRef(true);
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
   const [ tableInfos, setTableInfos ] = useState<InfosTableType>()
-  const apiCall = useApi(convertedData);
+  const { sqlData, isFetching, fetchSQL } = useApi();
+
+  useEffect(() => {
+    if (!isFetching) console.log(sqlData)
+  }, [sqlData, isFetching])
 
   ///// Basic functions doc ReactFlow /////
   const onNodesChange: OnNodesChange = useCallback(
@@ -152,11 +156,10 @@ export const CanvasInstance = () => {
             <button onClick={() => console.log(nodes)}>Get Nodes</button>
             <button onClick={() => console.log(edges)}>Get Edges</button>
             <button onClick={() => console.log(nodesList)}>Get nodesList</button>
-            <button onClick={() => { if (JSON.stringify(nodesList) != JSON.stringify(nodes)) setNodes(nodesList); else console.log('Not Necessary') }}>Crush nodes by getNodes</button>
             <button onClick={() => addTable()}>Add a Table</button>
             <button onClick={() => console.log(convertedData)}>Get converted Data</button>
             <button onClick={downloadSql}>Download SQL</button>
-            <button onClick={() => console.log(apiCall)}>API Call</button>
+            <button onClick={() => fetchSQL(convertedData)}>API Call</button>
           </Panel>
         </ReactFlow>
       </div>
