@@ -105,8 +105,9 @@ export const CanvasInstance = () => {
 
   // Test Function Add Table
   const addTable = () => {
-    const tableToAdd = {id: 'New Table', type: 'tableNode', position: { x: 400, y: 0 }, data: {}, expandParent: true}
-    setNodes([...nodes, tableToAdd])
+    const numberOfNodes = getNodes().length + 1;
+    const newNodes = [...getNodes(), {id: numberOfNodes.toString(), type: 'tableNode', position: { x: -50, y: 0 }, data: {}, expandParent: true}];
+    setNodes(newNodes)
   }
 
   const panOnDrag = [1, 2];
