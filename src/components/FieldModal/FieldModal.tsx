@@ -82,7 +82,7 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
             positionAbsolute: { x: 0, y: offsetY },
             data: { 
               title: `${tableParentNode.data.title}.${event.target[0].value}`, 
-              name: (event.target[0].value).toString(), 
+              name: (event.target[0].value.replace(/ /g, '_')).toString(), 
               type: (event.target[1].value).toString(), 
               default: (event.target[2].value).toString(),
               autoIncrement: event.target[3].checked,
@@ -113,7 +113,7 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
         // Prepare node object
         const updatedField = {
           title: `${titleParent}.${event.target[0].value}`, 
-          name: (event.target[0].value).toString(), 
+          name: (event.target[0].value.replace(/ /g, '_')).toString(), 
           type: (event.target[1].value).toString(), 
           default: (event.target[2].value).toString(),
           autoIncrement: event.target[3].checked,

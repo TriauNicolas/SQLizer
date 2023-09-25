@@ -5,6 +5,7 @@ import { useReactFlow } from 'reactflow';
 import { AddFieldNode } from '../AddFieldNode/AddFieldNode';
 import { FieldModal } from '../FieldModal/FieldModal';
 
+
 type TableNodeProps = {
   id: string;
   data: DataTable;
@@ -57,8 +58,8 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   }
 
   const handleChangeTitle = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    data.title = event.target.value
-    setTitleTable(event.target.value)
+    data.title = event.target.value.replace(/ /g, '_');
+    setTitleTable(data.title)
   }, [data])
 
   const handleNodeClick = useCallback(() => {
