@@ -16,8 +16,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const [ isEditing, setIsEditing ] = useState(false);
   const [ numberOfFields, setNumberOfFields ] = useState(0);
   const titleRef = useRef<HTMLInputElement>(null);
-  const { getNodes, setNodes, setViewport, setCenter, getNode } = useReactFlow();
-  const refCanvas = useReactFlow();
+  const { getNodes, setNodes, setCenter, getNode } = useReactFlow();
   const [ displayModal, setDisplayModal ] = useState(false);
 
   useEffect(() => {
@@ -26,6 +25,9 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
 
   const openModal = () => {
     setDisplayModal(true)
+
+    document.documentElement.style.setProperty("--secondaryPointerEvents", "none");
+    document.documentElement.style.setProperty("--primaryPointerEvents", "fill");
 
     // Determine the position of the camera
     const currentNode = getNode(id)
@@ -39,6 +41,8 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
     setNodes(allNodes.map((node) => {
       if (node.type === "fieldNode") {
         return ({...node, hidden: true})
+      } else if (node.type === "tableNode") {
+        return ({...node, selectable: false, draggable: false})
       }
       return ({...node})
     }))
@@ -47,10 +51,15 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const closeModal = () => {
     setDisplayModal(false)
 
+    document.documentElement.style.setProperty("--secondaryPointerEvents", "all")
+    document.documentElement.style.setProperty("--primaryPointerEvents", "all")
+
     const allNodes = getNodes();
     setNodes(allNodes.map((node) => {
       if (node.type === "fieldNode") {
         return ({...node, hidden: false})
+      } else if (node.type === "tableNode") {
+        return ({...node, selectable: true, draggable: true})
       }
       return ({...node})
     }))

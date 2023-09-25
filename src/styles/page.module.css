@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: var(--secondaryPointerEvents);
 }
 
 .infosTableContainer {
@@ -16,4 +17,5 @@
 .canvasContainer {
   width: 80%;
   height: 100%;
+  pointer-events: var(--secondaryPointerEvents);
 }

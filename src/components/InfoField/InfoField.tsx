@@ -8,13 +8,13 @@ import { useReactFlow, Node } from 'reactflow';
 
 type InfosFieldProps = {
   idNode: string;
-  data: DataTable | undefined
+  data: DataTable | undefined;
   updateField: () => void;
 }
 
 export const InfosField = ({ idNode, data, updateField }: InfosFieldProps) => {
   const { setNodes, getNode, getEdges, setEdges } = useReactFlow();
-  const [ isDeleted, setIsDeleted ] = useState(false)
+  const [ isDeleted, setIsDeleted ] = useState(false);
 
   const deleteField = () => {
     setIsDeleted(true);

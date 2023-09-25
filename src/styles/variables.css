@@ -5,4 +5,7 @@
   --baseWidthTableNode: 150px;
   --baseHeightTableNode: 250px;
   --baseHeightFieldNode: 40px;
+
+  --secondaryPointerEvents: all;
+  --primaryPointerEvents: all;
 }

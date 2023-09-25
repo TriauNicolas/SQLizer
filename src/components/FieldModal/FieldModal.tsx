@@ -143,10 +143,10 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
               <div className={modalStyle.typeContainer}>
                 <label htmlFor="type">Type: </label>
                 <select name="type" id="type" className={modalStyle.selectType} defaultValue={infosField ? infosField.data.type : ''}>
-                  <option value="int">int</option>
-                  <option value="varchar">varchar</option>
-                  <option value="text">text</option>
-                  <option value="boolean">boolean</option>
+                  <option className="typeOptions" value="int">int</option>
+                  <option className="typeOptions" value="varchar">varchar</option>
+                  <option className="typeOptions" value="text">text</option>
+                  <option className="typeOptions" value="boolean">boolean</option>
                 </select>
               </div>
               <div className={modalStyle.defaultContainer}>
@@ -157,15 +157,15 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
             <div className={modalStyle.optionsContainer}>
               <div className={modalStyle.autoIncContainer}>
                 <label htmlFor="autoInc">Auto Increment: </label>
-                <input type="checkbox" id="autoInc" name="autoInc" checked={boolAutoInc} onChange={() => handleClickOptions("autoInc")} />
+                <input type="checkbox" className={modalStyle.autoInc} name="autoInc" checked={boolAutoInc} onChange={() => handleClickOptions("autoInc")} />
               </div>
               <div className={modalStyle.pkContainer}>
                 <label htmlFor="primaryKey">Primary Key: </label>
-                <input type="checkbox" id="optionKey" name="primaryKey" checked={boolPK} onChange={() => handleClickOptions("pk")} />
+                <input type="checkbox" className={modalStyle.primaryKey} name="primaryKey" checked={boolPK} onChange={() => handleClickOptions("pk")} />
               </div>
               <div className={modalStyle.isNullContainer}>
                 <label htmlFor="isNull">isNull: </label>
-                <input type="checkbox" id="isNull" name="isNull" checked={boolNullable} onChange={() => handleClickOptions("nullable")} />
+                <input type="checkbox" className={modalStyle.isNull}name="isNull" checked={boolNullable} onChange={() => handleClickOptions("nullable")} />
               </div>
             </div>
           </div>

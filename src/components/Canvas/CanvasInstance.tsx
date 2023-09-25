@@ -136,6 +136,7 @@ export const CanvasInstance = () => {
           onConnect={onConnect}
           fitView
           panOnScroll
+          zoomOnDoubleClick={false}
           selectionOnDrag
           panOnDrag={panOnDrag}
           selectionMode={SelectionMode.Partial}

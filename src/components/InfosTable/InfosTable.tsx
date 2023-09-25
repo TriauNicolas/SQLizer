@@ -1,9 +1,7 @@
 import styleTableInfos from './InfosTable.module.css'
 import { useEffect, useState } from 'react';
 import { InfosTableType } from '../../types/infosTable';
-import { Node } from 'reactflow'
 import { InfosField } from '../InfoField/InfoField';
-import { DataTable } from '@/types/tables';
 import { FieldModal } from '../FieldModal/FieldModal';
 import { useReactFlow } from 'reactflow';
 
@@ -36,7 +34,7 @@ export const InfosTable = ({ infos }: InfosTableProps) => {
     const allNodesRelatedToTable = getNodes().filter((node) => node.id === currentTableInfo?.tableParent.id || node.parentNode === currentTableInfo?.tableParent.id);
     const allIds = allNodesRelatedToTable.map((node) => node.id);
     const edgesToDelete = getEdges().filter((edge) => allIds.includes(edge.source) || allIds.includes(edge.target));
-
+    
     // Remove function elements
     deleteElements({ nodes: nodesToDelete, edges: edgesToDelete });
 
