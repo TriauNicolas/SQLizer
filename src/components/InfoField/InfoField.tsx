@@ -30,8 +30,9 @@ export const InfosField = ({ idNode, data, updateField }: InfosFieldProps) => {
 
     // Delete node and related edges
     const edgesToDelete = getEdges().filter((edge) => nodeToDelete?.id === edge.source || nodeToDelete?.id === edge.target);
+    const allIds = edgesToDelete.map((edge) => edge.id);
     setNodes((nodes) => nodes.filter((node) => node.id != idNode));
-    setEdges((edges) => edges.filter((edge) => edgesToDelete.includes(edge)));
+    setEdges((edges) => edges.filter((edge) => !allIds.includes(edge.id)));
   }
 
   return (
