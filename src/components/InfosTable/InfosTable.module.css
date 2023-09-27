@@ -8,7 +8,13 @@
 }
 
 .titleTable {
-  margin: 48px 0;
+  
+  margin: 48px 10vw;
+  width: 19vw;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .infosFields {

@@ -1,6 +1,6 @@
 .tableNode {
   width: var(--baseWidthTableNode);
-  height: var(--baseHeightTableNode);
+  min-height: var(--baseHeightTableNode);
   background-color: white;
   border: 1.5px solid var(--borderColorTableNode);
   border-radius: 2px;

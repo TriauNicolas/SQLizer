@@ -30,8 +30,10 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
           title: node.data.title,
           name: node.data.name, 
           type: node.data.type, 
+          default: node.data.default,
           autoIncrement: node.data.autoIncrement ? node.data.autoIncrement: false,
           pk: node.data.pk ? node.data.pk : false,
+          fk: node.data.fk ? node.data.fk : false,
           nullable: node.data.nullable ? node.data.nullable: false
         }
 
