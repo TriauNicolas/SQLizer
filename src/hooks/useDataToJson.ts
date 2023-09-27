@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Node, Edge } from 'reactflow';
 import { ConvertedData, Table } from '@/types/tables';
-import { useReactFlow } from 'reactflow'
 
 type DataToJsonProps = {
   nodes: Node[];
@@ -12,9 +11,9 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
   const [ dataJSON, setDataJSON ] = useState<ConvertedData | null>(null);
 
   useEffect(() => {
-    const objectJSON: ConvertedData = {"dbName": 'MyFirstDB', 'tables': [], 'relations': []}
+    const objectJSON: ConvertedData = {"dbName": 'MyFirstDB', 'tables': [], 'relations': []};
 
-    const tables = nodes.filter((node: Node): boolean => node.expandParent == true)
+    const tables = nodes.filter((node: Node): boolean => node.expandParent == true);
 
     tables.forEach((table: Node) => {
       const objectTable: Table = { 
@@ -33,17 +32,16 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
           default: node.data.default,
           autoIncrement: node.data.autoIncrement ? node.data.autoIncrement: false,
           pk: node.data.pk ? node.data.pk : false,
-          fk: node.data.fk ? node.data.fk : false,
           nullable: node.data.nullable ? node.data.nullable: false
         }
 
-        objectTable.fields.push(objectField)
+        objectTable.fields.push(objectField);
       })
 
-      objectJSON.tables.push(objectTable)
+      objectJSON.tables.push(objectTable);
     })
 
-    setDataJSON(objectJSON)
+    setDataJSON(objectJSON);
   }, [nodes])
 
   return dataJSON
