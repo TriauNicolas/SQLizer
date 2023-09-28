@@ -8,9 +8,9 @@ export const useDownloadSql = (convertedData: ConvertedData | null) => {
   const { sqlData, isFetching, fetchSQL } = useApi();
 
   // Api Call
-  useEffect(() => {
-    fetchSQL(convertedData);
-  }, [fetchSQL, convertedData])
+  // useEffect(() => {
+  //   fetchSQL(convertedData);
+  // }, [fetchSQL, convertedData])
 
   // Attribute the value when the call is finished
   useEffect(() => {
@@ -20,6 +20,9 @@ export const useDownloadSql = (convertedData: ConvertedData | null) => {
   // Download callback
   const downloadSql = useCallback(() => {
 
+    // Api Call
+    fetchSQL(convertedData);
+
     // Create the SQL content (replace with your data)
     const sqlContent = apiSql;
 
@@ -28,7 +31,7 @@ export const useDownloadSql = (convertedData: ConvertedData | null) => {
 
     // Trigger the file download
     saveAs(blob, 'data.sql');
-  }, [apiSql])
+  }, [apiSql, fetchSQL, convertedData])
 
   return { downloadSql }
 };
