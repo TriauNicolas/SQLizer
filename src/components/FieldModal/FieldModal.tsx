@@ -63,6 +63,7 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
   
       if (idTable) {
         const tableParentNode = getNode(idTable);
+        
         if (tableParentNode) {
 
           // Prepare node object
@@ -88,8 +89,13 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
           
           // Update the nodes
           setNodes((nodes) => nodes.concat(newField));
+
+          // Update height parent
+          if (tableParentNode.style) {
+            tableParentNode.style.height = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--baseHeightTableNode").replace("px", "")) + 40;
+          }
         } else {
-          console.log("tableParentNode not exists")
+          console.log("tableParentNode not exists");
         }
       }
     } 

@@ -23,27 +23,20 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-}
-
-.fieldMainInfos {
-  font-weight: bold;
-  text-transform: uppercase;
-
-}
-.fieldMainInfos > *{
-  margin-right: 5px;
-  width: 45%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .fieldMainInfos {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  font-weight: bold;
+  text-transform: uppercase;
+}
 
+.fieldMainInfos > * {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .separationLine {

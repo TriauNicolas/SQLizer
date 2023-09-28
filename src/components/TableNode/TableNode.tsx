@@ -27,6 +27,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const openModal = () => {
     setDisplayModal(true)
 
+    // Make the modal not moving
     document.documentElement.style.setProperty("--secondaryPointerEvents", "none");
     document.documentElement.style.setProperty("--primaryPointerEvents", "fill");
 
@@ -52,9 +53,11 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const closeModal = () => {
     setDisplayModal(false)
 
+    // Can interact again with the canvas
     document.documentElement.style.setProperty("--secondaryPointerEvents", "all")
     document.documentElement.style.setProperty("--primaryPointerEvents", "all")
 
+    // Reset the options
     const allNodes = getNodes();
     setNodes(allNodes.map((node) => {
       if (node.type === "fieldNode") {
@@ -81,6 +84,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
         nodesIdToChange.push(node.id)
       }
     })
+    
     setNodes(currentNodes.map((node) => {
       if (nodesIdToChange.includes(node.id)) {
         return ({...node, data: { 
@@ -99,7 +103,7 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   }, [isEditing, setNodes, getNodes, id, titleTable]);
 
   return (
-    <div className={tableStyle.tableNode} onBlur={handleNodeClick}>
+    <div onBlur={handleNodeClick}>
       {isEditing ? (
         <input
           className={tableStyle.tableInput}

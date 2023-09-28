@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import ReactFlow, {
   addEdge,
   updateEdge,
@@ -21,20 +21,33 @@ import ReactFlow, {
   SelectionMode
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import styles from '../../styles/page.module.css'
+import styles from '../../styles/page.module.css';
 import { TableNode } from '../TableNode/TableNode';
 import { FieldNode } from '../FieldNode/FieldNode';
 import { InfosTable } from '../InfosTable/InfosTable';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
-import { ConvertedData } from '../../types/tables'
+import { ConvertedData } from '../../types/tables';
 import { InfosTableType } from '../../types/infosTable';
 import { useApi } from '@/hooks/useApi';
 
+const basicStyleTableNode: {} = {
+  width: "var(--baseWidthTableNode)",
+  minHeight: "var(--baseHeightTableNode)",
+  backgroundColor: "#fff",
+  border: "1.5px solid var(--borderColorTableNode)",
+  borderRadius: "2px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "top",
+  justifyContent: "flex-start",
+  color: "#000",
+}
+
 const initialNodes = [
-  { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "Users" }, expandParent: true, selected: false, draggable: true },
+  { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "Users" }, style: basicStyleTableNode, expandParent: true, selected: false, draggable: true },
   { id: '2', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "Users.name", name: 'name', type: 'varchar(20)' }, parentNode: '1', draggable: false, selected: false },
-  { id: '3', type: 'tableNode', position: { x: -400, y: 50 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "UsersGroup" }, expandParent: true, selected: false, draggable: true },
+  { id: '3', type: 'tableNode', position: { x: -400, y: 50 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "UsersGroup" }, style: basicStyleTableNode, expandParent: true, selected: false, draggable: true },
   { id: '4', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "UsersGroup.name", name: 'name', type: 'varchar(20)' }, parentNode: '3', draggable: false, selected: false },
 ];
 
@@ -53,7 +66,7 @@ export const CanvasInstance = () => {
   const edgeUpdateSuccessful = useRef(true);
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
-  const [ tableInfos, setTableInfos ] = useState<InfosTableType>()
+  const [ tableInfos, setTableInfos ] = useState<InfosTableType>();
   const { sqlData, isFetching, fetchSQL } = useApi();
 
   useEffect(() => {
@@ -93,6 +106,7 @@ export const CanvasInstance = () => {
     [setEdges]
   );
 
+  // Prepare the infos to show at the left of the screen --> Infos of the table
   useEffect(() => {
     const tableParent = nodes.find((node) => node.selected === true && node.type != "fieldNode");
     let fieldsChildren: any = []
@@ -107,17 +121,17 @@ export const CanvasInstance = () => {
 
   }, [nodes, getNodes])
 
-  // Test Function Add Table
+  // Add Table
   const addTable = () => {
     const numberOfNodes = getNodes().length + 1;
-    const newNodes = [...getNodes(), {id: numberOfNodes.toString(), type: 'tableNode', position: { x: -50, y: 0 }, data: {}, expandParent: true}];
-    setNodes(newNodes)
+    const newNodes = [...getNodes(), {id: numberOfNodes.toString(), type: 'tableNode', position: { x: -50, y: 0 }, data: { title: `NewTable${numberOfNodes}` }, style: basicStyleTableNode, expandParent: true}];
+    setNodes(newNodes);
   }
 
   const panOnDrag = [1, 2];
 
   // Test Getting nodes
-  const nodesList: Node[] = getNodes()
+  const nodesList: Node[] = getNodes();
 
   return (
     <div className={styles.pagesContainer}>
