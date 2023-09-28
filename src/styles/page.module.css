@@ -1,4 +1,21 @@
-.canvasContainer {
+.pagesContainer {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: var(--secondaryPointerEvents);
+}
+
+.infosTableContainer {
+  width: 20%;
+  height: 100%;
+  background: #fff;
+  border-right: 2px solid #000
+}
+
+.canvasContainer {
+  width: 80%;
+  height: 100%;
+  pointer-events: var(--secondaryPointerEvents);
 }

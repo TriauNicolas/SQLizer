@@ -1,12 +1,18 @@
-import { ConvertedData } from '@/types/convertedData';
+import { ConvertedData } from '@/types/tables';
 import axios from 'axios';
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-export const useApi = (convertedData: ConvertedData | null) => {
-  const [ sqlData, setSqlData ] = useState('')
-  const myJson = JSON.stringify(convertedData)
+export const useApi = () => {
+  const [ sqlData, setSqlData ] = useState('');
+  const [ isFetching, setIsFetching ] = useState(false);
+  
+  const fetchSQL = (convertedData: ConvertedData | null) => {
+    if (!convertedData) return;
+  
+    const myJson = JSON.stringify(convertedData);
 
-  useEffect(() => {
+    setIsFetching(true);
+
     axios({
       method: 'post',
       url: 'http://localhost:8080/translation/translateJsonToSql',
@@ -17,11 +23,15 @@ export const useApi = (convertedData: ConvertedData | null) => {
     })
     .then(response => {
       if (response.data) setSqlData(response.data.sql);
+      setIsFetching(false);
     })
-    .catch(function (error) {
-      console.error(error);
+    .catch((error: unknown) => {
+      setIsFetching(false);
+      if (error instanceof Error) {
+        return `Things exploded (${error.message})`
+      }
     });
-  }, [myJson])
+  }
 
-  return sqlData
+  return { sqlData, isFetching, fetchSQL }
 }

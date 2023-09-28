@@ -1,10 +1,10 @@
-import { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useState, useRef, useEffect, ChangeEvent } from 'react';
 import { Handle, Position } from 'reactflow';
 import fieldStyle from './FieldNode.module.css'
-import { Field } from '../../types/convertedData'
+import { DataTable } from '../../types/tables'
 
 type FieldNodeProps = {
-  data: Field
+  data: DataTable
 }
 
 export const FieldNode = ({ data }: FieldNodeProps) => {
@@ -20,6 +20,16 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
     if (data?.type) setTypeField(data.type)
   }, [data?.name, data?.type])
 
+  const handleChangeNameandType = ((event: ChangeEvent<HTMLInputElement>) => {
+    if (isEditingName) {
+      data.name = event.target.value
+      setNameField(event.target.value)
+    }
+    else if (isEditingType) {
+      data.type = event.target.value
+      setTypeField(event.target.value)
+    }
+  })
 
   const handleNodeClick = useCallback(() => {
     setIsEditingName(false);
@@ -29,10 +39,6 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
   const handleNameClick = useCallback(() => {
     setIsEditingName(!isEditingName);
   }, [isEditingName]);
-
-  const handleTypeClick = useCallback(() => {
-    setIsEditingType(!isEditingType);
-  }, [isEditingType]);
 
   return (
     <div className={fieldStyle.fieldNode} onBlur={handleNodeClick}>
@@ -44,7 +50,7 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
           type="text"
           ref={fieldNameRef}
           defaultValue={nameField}
-          onChange={(event) => data.name = event.target.value}
+          onChange={(event) => handleChangeNameandType(event)}
           autoFocus
         />
       ) : (
@@ -52,20 +58,9 @@ export const FieldNode = ({ data }: FieldNodeProps) => {
           {nameField}
         </div>
         )}
-      {isEditingType ? (
-        <input
-          className={fieldStyle.fieldInput}
-          type="text"
-          ref={fieldTypeRef}
-          defaultValue={typeField}
-          onChange={(event) => data.type = event.target.value}
-          autoFocus
-        />
-      ) : (
-        <div className={fieldStyle.fieldType} onClick={handleTypeClick}>
-          {typeField}
-        </div>
-        )}
+      <div className={fieldStyle.fieldType}>
+        {typeField}
+      </div>
     </div>
   )
 }

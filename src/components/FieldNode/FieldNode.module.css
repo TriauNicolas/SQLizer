@@ -1,32 +1,38 @@
 .fieldNode {
   width: var(--baseWidthTableNode);
-  height: 40px;
+  height: var(--baseHeightFieldNode);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #ccc;
+  font-size: 12px;
 }
 
 .fieldInput:focus {
   outline: none;
-  width: calc(var(--baseWidthTableNode) / 2);
-  height: 40px;
+  border: none;
+  width: calc(var(--baseWidthTableNode) * 0.45);
+  height: var(--baseHeightFieldNode);
+  margin-top: 2px;
 }
 
 .fieldName {
-  width: calc(var(--baseWidthTableNode) / 2);
-  height: 40px;
+  width: calc(var(--baseWidthTableNode) / 2.2);
+  height: var(--baseHeightFieldNode);
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding: 0 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .fieldType {
   width: calc(var(--baseWidthTableNode) / 2);
-  height: 40px;
+  height: var(--baseHeightFieldNode);
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  text-align: end;
   padding: 0 10px;
 }

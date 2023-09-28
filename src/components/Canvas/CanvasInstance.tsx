@@ -1,64 +1,92 @@
-'use client'
+'use client';
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import ReactFlow, {
   addEdge,
   updateEdge,
   Panel,
   Controls,
   Background,
-  applyNodeChanges,
   Node,
   Edge,
   OnNodesChange,
+  applyNodeChanges,
+  OnEdgesChange,
+  applyEdgeChanges,
   OnConnect,
   BackgroundVariant,
   NodeTypes,
   useReactFlow,
-  Connection
+  Connection,
+  SelectionMode
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import styles from '../../styles/page.module.css'
+import styles from '../../styles/page.module.css';
 import { TableNode } from '../TableNode/TableNode';
 import { FieldNode } from '../FieldNode/FieldNode';
+import { InfosTable } from '../InfosTable/InfosTable';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
-import { ConvertedData } from '../../types/convertedData'
+import { ConvertedData } from '../../types/tables';
+import { InfosTableType } from '../../types/infosTable';
 import { useApi } from '@/hooks/useApi';
 
+const basicStyleTableNode: {} = {
+  width: "var(--baseWidthTableNode)",
+  minHeight: "var(--baseHeightTableNode)",
+  backgroundColor: "#fff",
+  border: "1.5px solid var(--borderColorTableNode)",
+  borderRadius: "2px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "top",
+  justifyContent: "flex-start",
+  color: "#000",
+}
+
 const initialNodes = [
-  { id: 'Users', type: 'tableNode', position: { x: 0, y: 0 }, data: {}, expandParent: true },
-  { id: 'Users.name', type: 'fieldNode', position: { x: 0, y: 50 }, data: { name: 'name', type: 'varchar(20)' }, parentNode: 'Users', draggable: false },
-  { id: 'UsersGroup', type: 'tableNode', position: { x: -400, y: 50 }, data: {}, expandParent: true },
-  { id: 'UsersGroup.name', type: 'fieldNode', position: { x: 0, y: 50 }, data: { name: 'name', type: 'varchar(20)' }, parentNode: 'UsersGroup', draggable: false },
+  { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "Users" }, style: basicStyleTableNode, expandParent: true, selected: false, draggable: true },
+  { id: '2', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "Users.name", name: 'name', type: 'varchar(20)' }, parentNode: '1', draggable: false, selected: false },
+  { id: '3', type: 'tableNode', position: { x: -400, y: 50 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "UsersGroup" }, style: basicStyleTableNode, expandParent: true, selected: false, draggable: true },
+  { id: '4', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "UsersGroup.name", name: 'name', type: 'varchar(20)' }, parentNode: '3', draggable: false, selected: false },
 ];
 
-const initialEdges = [{ id: 'Users.2-UsersGroup.3', source: '2', target: '3', animated: true }];
+const initialEdges = [{ id: 'Users.2-UsersGroup.3', source: '2', target: '4', animated: true }];
 
 const nodeTypes: NodeTypes = {
   tableNode: TableNode,
-  fieldNode: FieldNode
+  fieldNode: FieldNode,
 };
 
 export const CanvasInstance = () => {
-  const edgeUpdateSuccessful = useRef(true);
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const [ nodes, setNodes ] = useState<Node[]>(initialNodes);
   const [ edges, setEdges ] = useState<Edge[]>(initialEdges);
-  const { getNodes } = useReactFlow()
-  const convertedData: ConvertedData | null= useDataToJson({ nodes, edges })
-  const { downloadSql } = useDownloadSql(convertedData)
-  const apiCall = useApi(convertedData);
+  const { getNodes } = useReactFlow();
+  const edgeUpdateSuccessful = useRef(true);
+  const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
+  const { downloadSql } = useDownloadSql(convertedData);
+  const [ tableInfos, setTableInfos ] = useState<InfosTableType>();
+  const { sqlData, isFetching, fetchSQL } = useApi();
 
-  // Basic functions doc ReactFlow
+  useEffect(() => {
+    if (!isFetching) console.log(sqlData)
+  }, [sqlData, isFetching])
+
+  ///// Basic functions doc ReactFlow /////
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
+    []
   );
 
   const onEdgeUpdateStart = useCallback(() => {
     edgeUpdateSuccessful.current = false;
   }, []);
+
+  const onEdgesChange: OnEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
 
   const onEdgeUpdate = useCallback((oldEdge: Edge, newConnection: Connection) => {
     edgeUpdateSuccessful.current = true;
@@ -78,42 +106,77 @@ export const CanvasInstance = () => {
     [setEdges]
   );
 
-  // Test Function Add Table
+  // Prepare the infos to show at the left of the screen --> Infos of the table
+  useEffect(() => {
+    const tableParent = nodes.find((node) => node.selected === true && node.type != "fieldNode");
+    let fieldsChildren: any = []
+    if (tableParent) {
+      fieldsChildren = getNodes().filter((node: Node) => node.parentNode === tableParent.id);
+
+      setTableInfos({ 
+        tableParent: { id: tableParent?.id, data: tableParent?.data }, 
+        fieldsChildren: fieldsChildren
+        });
+    }
+
+  }, [nodes, getNodes])
+
+  // Add Table
   const addTable = () => {
-    const tableToAdd = {id: 'New Table', type: 'tableNode', position: { x: 400, y: 0 }, data: {}, expandParent: true}
-    setNodes([...nodes, tableToAdd])
+    const numberOfNodes = getNodes().length + 1;
+    const newNodes = [...getNodes(), {id: numberOfNodes.toString(), type: 'tableNode', position: { x: -50, y: 0 }, data: { title: `NewTable${numberOfNodes}` }, style: basicStyleTableNode, expandParent: true}];
+    setNodes(newNodes);
   }
 
+  const panOnDrag = [1, 2];
+
   // Test Getting nodes
-  const nodesList: Node[] = getNodes()
+  const nodesList: Node[] = getNodes();
 
   return (
-    <div className={styles.canvasContainer}>
-      <ReactFlow 
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgeUpdate={onEdgeUpdate}
-        onEdgeUpdateStart={onEdgeUpdateStart}
-        onEdgeUpdateEnd={onEdgeUpdateEnd}
-        onConnect={onConnect}
-        fitView
-        nodeTypes={nodeTypes}
-        >
-      <Background color="#ccc" variant={variant} />
-      <Controls />
-        <Panel position="top-left">
-          <div>Variants :</div>
-          <button onClick={() => setVariant(BackgroundVariant.Dots)}>Dots</button>
-          <button onClick={() => setVariant(BackgroundVariant.Lines)}>Lines</button>
-          <button onClick={() => setVariant(BackgroundVariant.Cross)}>Cross</button>
-          <button onClick={() => console.log(nodesList)}>Get Nodes</button>
-          <button onClick={() => addTable()}>Add a Table</button>
-          <button onClick={() => console.log(convertedData)}>Get converted Data</button>
-          <button onClick={downloadSql}>Download SQL</button>
-          <button onClick={() => console.log(apiCall)}>API Call</button>
-        </Panel>
-      </ReactFlow>
+    <div className={styles.pagesContainer}>
+      
+      {/* TABLE INFOS ON CLICK */}
+      <div className={styles.infosTableContainer}>
+        <InfosTable infos={tableInfos} />
+      </div>
+
+      {/* CANVAS */}
+      <div className={styles.canvasContainer}>
+        <ReactFlow 
+          nodes={nodes}
+          nodeTypes={nodeTypes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onEdgeUpdate={onEdgeUpdate}
+          onEdgeUpdateStart={onEdgeUpdateStart}
+          onEdgeUpdateEnd={onEdgeUpdateEnd}
+          onConnect={onConnect}
+          fitView
+          panOnScroll
+          zoomOnDoubleClick={false}
+          selectionOnDrag
+          panOnDrag={panOnDrag}
+          selectionMode={SelectionMode.Partial}
+          >
+        <Background color="#ccc" variant={variant} />
+        <Controls />
+          <Panel position="top-left">
+            <div>Variants :</div>
+            <button onClick={() => setVariant(BackgroundVariant.Dots)}>Dots</button>
+            <button onClick={() => setVariant(BackgroundVariant.Lines)}>Lines</button>
+            <button onClick={() => setVariant(BackgroundVariant.Cross)}>Cross</button>
+            <button onClick={() => console.log(nodes)}>Get Nodes</button>
+            <button onClick={() => console.log(edges)}>Get Edges</button>
+            <button onClick={() => console.log(nodesList)}>Get nodesList</button>
+            <button onClick={() => addTable()}>Add a Table</button>
+            <button onClick={() => console.log(convertedData)}>Get converted Data</button>
+            <button onClick={downloadSql}>Download SQL</button>
+            <button onClick={() => fetchSQL(convertedData)}>API Call</button>
+          </Panel>
+        </ReactFlow>
+      </div>
     </div>
   )
 }
