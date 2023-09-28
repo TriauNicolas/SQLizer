@@ -82,7 +82,7 @@
   margin: 24px 0
 }
 
-.inputName, .selectType, .inputDefault, .typeOptions, .autoInc, .primaryKey, .isNul {
+.inputName, .selectType, .inputDefault, .typeOptions, .autoInc, .primaryKey, .isNull {
   pointer-events: var(--primaryPointerEvents);
 }
 
