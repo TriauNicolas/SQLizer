@@ -198,7 +198,7 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
               </div>
               <div className={modalStyle.isNullContainer}>
                 <label htmlFor="isNull">isNull: </label>
-                <input type="checkbox" className={modalStyle.isNull}name="isNull" checked={boolNullable} onChange={() => handleClickOptions("nullable")} />
+                <input type="checkbox" className={modalStyle.isNull} name="isNull" checked={boolNullable} onChange={() => handleClickOptions("nullable")} />
               </div>
             </div>
           </div>
