@@ -36,9 +36,9 @@ const Login = () => {
             type="email"
             autoComplete="off"
             placeholder="Entrez votre email"
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            {...register("email", { required: 'Ce champ ne peut être vide', pattern: /^\S+@\S+$/i })}
           />
-          {errors.email && <p>{errors.email.type}</p>}
+          {errors.email && <p>{errors.email.message}</p>}
         </div>
         <div>
           <label htmlFor="password">Mot de passe</label>
@@ -47,14 +47,14 @@ const Login = () => {
             autoComplete="off"
             placeholder="Entrez votre mot de passe"
             {...register("password", {
-              required: true,
+              required: 'Ce champ ne peut être vide',
               max: 32,
               min: 8,
               pattern:
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/i,
             })}
           />
-          {errors.password && <p>{errors.password.type}</p>}
+          {errors.password && <p>{errors.password.message}</p>}
         </div>
         <div>
           <input type="submit" value={`Se connecter`} />

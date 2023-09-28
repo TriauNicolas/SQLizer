@@ -37,11 +37,11 @@ const Register = () => {
             autoComplete="off"
             placeholder="Entrez votre prénom"
             {...register("first_name", {
-              required: true,
+              required: 'Ce champ ne peut être vide',
               pattern: /^[a-z ,.'-]+$/i,
             })}
           />
-          {errors.first_name && <p>{errors.first_name.type}</p>}
+          {errors.first_name && <p>{errors.first_name.message}</p>}
         </div>
         <div>
           <label htmlFor="last_name">Nom de famille</label>
@@ -50,11 +50,11 @@ const Register = () => {
             autoComplete="off"
             placeholder="Entrez votre nom de famille"
             {...register("last_name", {
-              required: true,
+              required: 'Ce champ ne peut être vide',
               pattern: /^[a-z ,.'-]+$/i,
             })}
           />
-          {errors.last_name && <p>{errors.last_name.type}</p>}
+          {errors.last_name && <p>{errors.last_name.message}</p>}
         </div>
         <div>
           <label htmlFor="email">Email</label>
@@ -62,9 +62,9 @@ const Register = () => {
             type="email"
             autoComplete="off"
             placeholder="Entrez votre email"
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            {...register("email", { required: 'Ce champ ne peut être vide', pattern: /^\S+@\S+$/i })}
           />
-          {errors.email && <p>{errors.email.type}</p>}
+          {errors.email && <p>{errors.email.message}</p>}
         </div>
         <div>
           <label htmlFor="password">Mot de passe</label>
@@ -73,14 +73,14 @@ const Register = () => {
             autoComplete="off"
             placeholder="Entrez votre mot de passe"
             {...register("password", {
-              required: true,
+              required: 'Ce champ ne peut être vide',
               max: 32,
               min: 8,
               pattern:
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/i,
             })}
           />
-          {errors.password && <p>{errors.password.type}</p>}
+          {errors.password && <p>{errors.password.message}</p>}
         </div>
         <div>
           <input type="submit" value={`Créer un compte`} />
