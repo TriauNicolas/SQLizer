@@ -21,3 +21,7 @@ export const isUserLogged = async (): Promise<boolean> => {
 
     return false;
 }
+
+export const deleteToken = () => {
+    localStorage.clear();
+}
