@@ -5,7 +5,7 @@ import "@/styles/auth.css"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { AuthProperties } from "@/types/auth"
-import axios from "@/api/axios"
+import { getAxiosInstance } from "@/api/axios"
 import { useForm } from "react-hook-form"
 
 const auth_register = "/auth/register"
@@ -19,7 +19,7 @@ const Register = () => {
   } = useForm<AuthProperties>()
   const onSubmit = async (data: AuthProperties) => {
     try {
-      const response = await axios.post(auth_register, data)
+      const response = await getAxiosInstance().post(auth_register, data)
       if (response.statusText === "OK") router.push("/login")
     } catch (error) {
       console.log(error)
