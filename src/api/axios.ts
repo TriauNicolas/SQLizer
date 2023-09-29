@@ -1,12 +1,18 @@
-import axios from "axios";
+import axios, { Axios } from "axios";
 
-const baseURL = 'http://localhost:8000'
+export const getAxiosInstance = (): Axios => {
+    const url = process.env.API_URL;
+    if (!url)
+        throw new Error('URL is not defined');
 
-export default axios.create({
-    baseURL: baseURL,
-    headers: {
-        "Content-Type": 'application/json',
-        "Authorization": 'loremipsumdolorsitamet'
-    },
-    withCredentials: true
-})
+    const token = localStorage.getItem('token')
+    const config: {baseURL: string, headers: { "Content-Type": string, Authorization?: string } } = {
+        baseURL: url,
+        headers: {
+            "Content-Type": 'application/json'
+        }
+    }
+
+    if (token) config.headers.Authorization = `Bearer ${token}`
+        return axios.create(config)
+}
