@@ -76,8 +76,6 @@ const Register = () => {
               required: 'Ce champ ne peut être vide',
               max: 32,
               min: 8,
-              pattern:
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/i,
             })}
           />
           {errors.password && <p>{errors.password.message}</p>}

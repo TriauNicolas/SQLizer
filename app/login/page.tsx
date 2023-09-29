@@ -19,7 +19,9 @@ const Login = () => {
   } = useForm<AuthProperties>()
   const onSubmit = async (data: AuthProperties) => {
     try {
-      const response = await axios.post(auth_login, data)
+      const response = await axios.post(auth_login, data);
+      console.log(response)
+      console.log(response.data)
       if (response.statusText === "OK") router.push("/")
     } catch (error) {
       console.log(error)
@@ -50,8 +52,6 @@ const Login = () => {
               required: 'Ce champ ne peut être vide',
               max: 32,
               min: 8,
-              pattern:
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/i,
             })}
           />
           {errors.password && <p>{errors.password.message}</p>}
