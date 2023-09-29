@@ -2,7 +2,6 @@ import axios, { Axios } from "axios";
 
 export const getAxiosInstance = (): Axios => {
     const url = process.env.API_URL;
-    console.log(url);
     if (!url)
         throw new Error('URL is not defined');
 

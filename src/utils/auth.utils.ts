@@ -11,11 +11,9 @@ export const getToken = (): string | null => {
 
 export const isUserLogged = async (): Promise<boolean> => {
     try {
-        const res = await getAxiosInstance().get('/auth/verifToken')
-        console.log(res);
+        await getAxiosInstance().get('/auth/verifToken')
         return true;
     } catch (error) {
-        console.log('error: ');
         console.log(error);
     }
 
