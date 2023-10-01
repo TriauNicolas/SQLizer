@@ -42,8 +42,6 @@ export const CanvasInstance = () => {
     if (!isFetching) console.log(sqlData)
   }, [sqlData, isFetching]);
 
-  const panOnDrag = [1, 2];
-
   return (
     <div className={styles.pagesContainer}>
       
@@ -68,7 +66,7 @@ export const CanvasInstance = () => {
           panOnScroll
           zoomOnDoubleClick={false}
           selectionOnDrag
-          panOnDrag={panOnDrag}
+          panOnDrag={[1, 2]}
           selectionMode={SelectionMode.Partial}
           >
         <Background color="#ccc" variant={variant} />
