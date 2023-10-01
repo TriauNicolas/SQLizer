@@ -1,23 +1,14 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import ReactFlow, {
-  addEdge,
-  updateEdge,
   Panel,
   Controls,
   Background,
   Node,
-  Edge,
-  OnNodesChange,
-  applyNodeChanges,
-  OnEdgesChange,
-  applyEdgeChanges,
-  OnConnect,
   BackgroundVariant,
   NodeTypes,
   useReactFlow,
-  Connection,
   SelectionMode
 } from 'reactflow';
 import 'reactflow/dist/style.css';
@@ -30,28 +21,9 @@ import { useDownloadSql } from '@/hooks/useDownloadSql'
 import { ConvertedData } from '../../types/tables';
 import { InfosTableType } from '../../types/infosTable';
 import { useApi } from '@/hooks/useApi';
-
-const basicStyleTableNode: {} = {
-  width: "var(--baseWidthTableNode)",
-  minHeight: "var(--baseHeightTableNode)",
-  backgroundColor: "#fff",
-  border: "1.5px solid var(--borderColorTableNode)",
-  borderRadius: "2px",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "top",
-  justifyContent: "flex-start",
-  color: "#000",
-}
-
-const initialNodes = [
-  { id: '1', type: 'tableNode', position: { x: 0, y: 0 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "Users" }, style: basicStyleTableNode, expandParent: true, selected: false, draggable: true },
-  { id: '2', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "Users.name", name: 'name', type: 'varchar(20)' }, parentNode: '1', draggable: false, selected: false },
-  { id: '3', type: 'tableNode', position: { x: -400, y: 50 }, positionAbsolute: { x: 0, y: 0 }, data: { title: "UsersGroup" }, style: basicStyleTableNode, expandParent: true, selected: false, draggable: true },
-  { id: '4', type: 'fieldNode', position: { x: 0, y: 50 }, positionAbsolute: { x: 0, y: 50 }, data: { title: "UsersGroup.name", name: 'name', type: 'varchar(20)' }, parentNode: '3', draggable: false, selected: false },
-];
-
-const initialEdges = [{ id: 'Users.2-UsersGroup.3', source: '2', target: '4', animated: true }];
+import { useNodes } from '@/hooks/useNodes';
+import { useAddTableNode } from '@/hooks/useAddTableNode';
+import { useEdges } from '@/hooks/useEdges';
 
 const nodeTypes: NodeTypes = {
   tableNode: TableNode,
@@ -60,10 +32,10 @@ const nodeTypes: NodeTypes = {
 
 export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
-  const [ nodes, setNodes ] = useState<Node[]>(initialNodes);
-  const [ edges, setEdges ] = useState<Edge[]>(initialEdges);
+  const { nodes, setNodes, onNodesChange } = useNodes();
+  const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
+  const { addTable } = useAddTableNode();
   const { getNodes } = useReactFlow();
-  const edgeUpdateSuccessful = useRef(true);
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
   const [ tableInfos, setTableInfos ] = useState<InfosTableType>();
@@ -72,39 +44,6 @@ export const CanvasInstance = () => {
   useEffect(() => {
     if (!isFetching) console.log(sqlData)
   }, [sqlData, isFetching])
-
-  ///// Basic functions doc ReactFlow /////
-  const onNodesChange: OnNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
-  );
-
-  const onEdgeUpdateStart = useCallback(() => {
-    edgeUpdateSuccessful.current = false;
-  }, []);
-
-  const onEdgesChange: OnEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
-  );
-
-  const onEdgeUpdate = useCallback((oldEdge: Edge, newConnection: Connection) => {
-    edgeUpdateSuccessful.current = true;
-    setEdges((els) => updateEdge(oldEdge, newConnection, els));
-  }, []);
-
-  const onEdgeUpdateEnd = useCallback((_: any, edge: Edge) => {
-    if (!edgeUpdateSuccessful.current) {
-      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
-    }
-
-    edgeUpdateSuccessful.current = true;
-  }, []);
-
-  const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds)),
-    [setEdges]
-  );
 
   // Prepare the infos to show at the left of the screen --> Infos of the table
   useEffect(() => {
@@ -121,17 +60,7 @@ export const CanvasInstance = () => {
 
   }, [nodes, getNodes])
 
-  // Add Table
-  const addTable = () => {
-    const numberOfNodes = getNodes().length + 1;
-    const newNodes = [...getNodes(), {id: numberOfNodes.toString(), type: 'tableNode', position: { x: -50, y: 0 }, data: { title: `NewTable${numberOfNodes}` }, style: basicStyleTableNode, expandParent: true}];
-    setNodes(newNodes);
-  }
-
   const panOnDrag = [1, 2];
-
-  // Test Getting nodes
-  const nodesList: Node[] = getNodes();
 
   return (
     <div className={styles.pagesContainer}>
@@ -169,8 +98,8 @@ export const CanvasInstance = () => {
             <button onClick={() => setVariant(BackgroundVariant.Cross)}>Cross</button>
             <button onClick={() => console.log(nodes)}>Get Nodes</button>
             <button onClick={() => console.log(edges)}>Get Edges</button>
-            <button onClick={() => console.log(nodesList)}>Get nodesList</button>
-            <button onClick={() => addTable()}>Add a Table</button>
+            <button onClick={() => console.log(getNodes())}>Get nodesList</button>
+            <button onClick={() => setNodes([...getNodes(), addTable()])}>Add a Table</button>
             <button onClick={() => console.log(convertedData)}>Get converted Data</button>
             <button onClick={downloadSql}>Download SQL</button>
             <button onClick={() => fetchSQL(convertedData)}>API Call</button>

@@ -1,6 +1,7 @@
 import { getAxiosInstance } from "@/api/axios";
 
 export const setToken = (token: string) => {
+    localStorage.removeItem('token')
     localStorage.setItem('token', token)
 }
 
