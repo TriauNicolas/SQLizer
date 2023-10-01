@@ -5,7 +5,6 @@ import ReactFlow, {
   Panel,
   Controls,
   Background,
-  Node,
   BackgroundVariant,
   NodeTypes,
   useReactFlow,
@@ -19,7 +18,6 @@ import { InfosTable } from '../InfosTable/InfosTable';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
 import { ConvertedData } from '../../types/tables';
-import { InfosTableType } from '../../types/infosTable';
 import { useApi } from '@/hooks/useApi';
 import { useNodes } from '@/hooks/useNodes';
 import { useAddTableNode } from '@/hooks/useAddTableNode';
@@ -38,27 +36,11 @@ export const CanvasInstance = () => {
   const { getNodes } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
-  const [ tableInfos, setTableInfos ] = useState<InfosTableType>();
   const { sqlData, isFetching, fetchSQL } = useApi();
 
   useEffect(() => {
     if (!isFetching) console.log(sqlData)
-  }, [sqlData, isFetching])
-
-  // Prepare the infos to show at the left of the screen --> Infos of the table
-  useEffect(() => {
-    const tableParent = nodes.find((node) => node.selected === true && node.type != "fieldNode");
-    let fieldsChildren: any = []
-    if (tableParent) {
-      fieldsChildren = getNodes().filter((node: Node) => node.parentNode === tableParent.id);
-
-      setTableInfos({ 
-        tableParent: { id: tableParent?.id, data: tableParent?.data }, 
-        fieldsChildren: fieldsChildren
-        });
-    }
-
-  }, [nodes, getNodes])
+  }, [sqlData, isFetching]);
 
   const panOnDrag = [1, 2];
 
@@ -67,7 +49,7 @@ export const CanvasInstance = () => {
       
       {/* TABLE INFOS ON CLICK */}
       <div className={styles.infosTableContainer}>
-        <InfosTable infos={tableInfos} />
+        <InfosTable currentNodes={nodes} />
       </div>
 
       {/* CANVAS */}
