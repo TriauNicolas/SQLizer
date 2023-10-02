@@ -7,11 +7,6 @@ export const useDownloadSql = (convertedData: ConvertedData | null) => {
   const [ apiSql, setApiSql ] = useState('');
   const { sqlData, isFetching, fetchSQL } = useApi();
 
-  // Api Call
-  // useEffect(() => {
-  //   fetchSQL(convertedData);
-  // }, [fetchSQL, convertedData])
-
   // Attribute the value when the call is finished
   useEffect(() => {
     if (!isFetching) setApiSql(sqlData)
