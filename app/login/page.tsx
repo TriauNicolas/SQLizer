@@ -8,11 +8,23 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { setToken } from "@/utils/auth.utils"
+import { signIn, signOut, useSession } from 'next-auth/react'
+
 
 const auth_login = "/auth/login"
 
+
 const Login = () => {
   const router = useRouter()
+
+  const { data: session, status } = useSession();
+  if (status !== "unauthenticated") {
+    console.log('-------------------');
+    console.log(session);
+  } else {
+    signIn()
+  }
+
   const {
     register,
     handleSubmit,
@@ -30,6 +42,7 @@ const Login = () => {
 
   return (
     <div>
+      <button onClick={async() => {await signOut(); console.log(session);}}>Sign out</button>
       <h1>Connectez-vous</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
