@@ -3,7 +3,6 @@ import Image from 'next/image'
 import closeSVG from '../../../public/CloseCross.svg'
 import { useReactFlow, Node } from 'reactflow'
 import { useEffect, useState } from 'react'
-import { DataTable } from '@/types/tables'
 
 type FieldModalProps = {
   idTable: string | undefined | null;
