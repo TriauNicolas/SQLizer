@@ -29,6 +29,7 @@ export const authOptions = {
     })
   ],
   callbacks: {
+    // @ts-ignore
     async jwt({ token, user }) {
       if (user) {
         token.token = user.token;
@@ -38,6 +39,7 @@ export const authOptions = {
       }
       return token;
     },
+    // @ts-ignore
     session: async ({ session, token }) => {
       session.user.email = token.email
       session.user.token = token.token;
