@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isUserLogged } from '@/utils/auth.utils';
 import { getToken } from 'next-auth/jwt';
-import { signOut } from 'next-auth/react';
 
 export default async function middleware(req: NextRequest) {
   const url = req.url;
