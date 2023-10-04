@@ -8,6 +8,5 @@ export const isUserLogged = async (token: string): Promise<boolean> => {
         } catch (error) {
             console.log(error);
     }
-
     return false;
 }
