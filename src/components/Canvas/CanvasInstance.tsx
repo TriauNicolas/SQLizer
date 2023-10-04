@@ -23,6 +23,7 @@ import { useNodes } from '@/hooks/useNodes';
 import { useAddTableNode } from '@/hooks/useAddTableNode';
 import { useEdges } from '@/hooks/useEdges';
 
+// Different nodes Types used for the canvas
 const nodeTypes: NodeTypes = {
   tableNode: TableNode,
   fieldNode: FieldNode,
@@ -31,15 +32,15 @@ const nodeTypes: NodeTypes = {
 export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
-  const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
-  const { addTable } = useAddTableNode();
+  const { edges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
+  const { sendSocketTable } = useAddTableNode();
   const { getNodes } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
   const { sqlData, isFetching, fetchSQL } = useApi();
 
   useEffect(() => {
-    if (!isFetching) console.log(sqlData)
+    if (!isFetching) console.log(sqlData);
   }, [sqlData, isFetching]);
 
   return (
@@ -79,7 +80,7 @@ export const CanvasInstance = () => {
             <button onClick={() => console.log(nodes)}>Get Nodes</button>
             <button onClick={() => console.log(edges)}>Get Edges</button>
             <button onClick={() => console.log(getNodes())}>Get nodesList</button>
-            <button onClick={() => setNodes([...getNodes(), addTable()])}>Add a Table</button>
+            <button onClick={() => sendSocketTable()}>Add a Table</button>
             <button onClick={() => console.log(convertedData)}>Get converted Data</button>
             <button onClick={downloadSql}>Download SQL</button>
             <button onClick={() => fetchSQL(convertedData)}>API Call</button>
