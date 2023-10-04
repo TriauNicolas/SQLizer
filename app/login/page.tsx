@@ -22,7 +22,7 @@ const Login = () => {
         password: data.password,
         redirect: false
       });
-        if (response?.ok) {
+      if (response?.ok) {
         router.push("/")
       }
 
