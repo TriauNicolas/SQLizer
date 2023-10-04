@@ -12,10 +12,12 @@ export default async function middleware(req: NextRequest) {
   ]
 
   const protocol = req.headers.get('referer')?.split('://')[0] ? req.headers.get('referer')?.split('://')[0] + '://' : 'http://';
-
   for(const route of routeList) {
       if (url === protocol + req.headers.get('host') + route.url) {
           const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+          if (!token?.token && !route.mustBeConnected) {
+            return NextResponse.next();
+          }
           if (typeof token?.token === 'string' && await isUserLogged(token?.token) === route.mustBeConnected) {
               return NextResponse.next();
           } else {

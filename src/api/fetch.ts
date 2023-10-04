@@ -4,7 +4,8 @@ type FetchParams = {
     method: Method;
     headers?: {
         Authorization: string
-    }
+    },
+    body?: string
 }
 
 export const doFetchRequest = async (data: {method: Method, url: string, data?: any, token?: string}): Promise<any> => {
@@ -17,6 +18,8 @@ export const doFetchRequest = async (data: {method: Method, url: string, data?: 
         }
 
         if (data?.token) fetchParams.headers = {Authorization: `Bearer ${data?.token}`}
+
+        if (data?.data) fetchParams.body = JSON.stringify(data?.data)
         try {
             let response = await fetch(url + data.url, fetchParams);
             return response.json()
