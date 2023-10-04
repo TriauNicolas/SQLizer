@@ -10,16 +10,16 @@ export default async function middleware(req: NextRequest) {
     {url: '/login', mustBeConnected: false},
   ]
 
-  const protocol = req.headers.get('referer')?.split('://')[0] ? req.headers.get('referer')?.split('://')[0] + '://' : 'http://';
+  const httpProtocol = req.headers.get('referer')?.split('://')[0] ? req.headers.get('referer')?.split('://')[0] + '://' : 'http://';
   for(const route of routeList) {
-      if (url === protocol + req.headers.get('host') + route.url) {
+      if (url === httpProtocol + req.headers.get('host') + route.url) {
           const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
           if (!token?.token && !route.mustBeConnected) {
             return NextResponse.next();
           } else if (typeof token?.token === 'string' && await isUserLogged(token?.token) === route.mustBeConnected) {
               return NextResponse.next();
           } else {
-              const redirectUrl = protocol + req.headers.get('host') + (route.mustBeConnected ? '/login' : '/');
+              const redirectUrl = httpProtocol + req.headers.get('host') + (route.mustBeConnected ? '/login' : '/');
               return NextResponse.redirect(redirectUrl);
           }
       }
