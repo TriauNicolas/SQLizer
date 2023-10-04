@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
 import { useReactFlow, Node } from 'reactflow';
+import { useSocketManager } from './useSocketsManager';
+import { Table } from '@/types/tables';
 import { useNodes } from '@/hooks/useNodes';
 
 const basicStyleTableNode: {} = {
@@ -16,21 +17,27 @@ const basicStyleTableNode: {} = {
 }
 
 export const useAddTableNode = () => {
+  const { setNodes } = useNodes();
   const { getNodes } = useReactFlow();
-  // const { nodes, setNodes } = useNodes();
+  const { addTableSocket } = useSocketManager();
 
-  // Add Table
-  const addTable = useCallback(() => {
+  // Add Table from Canvas
+  const sendSocketTable = () => {
     const numberOfNodes = getNodes().length + 1;
-    const newTableNode: Node<any> = {id: numberOfNodes.toString(), type: 'tableNode', position: { x: -50, y: 0 }, data: { title: `NewTable${numberOfNodes}` }, style: basicStyleTableNode, expandParent: true};
-    // const newNodes = [...getNodes(), newTableNode];
-    // setNodes(newNodes);
+    const tableSocket = { name: `NewTable${numberOfNodes}`, posX: 0, posY: 0, fields: [] };
 
-    // const tableSocket = { name: newTableNode.data.title, posX: newTableNode.position.x, posY: newTableNode.position.y, fields: [] }
+    // Emit the socket
+    addTableSocket(tableSocket);
+  }
 
-    // Returning the table, later will emit a socket
-    return newTableNode
-  }, [getNodes])
+  // Add Table from socket
+  const getSocketTable = (table: Table) => {
+    const newTableNode: Node<any> = { id: (table.name).replace('NewTable', ''), type: 'tableNode', position: { x: table.posX, y: table.posY }, data: { title: table.name }, style: basicStyleTableNode, expandParent: true };
 
-  return { addTable }
+    // Add it to the canvas
+    const newNodes = [...getNodes(), newTableNode];
+    setNodes(newNodes);
+  }
+
+  return { sendSocketTable, getSocketTable }
 };
