@@ -11,6 +11,7 @@ import ReactFlow, {
   SelectionMode
 } from 'reactflow';
 import 'reactflow/dist/style.css';
+import stylesCanvas from './CanvasInstance.module.css';
 import styles from '../../styles/page.module.css';
 import { TableNode } from '../TableNode/TableNode';
 import { FieldNode } from '../FieldNode/FieldNode';
@@ -99,17 +100,29 @@ export const CanvasInstance = () => {
           >
         <Background color="#ccc" variant={variant} />
         <Controls />
-          <Panel position="top-left">
-            <div>Variants :</div>
-            <button onClick={() => setVariant(BackgroundVariant.Dots)}>Dots</button>
-            <button onClick={() => setVariant(BackgroundVariant.Lines)}>Lines</button>
-            <button onClick={() => setVariant(BackgroundVariant.Cross)}>Cross</button>
-            <button onClick={() => console.log(nodes)}>Get Nodes</button>
-            <button onClick={() => console.log(edges)}>Get Edges</button>
-            <button onClick={() => console.log(getNodes())}>Get nodesList</button>
-            <button onClick={() => sendSocketTable()}>Add a Table</button>
-            <button onClick={() => handleTriggerDataToJson()}>Get converted Data</button>
-            <button onClick={() => triggerSqlFetch(handleTriggerDataToJson())}>Download SQL</button>
+          <Panel position="top-left" className={stylesCanvas.panel_nav_bar}>
+            <div className={stylesCanvas.panel_main}>
+              <div className={stylesCanvas.panel_Vertical_Menu}>
+                <span className={stylesCanvas.panel_button}>Grid Style</span>
+                <div className={stylesCanvas.panel_Vertical_Menu_Content}>
+                  <button onClick={() => setVariant(BackgroundVariant.Dots)} className={stylesCanvas.panel_button}>Dots</button>
+                  <button onClick={() => setVariant(BackgroundVariant.Lines)} className={stylesCanvas.panel_button}>Lines</button>
+                  <button onClick={() => setVariant(BackgroundVariant.Cross)} className={stylesCanvas.panel_button}>Cross</button>
+                </div>
+              </div>
+              <div className={stylesCanvas.panel_Vertical_Menu}>
+                <span className={stylesCanvas.panel_button}>Get Element</span>
+                <div className={stylesCanvas.panel_Vertical_Menu_Content}>
+                  <button onClick={() => console.log(nodes)} className={stylesCanvas.panel_button}>Nodes</button>
+                  <button onClick={() => console.log(edges)} className={stylesCanvas.panel_button}>Edges</button>
+                  <button onClick={() => console.log(getNodes())} className={stylesCanvas.panel_button}>NodesList</button>
+                  <button onClick={() => console.log(convertedData)} className={stylesCanvas.panel_button}>Converted Data</button>
+                </div>
+              </div>
+              <button onClick={() => setNodes([...getNodes(), addTable()])} className={stylesCanvas.panel_button}>Add a Table</button>
+              <button onClick={downloadSql} className={stylesCanvas.panel_button}>Download SQL</button>
+              <button onClick={() => fetchSQL(convertedData)} className={stylesCanvas.panel_button}>API Call</button>
+              </div>
           </Panel>
         </ReactFlow>
       </div>
