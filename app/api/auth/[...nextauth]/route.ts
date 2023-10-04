@@ -1,13 +1,5 @@
-import NextAuth, { AuthOptions, User } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { Session } from 'next-auth';
-
-interface AuthUser extends User {
-  email: string,
-  firstName: string,
-  lastName: string,
-  token: string
-}
 
 export const authOptions = {
   providers: [
@@ -27,30 +19,38 @@ export const authOptions = {
             },
             body: JSON.stringify(data),
         });
-        const user: AuthUser = await response.json();
+        const user = await response.json();
         if (user) {
-          console.log('-----------------------------------------------------');
-          console.log({user});
-          console.log('-----------------------------------------------------');
           return user
         } else {
-          console.log('nooooooooooooooooooooooooooooooo');
           return null
         }
       },
     })
   ],
-  // callbacks: {
-  //   async session(session, user) {
-  //     // Add custom data to the session.user object
-  //     session.user = { ...session.user }
-  //     return session
-  //   },
-  // },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.token = user.token;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
+        token.email = user.email;
+      }
+      return token;
+    },
+    session: async ({ session, token }) => {
+      session.user.email = token.email
+      session.user.token = token.token;
+      session.user.firstName = token.firstName
+      session.user.lastName = token.lastName
+      return session;
+    },
+  },
   session: {
     jwt: true,
     maxAge: 7 * 24 * 60 * 60,
   },
+  secret: process.env.SECRET
 }
 
 const handler = NextAuth(authOptions)

@@ -2,29 +2,14 @@
 
 import React from "react"
 import "@/styles/auth.css"
-import { getAxiosInstance } from "@/api/axios"
 import { AuthProperties } from "@/types/auth"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { setToken } from "@/utils/auth.utils"
-import { signIn, signOut, useSession } from 'next-auth/react'
-
-
-const auth_login = "/auth/login"
-
+import { signIn } from 'next-auth/react'
 
 const Login = () => {
   const router = useRouter()
-
-  const { data: session, status } = useSession();
-  if (status !== "unauthenticated") {
-    console.log('-------------------');
-    console.log(session);
-  } else {
-    signIn()
-  }
-
   const {
     register,
     handleSubmit,
@@ -32,9 +17,15 @@ const Login = () => {
   } = useForm<AuthProperties>()
   const onSubmit = async (data: AuthProperties) => {
     try {
-      const response = await getAxiosInstance().post(auth_login, data);
-      setToken(response.data.token)
-      if (response.statusText === "OK") router.push("/")
+      const response = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false
+      });
+        if (response?.ok) {
+        router.push("/")
+      }
+
     } catch (error) {
       console.log(error)
     }
@@ -42,7 +33,6 @@ const Login = () => {
 
   return (
     <div>
-      <button onClick={async() => {await signOut(); console.log(session);}}>Sign out</button>
       <h1>Connectez-vous</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
