@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Node, OnNodesChange, applyNodeChanges,  } from 'reactflow';
+import { Node, OnNodesChange, applyNodeChanges } from 'reactflow';
 
 // initial Nodes and Style are temporary
 const basicStyleTableNode: {} = {
