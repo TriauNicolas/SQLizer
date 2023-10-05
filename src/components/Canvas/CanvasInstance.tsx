@@ -22,6 +22,8 @@ import { useApi } from '@/hooks/useApi';
 import { useNodes } from '@/hooks/useNodes';
 import { useAddTableNode } from '@/hooks/useAddTableNode';
 import { useEdges } from '@/hooks/useEdges';
+import { socket } from '../../sockets/socketConnection';
+import { useSocketListeners } from '../../sockets/useSocketListener';
 
 // Different nodes Types used for the canvas
 const nodeTypes: NodeTypes = {
@@ -29,19 +31,44 @@ const nodeTypes: NodeTypes = {
   fieldNode: FieldNode,
 };
 
+const basicStyleTableNode: {} = {
+  width: "var(--baseWidthTableNode)",
+  minHeight: "var(--baseHeightTableNode)",
+  backgroundColor: "#fff",
+  border: "1.5px solid var(--borderColorTableNode)",
+  borderRadius: "2px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "top",
+  justifyContent: "flex-start",
+  color: "#000",
+}
+
 export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
-  const { sendSocketTable } = useAddTableNode();
+  const { sendSocketTable, getSocketTable } = useAddTableNode();
   const { getNodes } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
   const { sqlData, isFetching, fetchSQL } = useApi();
 
   useEffect(() => {
-    if (!isFetching) console.log(sqlData);
-  }, [sqlData, isFetching]);
+    const handleResponseCreateTable = (data: any) => {
+      console.log("Received responseCreateTable:", data.table);
+      getSocketTable(data.table);
+    };
+    
+    if (!socket) return;
+
+    socket.on("responseCreateTable", (data) => handleResponseCreateTable(data));
+
+    // Cleanup the listener when the component using the hook is unmounted
+    return () => {
+        socket.off("responseCreateTable", handleResponseCreateTable);
+    };
+}, [getSocketTable]);  // <-- Add this empty array
 
   return (
     <div className={styles.pagesContainer}>
@@ -81,6 +108,7 @@ export const CanvasInstance = () => {
             <button onClick={() => console.log(edges)}>Get Edges</button>
             <button onClick={() => console.log(getNodes())}>Get nodesList</button>
             <button onClick={() => sendSocketTable()}>Add a Table</button>
+            {/* <button onClick={() => setNodes([...getNodes(), { id: '100', type: 'tableNode', position: { x: 0, y: 0 }, data: { title: 'title100' }, style: basicStyleTableNode, expandParent: true }])}>Add a Table</button> */}
             <button onClick={() => console.log(convertedData)}>Get converted Data</button>
             <button onClick={downloadSql}>Download SQL</button>
             <button onClick={() => fetchSQL(convertedData)}>API Call</button>
