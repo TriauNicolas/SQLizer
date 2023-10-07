@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ReactFlow, {
   Panel,
   Controls,
@@ -22,8 +22,7 @@ import { useApi } from '@/hooks/useApi';
 import { useNodes } from '@/hooks/useNodes';
 import { useAddTableNode } from '@/hooks/useAddTableNode';
 import { useEdges } from '@/hooks/useEdges';
-import { socket } from '../../sockets/socketConnection';
-import { useSocketListeners } from '../../sockets/useSocketListener';
+import { socketEvents } from '@/types/socketEvent';
 
 // Different nodes Types used for the canvas
 const nodeTypes: NodeTypes = {
@@ -31,20 +30,7 @@ const nodeTypes: NodeTypes = {
   fieldNode: FieldNode,
 };
 
-const basicStyleTableNode: {} = {
-  width: "var(--baseWidthTableNode)",
-  minHeight: "var(--baseHeightTableNode)",
-  backgroundColor: "#fff",
-  border: "1.5px solid var(--borderColorTableNode)",
-  borderRadius: "2px",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "top",
-  justifyContent: "flex-start",
-  color: "#000",
-}
-
-export const CanvasInstance = () => {
+export const CanvasInstance = ({ eventToTrigger, relatedData }: socketEvents) => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
@@ -55,20 +41,9 @@ export const CanvasInstance = () => {
   const { sqlData, isFetching, fetchSQL } = useApi();
 
   useEffect(() => {
-    const handleResponseCreateTable = (data: any) => {
-      console.log("Received responseCreateTable:", data.table);
-      getSocketTable(data.table);
-    };
-    
-    if (!socket) return;
-
-    socket.on("responseCreateTable", (data) => handleResponseCreateTable(data));
-
-    // Cleanup the listener when the component using the hook is unmounted
-    return () => {
-        socket.off("responseCreateTable", handleResponseCreateTable);
-    };
-}, [getSocketTable]);  // <-- Add this empty array
+    console.log(eventToTrigger);
+    console.log(relatedData);
+  }, [eventToTrigger, relatedData])
 
   return (
     <div className={styles.pagesContainer}>

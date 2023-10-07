@@ -22,7 +22,8 @@ export const useAddTableNode = () => {
 
   // Add Table from Canvas
   const sendSocketTable = () => {
-    const numberOfNodes = getNodes().length + 39;
+    // const numberOfNodes = getNodes().length + 1;
+    const numberOfNodes = new Date;
     const tableSocket = { name: `NewTable${numberOfNodes}`, posX: 0, posY: 0, fields: [] };
 
     // Emit the socket

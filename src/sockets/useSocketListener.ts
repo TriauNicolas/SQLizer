@@ -1,19 +1,25 @@
-import { useEffect } from 'react';
-import { useAddTableNode } from '../hooks/useAddTableNode';
-import { socket } from './socketConnection';
+import { useEffect, useState } from 'react';
+import { socket } from '../components/Canvas/CanvasElement';
 
 export const useSocketListeners = () => {
-  const { getSocketTable } = useAddTableNode();
+  const [ eventToTrigger, setEventToTrigger ] = useState('');
+  const [ relatedData, setRelatedData ] = useState<any | null>(null);
 
-  if (!socket) return;
-  console.log(socket)
+  useEffect(() => {
+    const handleResponseCreateTable = (data: any) => {
+      console.log(data);
+      setEventToTrigger("oui");
+      setRelatedData(data);
+    };
 
-  const handleResponseCreateTable = (data: any) => {
-    console.log("Received responseCreateTable:", data.table);
-    getSocketTable(data.table);
-  };
+    socket?.on("responseCreateTable", handleResponseCreateTable);
 
-  // socket.on("responseCreateTable", () => console.log("pute"));
-  socket.on("responseCreateTable", (data) => handleResponseCreateTable(data));
-    
+    // Clean up the listener when the component is unmounted or if any dependency changes
+    return () => {
+      socket?.off("responseCreateTable", handleResponseCreateTable);
+    };
+  }, []);
+
+
+  return { eventToTrigger, relatedData }
 };
