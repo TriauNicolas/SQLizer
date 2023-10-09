@@ -1,6 +1,6 @@
 import ProjectPreview from "@/components/ProjectPreview/ProjectPreview";
 import styles from "./ProjectGrid.module.scss";
-import { Project } from "@/types/projects";
+import { Project } from "@/types/Project";
 
 interface Props {
   projects: Project[];
@@ -14,6 +14,8 @@ const ProjectGrid = ({ projects }: Props) => {
           key={project.id}
           title={project.title}
           imageSrc={project.imageSrc}
+          fav={project.fav}
+          lastEdit={project.lastEdit}
         />
       ))}
     </div>

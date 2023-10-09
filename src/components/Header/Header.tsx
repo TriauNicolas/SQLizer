@@ -1,6 +1,11 @@
 import Image from "next/image";
 import styles from "./Header.module.scss";
 
+// Images
+import alertOff from "/public/img/icons/alertOff.svg";
+import alertOn from "/public/img/icons/alertOn.svg";
+import shrek from "/public/img/shrek.jpg";
+
 const Header = () => {
   return (
     <div className={styles.header}>
@@ -8,14 +13,14 @@ const Header = () => {
       <div className={styles.userContainer}>
         <Image
           className={styles.userAvatar}
-          src={"/img/shrek.jpg"}
+          src={shrek}
           alt={"user avatar"}
           width={32}
           height={32}
         />
         <Image
           className={styles.notifications}
-          src={"/icons/alertOn.svg"}
+          src={alertOn}
           alt={"notifications"}
           width={32}
           height={32}

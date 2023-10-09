@@ -1,0 +1,21 @@
+.button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  border-radius: var(--border-radius-m);
+  color: var(--gray);
+  cursor: pointer;
+  background-color: var(--gray-light);
+  padding: var(--spacing-s) var(--spacing-xl);
+  margin-top: var(--spacing-xxl);
+
+  &:hover {
+    color: var(--primary);
+  }
+
+  p {
+    margin: 2px 0;
+  }
+}

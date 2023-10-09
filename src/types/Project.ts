@@ -3,4 +3,6 @@ export interface Project {
   title: string;
   imageSrc: string;
   convertedDataId: number;
+  fav: boolean;
+  lastEdit: EpochTimeStamp;
 }
