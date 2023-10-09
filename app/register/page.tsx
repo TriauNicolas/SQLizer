@@ -1,30 +1,34 @@
-"use client"
+"use client";
 
-import React from "react"
-import "@/styles/auth.css"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { AuthProperties } from "@/types/auth"
-import { useForm } from "react-hook-form"
-import { doFetchRequest } from "@/api/fetch"
+import React from "react";
+import "@/styles/auth.css";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { AuthProperties } from "@/types/auth";
+import { useForm } from "react-hook-form";
+import { doFetchRequest } from "@/api/fetch";
 
-const auth_register = "/auth/register"
+const auth_register = "/auth/register";
 
 const Register = () => {
-  const router = useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AuthProperties>()
+  } = useForm<AuthProperties>();
   const onSubmit = async (data: AuthProperties) => {
     try {
-      const response = await doFetchRequest({method: 'POST', url: auth_register, data});
-      if (response.statusText === "OK") router.push("/login")
+      const response = await doFetchRequest({
+        method: "POST",
+        url: auth_register,
+        data,
+      });
+      if (response.statusText === "OK") router.push("/login");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div>
@@ -37,7 +41,7 @@ const Register = () => {
             autoComplete="off"
             placeholder="Entrez votre prénom"
             {...register("first_name", {
-              required: 'Ce champ ne peut être vide',
+              required: "Ce champ ne peut être vide",
               pattern: /^[a-z ,.'-]+$/i,
             })}
           />
@@ -50,7 +54,7 @@ const Register = () => {
             autoComplete="off"
             placeholder="Entrez votre nom de famille"
             {...register("last_name", {
-              required: 'Ce champ ne peut être vide',
+              required: "Ce champ ne peut être vide",
               pattern: /^[a-z ,.'-]+$/i,
             })}
           />
@@ -62,7 +66,10 @@ const Register = () => {
             type="email"
             autoComplete="off"
             placeholder="Entrez votre email"
-            {...register("email", { required: 'Ce champ ne peut être vide', pattern: /^\S+@\S+$/i })}
+            {...register("email", {
+              required: "Ce champ ne peut être vide",
+              pattern: /^\S+@\S+$/i,
+            })}
           />
           {errors.email && <p>{errors.email.message}</p>}
         </div>
@@ -73,7 +80,7 @@ const Register = () => {
             autoComplete="off"
             placeholder="Entrez votre mot de passe"
             {...register("password", {
-              required: 'Ce champ ne peut être vide',
+              required: "Ce champ ne peut être vide",
               max: 32,
               min: 8,
             })}
@@ -89,7 +96,7 @@ const Register = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
