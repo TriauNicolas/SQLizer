@@ -9,15 +9,13 @@
 
     .header {
       flex-shrink: 0;
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid var(--primary-white);
     }
 
     .contentWrapper {
       flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-
-      margin-top: 20px;
+      padding: var(--spacing-l);
+      margin: var(--spacing-l) 0 0 250px;
     }
   }
 }
@@ -32,7 +30,11 @@
 
     .mainContent {
       order: 1;
-      height: calc(100vh - 60px);
+      height: calc(100vh - 80px);
+
+      .contentWrapper {
+        margin: var(--spacing-l) 0 0 0px;
+      }
     }
   }
 }
