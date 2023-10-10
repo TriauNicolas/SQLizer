@@ -8,6 +8,7 @@ export default async function middleware(req: NextRequest) {
   const routeList: { url: string, mustBeConnected: boolean }[] = [
     {url: '/register', mustBeConnected: false},
     {url: '/login', mustBeConnected: false},
+    // {url: '/home', mustBeConnected: false},
   ]
 
   const httpProtocol = req.headers.get('referer')?.split('://')[0] ? req.headers.get('referer')?.split('://')[0] + '://' : 'http://';
