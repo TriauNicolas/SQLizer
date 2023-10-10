@@ -19,8 +19,6 @@ export default async function middleware(req: NextRequest) {
         req,
         secret: process.env.NEXTAUTH_SECRET,
       });
-      console.log(token);
-      console.log("tmp :", await isUserLogged(token?.token as string));
       if (!token?.token && !route.mustBeConnected) {
         return NextResponse.next();
       } else if (
