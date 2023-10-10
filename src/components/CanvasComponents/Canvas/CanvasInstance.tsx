@@ -121,7 +121,7 @@ export const CanvasInstance = () => {
           <Panel position="top-left" className={stylesCanvas.panel_nav_bar}>
             <div className={stylesCanvas.panel_main}>
               <div className={stylesCanvas.panel_Vertical_Menu}>
-                <span className={stylesCanvas.panel_button}>Grid Style</span>
+                <div className={stylesCanvas.panel_button}>Grid Style</div>
                 <div className={stylesCanvas.panel_Vertical_Menu_Content}>
                   <button onClick={() => setVariant(BackgroundVariant.Dots)} className={stylesCanvas.panel_button}>Dots</button>
                   <button onClick={() => setVariant(BackgroundVariant.Lines)} className={stylesCanvas.panel_button}>Lines</button>
@@ -129,7 +129,7 @@ export const CanvasInstance = () => {
                 </div>
               </div>
               <div className={stylesCanvas.panel_Vertical_Menu}>
-                <span className={stylesCanvas.panel_button}>Get Element</span>
+                <div className={stylesCanvas.panel_button}>Get Element</div>
                 <div className={stylesCanvas.panel_Vertical_Menu_Content}>
                   <button onClick={() => console.log(nodes)} className={stylesCanvas.panel_button}>Nodes</button>
                   <button onClick={() => console.log(edges)} className={stylesCanvas.panel_button}>Edges</button>
