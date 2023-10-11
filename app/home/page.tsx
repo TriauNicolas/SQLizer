@@ -29,12 +29,14 @@ const Home = () => {
                         <h1><span className="american">SQLizer</span> est l&apos;éditeur <span className="fat">collaboratif</span> <br/>de SQL que vous attendiez pour venir <br/>à bout de vos projets d&apos;envergure !
                             <button className="cta"><a href="/register">Commencer</a></button>
                         </h1>
+                        <div className="img-holder">
                             <Image 
                                 src={canvasDemo}
                                 priority
                                 alt="Demo"
                                 className="demo"
                             />
+                        </div>
                         <p className="accroche">Rejoignez-nous dès maintenant et augmentez votre productivité !</p>
                     </div>
                 </section>
@@ -46,11 +48,13 @@ const Home = () => {
                                 Grâce à l&apos;interface graphique de <span className="fat">SQLizer</span>, les tables et leurs dépendences deviennent simple et compréhensibles rapidement
                                 <button className="cta"><a href="/register">C&apos;est parti</a></button>
                             </p>
-                            <Image 
-                                src={canvasDemo}
-                                priority
-                                alt="Demo"
-                            />
+                            <div className="img-holder">
+                                <Image 
+                                    src={canvasDemo}
+                                    priority
+                                    alt="Demo"
+                                />
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -58,11 +62,13 @@ const Home = () => {
                     <div className="wrap">
                         <h2><span className="fat">Accélérez</span> et <span className="fat">améliorez</span> la conception <br/>de votre <span className="american">database</span></h2>
                         <div className="wrapper">
-                            <Image 
-                                src={canvasDemo}
-                                priority
-                                alt="Demo"
-                            />
+                            <div className="img-holder">
+                                <Image 
+                                    src={canvasDemo}
+                                    priority
+                                    alt="Demo"
+                                />
+                            </div>
                             <p className="side alt">
                                 Grâce à l&apos;interface graphique de <span className="fat">SQLizer</span>, les erreurs et possibles optimisations sautent littérallement aux yeux !
                                 <button className="cta"><a href="/register">Je me lance</a></button>
