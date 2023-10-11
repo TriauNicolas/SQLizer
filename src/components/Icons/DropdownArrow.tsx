@@ -1,4 +1,4 @@
-const DropdownIcon = () => (
+const DropdownArrow = () => (
   <svg
     width="16"
     height="10"
@@ -16,4 +16,4 @@ const DropdownIcon = () => (
   </svg>
 );
 
-export default DropdownIcon;
+export default DropdownArrow;

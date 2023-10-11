@@ -1,4 +1,4 @@
-const FavIcon = () => (
+const FilledFavIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -14,4 +14,4 @@ const FavIcon = () => (
   </svg>
 );
 
-export default FavIcon;
+export default FilledFavIcon;
