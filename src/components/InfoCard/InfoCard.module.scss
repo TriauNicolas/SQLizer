@@ -1,0 +1,36 @@
+.infoCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-m);
+  border-radius: var(--border-radius-s);
+  background-color: var(--primary-white);
+  box-shadow: 0px 18px 32px 0px rgba(208, 210, 218, 0.15);
+
+  .svgContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    padding: var(--spacing-m);
+    margin-right: var(--spacing-s);
+    border-radius: 50%;
+    background-color: var(--white-10);
+    color: var(--primary);
+  }
+
+  .content {
+    @media (max-width: 1024px) {
+      text-align: end;
+    }
+
+    .text {
+      color: var(--primary-35);
+    }
+
+    .value {
+      color: var(--primary-dark);
+    }
+  }
+}

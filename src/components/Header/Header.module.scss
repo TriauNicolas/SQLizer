@@ -1,0 +1,44 @@
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 var(--spacing-l);
+  background-color: transparent;
+  min-height: 80px;
+
+  input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-35);
+  }
+
+  .userContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .userAvatar {
+      overflow: hidden;
+      object-fit: cover;
+      border-radius: 100%;
+    }
+    .notifications {
+      margin-left: 10px;
+    }
+
+    .userAvatar,
+    .notifications {
+      cursor: pointer;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: var(--spacing-xl) var(--spacing-xxl);
+
+    input[type="text"] {
+      margin-bottom: 10px;
+    }
+  }
+}
