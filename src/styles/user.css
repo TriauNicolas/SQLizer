@@ -1,0 +1,22 @@
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.groups__notAdmin, .groups__isAdmin, .user__inGroups {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user {
+  padding: 1rem 0;
+}
+
+.user:not(:last-child) {
+  border-bottom: 1px solid #000;  
+}
+
+.users {
+  padding: 2rem 0 2rem 2rem;
+}
+
