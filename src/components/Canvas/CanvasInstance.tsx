@@ -23,6 +23,7 @@ import { useNodes } from '@/hooks/useNodes';
 import { useAddTableNode } from '@/hooks/useAddTableNode';
 import { useEdges } from '@/hooks/useEdges';
 import { socketEvents } from '@/types/socketEvent';
+import { socket } from './CanvasElement';
 
 // Different nodes Types used for the canvas
 const nodeTypes: NodeTypes = {
@@ -30,20 +31,32 @@ const nodeTypes: NodeTypes = {
   fieldNode: FieldNode,
 };
 
-export const CanvasInstance = ({ eventToTrigger, relatedData }: socketEvents) => {
+export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
-  const { sendSocketTable, getSocketTable } = useAddTableNode();
+  const { sendSocketTable, getSocketTable } = useAddTableNode(setNodes);
   const { getNodes } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
   const { sqlData, isFetching, fetchSQL } = useApi();
 
   useEffect(() => {
-    console.log(eventToTrigger);
-    console.log(relatedData);
-  }, [eventToTrigger, relatedData])
+    if (!socket) return;
+  
+    const handleResponseCreateTable = (data: any) => {
+      getSocketTable(data.table);
+    };
+    
+    socket.on('responseCreateTable', handleResponseCreateTable);
+    
+    // Return a cleanup function to detach the listener when the component is unmounted
+    return () => {
+      socket.off('responseCreateTable', handleResponseCreateTable);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
+  
 
   return (
     <div className={styles.pagesContainer}>

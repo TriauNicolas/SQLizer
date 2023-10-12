@@ -16,8 +16,7 @@ const basicStyleTableNode: {} = {
   color: "#000",
 }
 
-export const useAddTableNode = () => {
-  const { nodes, setNodes } = useNodes();
+export const useAddTableNode = (setNodes: Function) => {
   const { getNodes } = useReactFlow();
 
   // Add Table from Canvas
@@ -37,10 +36,8 @@ export const useAddTableNode = () => {
     const newTableNode: Node<any> = { id: getIdFromName, type: 'tableNode', position: { x: table.posX, y: table.posY }, data: { title: table.name }, style: basicStyleTableNode, expandParent: true };
 
     // Add it to the canvas
-    console.log(getNodes());
     const newNodes = [...getNodes(), newTableNode];
     setNodes(newNodes);
-    console.log(nodes);
   }
 
   return { sendSocketTable, getSocketTable }
