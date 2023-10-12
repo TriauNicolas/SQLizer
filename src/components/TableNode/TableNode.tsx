@@ -1,6 +1,6 @@
 import { useCallback, useState, useRef, ChangeEvent, useEffect } from 'react';
 import tableStyle from './TableNode.module.css';
-import { DataTable } from '../../types/tables';
+import { Field } from '../../types/tables';
 import { useReactFlow } from 'reactflow';
 import { AddFieldNode } from '../AddFieldNode/AddFieldNode';
 import { FieldModal } from '../FieldModal/FieldModal';
@@ -8,7 +8,7 @@ import { FieldModal } from '../FieldModal/FieldModal';
 
 type TableNodeProps = {
   id: string;
-  data: DataTable;
+  data: Field;
   selected: boolean;
 }
 

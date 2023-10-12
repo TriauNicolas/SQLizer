@@ -8,10 +8,10 @@ export type Table = {
   name: string;
   posX: number;
   posY: number;
-  fields: DataTable[]
+  fields: Field[]
 }
 
-export type DataTable = {
+export type Field = {
   title: string;
   name: string;
   type: string;

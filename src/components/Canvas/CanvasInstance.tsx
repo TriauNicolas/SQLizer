@@ -17,12 +17,12 @@ import { FieldNode } from '../FieldNode/FieldNode';
 import { InfosTable } from '../InfosTable/InfosTable';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
-import { ConvertedData } from '../../types/tables';
+import { ConvertedData, Table } from '../../types/tables';
 import { useApi } from '@/hooks/useApi';
 import { useNodes } from '@/hooks/useNodes';
-import { useAddTableNode } from '@/hooks/useAddTableNode';
+import { useCRUDTableNode } from '@/hooks/useCRUDTableNode';
 import { useEdges } from '@/hooks/useEdges';
-import { socketEvents } from '@/types/socketEvent';
+import { ResponseCreateEdgeEvent, ResponseCreateFieldEvent, ResponseCreateTableEvent, ResponseDeleteEdgeEvent, ResponseDeleteFieldEvent, ResponseDeleteTableEvent, ResponseMoveTableEvent, ResponseUpdateFieldEvent, ResponseUpdateTableNameEvent } from '@/types/socketEvent';
 import { socket } from './CanvasElement';
 
 // Different nodes Types used for the canvas
@@ -35,25 +35,31 @@ export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
-  const { sendSocketTable, getSocketTable } = useAddTableNode(setNodes);
+  const { sendSocketTable, getSocketTable } = useCRUDTableNode(setNodes);
   const { getNodes } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
   const { sqlData, isFetching, fetchSQL } = useApi();
 
   useEffect(() => {
+    // Wait the initialization of the socket
     if (!socket) return;
-  
-    const handleResponseCreateTable = (data: any) => {
-      getSocketTable(data.table);
-    };
     
-    socket.on('responseCreateTable', handleResponseCreateTable);
+    // Tables
+    socket.on('responseCreateTable', (data: ResponseCreateTableEvent) => getSocketTable(data.table));
+    socket.on('requestUpdateTableName', (data: ResponseUpdateTableNameEvent) => console.log(data));
+    socket.on('requestDeleteTable', (data: ResponseDeleteTableEvent) => console.log(data));
+    socket.on('requestMoveTable', (data: ResponseMoveTableEvent) => console.log(data));
     
-    // Return a cleanup function to detach the listener when the component is unmounted
-    return () => {
-      socket.off('responseCreateTable', handleResponseCreateTable);
-    };
+    // Fields
+    socket.on('responseCreateField', (data: ResponseCreateFieldEvent) => console.log(data));
+    socket.on('requestUpdateField', (data: ResponseUpdateFieldEvent) => console.log(data));
+    socket.on('requestDeleteField', (data: ResponseDeleteFieldEvent) => console.log(data));
+    
+    // Edges
+    // socket.on('requestCreateEdge', (data: ResponseCreateEdgeEvent) => console.log(data));
+    // socket.on('requestDeleteEdge', (data: ResponseDeleteEdgeEvent) => console.log(data));
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
   

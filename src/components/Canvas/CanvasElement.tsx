@@ -3,10 +3,8 @@
 import { ReactFlowProvider } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { CanvasInstance } from './CanvasInstance';
-import { useEffect, useState } from 'react';
-import { useSocketListeners } from '@/sockets/useSocketListener';
-import { socketEvents } from '@/types/socketEvent';
-import { Socket, io } from 'socket.io-client';
+import { useEffect } from 'react';
+import { Socket } from 'socket.io-client';
 import { socketConnection } from '@/sockets/socketConnection';
 
 export let socket: Socket
