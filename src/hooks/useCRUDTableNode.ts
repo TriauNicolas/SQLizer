@@ -1,8 +1,8 @@
 import { useReactFlow, Node } from 'reactflow';
 import { addTableSocket } from '../sockets/socketEmitter';
 import { Table } from '@/types/tables';
-import { useNodes } from '@/hooks/useNodes';
 
+// CSS Table
 const basicStyleTableNode: {} = {
   width: "var(--baseWidthTableNode)",
   minHeight: "var(--baseHeightTableNode)",
@@ -16,10 +16,10 @@ const basicStyleTableNode: {} = {
   color: "#000",
 }
 
-export const useAddTableNode = (setNodes: Function) => {
-  const { getNodes } = useReactFlow();
+export const useCRUDTableNode = (setNodes: Function, setEdges: Function) => {
+  const { getNodes, getEdges, deleteElements } = useReactFlow();
 
-  // Add Table from Canvas
+  // Send infos from canvas to socket
   const sendSocketTable = () => {
     // const numberOfNodes = getNodes().length + 1;
     const numberOfNodes = new Date;
@@ -30,8 +30,7 @@ export const useAddTableNode = (setNodes: Function) => {
   }
 
   // Add Table from socket
-  const getSocketTable = (table: Table) => {
-    console.log(table)
+  const addTable = (table: Table) => {
     const getIdFromName = (table.name)?.replace('NewTable', '');
     const newTableNode: Node<any> = { id: getIdFromName, type: 'tableNode', position: { x: table.posX, y: table.posY }, data: { title: table.name }, style: basicStyleTableNode, expandParent: true };
 
@@ -40,5 +39,20 @@ export const useAddTableNode = (setNodes: Function) => {
     setNodes(newNodes);
   }
 
-  return { sendSocketTable, getSocketTable }
+  // Delete Table from socket
+  const deleteTable = (tableID: string) => {
+    // Remove the tableNode and the fieldNode related to the table
+    const nodesFiltered = getNodes().filter((node) => node.data.title != tableID && node.parentNode != tableID);
+
+    // Remove the edges related
+    const allNodesRelatedToTable = getNodes().filter((node) => node.data.title != tableID && node.parentNode != tableID);
+    const allIds = allNodesRelatedToTable.map((node) => node.id);
+    const edgesFiltered = getEdges().filter((edge) => allIds.includes(edge.source) && allIds.includes(edge.target));
+    
+    // Remove function elements
+    setNodes(nodesFiltered);
+    setEdges(edgesFiltered);
+  }
+
+  return { sendSocketTable, addTable, deleteTable }
 };

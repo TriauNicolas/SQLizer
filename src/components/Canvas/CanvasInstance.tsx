@@ -34,8 +34,8 @@ const nodeTypes: NodeTypes = {
 export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
-  const { edges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
-  const { sendSocketTable, getSocketTable } = useCRUDTableNode(setNodes);
+  const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
+  const { sendSocketTable, addTable, deleteTable } = useCRUDTableNode(setNodes, setEdges);
   const { getNodes } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
@@ -46,15 +46,15 @@ export const CanvasInstance = () => {
     if (!socket) return;
     
     // Tables
-    socket.on('responseCreateTable', (data: ResponseCreateTableEvent) => getSocketTable(data.table));
-    socket.on('requestUpdateTableName', (data: ResponseUpdateTableNameEvent) => console.log(data));
-    socket.on('requestDeleteTable', (data: ResponseDeleteTableEvent) => console.log(data));
+    socket.on('responseCreateTable', (data: ResponseCreateTableEvent) => addTable(data.table));
+    socket.on('responseUpdateTableName', (data: ResponseUpdateTableNameEvent) => console.log(data));
+    socket.on('responseDeleteTable', (data: ResponseDeleteTableEvent) => deleteTable(data.tableName));
     socket.on('requestMoveTable', (data: ResponseMoveTableEvent) => console.log(data));
     
     // Fields
     socket.on('responseCreateField', (data: ResponseCreateFieldEvent) => console.log(data));
-    socket.on('requestUpdateField', (data: ResponseUpdateFieldEvent) => console.log(data));
-    socket.on('requestDeleteField', (data: ResponseDeleteFieldEvent) => console.log(data));
+    socket.on('responseUpdateField', (data: ResponseUpdateFieldEvent) => console.log(data));
+    socket.on('responseDeleteField', (data: ResponseDeleteFieldEvent) => console.log(data));
     
     // Edges
     // socket.on('requestCreateEdge', (data: ResponseCreateEdgeEvent) => console.log(data));

@@ -5,6 +5,8 @@ import { InfosField } from '../InfoField/InfoField';
 import { FieldModal } from '../FieldModal/FieldModal';
 import { useReactFlow, Node } from 'reactflow';
 import { useNodes } from '@/hooks/useNodes';
+import { useCRUDTableNode } from '@/hooks/useCRUDTableNode';
+import { deleteTableSocket } from '@/sockets/socketEmitter';
 
 type InfosTableProps = {
   currentNodes: Node<any>[];
@@ -14,7 +16,7 @@ export const InfosTable = ({ currentNodes }: InfosTableProps) => {
   const [ tableInfos, setTableInfos ] = useState<InfosTableType>();
   const { setNodes } = useNodes();
   const [ displayModal, setDisplayModal ] = useState(false);
-  const { getNodes, getEdges, deleteElements } = useReactFlow();
+  const { getNodes } = useReactFlow();
   const [ fieldToDisplay, setFieldToDisplay ] = useState("");
   const [ displayInfos, setDisplayInfos ] = useState(false);
 
@@ -43,19 +45,12 @@ export const InfosTable = ({ currentNodes }: InfosTableProps) => {
   }
 
   const handleDropTable = () => {
-    // Remove the tableNode and the fieldNode related to the table
-    const nodesToDelete = getNodes().filter((node) => node.id === tableInfos?.tableParent.id || node.parentNode === tableInfos?.tableParent.id);
-
-    // Remove the edges related
-    const allNodesRelatedToTable = getNodes().filter((node) => node.id === tableInfos?.tableParent.id || node.parentNode === tableInfos?.tableParent.id);
-    const allIds = allNodesRelatedToTable.map((node) => node.id);
-    const edgesToDelete = getEdges().filter((edge) => allIds.includes(edge.source) || allIds.includes(edge.target));
-    
-    // Remove function elements
-    deleteElements({ nodes: nodesToDelete, edges: edgesToDelete });
-
-    // Stop displaying the infos
-    setDisplayInfos(false);
+    if (tableInfos?.tableParent.id) {
+      deleteTableSocket(tableInfos.tableParent.data.title);
+     
+      // Stop displaying the infos
+      setDisplayInfos(false);
+    }
   }
 
   const closeModal = () => {
