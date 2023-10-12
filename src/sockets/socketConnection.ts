@@ -6,7 +6,6 @@ export const socketConnection = (token: string, roomId: string) => {
   
   const url = process.env.API_URL
   if (!url) throw new Error("url is not defined");
-
   const socket: Socket = io(url, {
     path: "/sqlizer/",
     query: {
