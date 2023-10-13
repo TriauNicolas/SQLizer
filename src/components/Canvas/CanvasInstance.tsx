@@ -24,6 +24,7 @@ import { useCRUDTableNode } from '@/hooks/useCRUDTableNode';
 import { useEdges } from '@/hooks/useEdges';
 import { ResponseCreateEdgeEvent, ResponseCreateFieldEvent, ResponseCreateTableEvent, ResponseDeleteEdgeEvent, ResponseDeleteFieldEvent, ResponseDeleteTableEvent, ResponseMoveTableEvent, ResponseUpdateFieldEvent, ResponseUpdateTableNameEvent } from '@/types/socketEvent';
 import { socket } from './CanvasElement';
+import { useCRUDFieldNode } from '@/hooks/useCRUDFieldNode';
 
 // Different nodes Types used for the canvas
 const nodeTypes: NodeTypes = {
@@ -36,6 +37,7 @@ export const CanvasInstance = () => {
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
   const { sendSocketTable, addTable, deleteTable, updateTableName, moveTable } = useCRUDTableNode(setNodes, setEdges);
+  const { sendSocketField, addField } = useCRUDFieldNode(setNodes, setEdges);
   const { getNodes } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
@@ -52,7 +54,7 @@ export const CanvasInstance = () => {
     socket.on('responseMoveTable', (data: ResponseMoveTableEvent) => moveTable(data.tableName, data.posX, data.posY));
     
     // Fields
-    socket.on('responseCreateField', (data: ResponseCreateFieldEvent) => console.log(data));
+    socket.on('responseCreateField', (data: ResponseCreateFieldEvent) => addField(data.field, data.tableName));
     socket.on('responseUpdateField', (data: ResponseUpdateFieldEvent) => console.log(data));
     socket.on('responseDeleteField', (data: ResponseDeleteFieldEvent) => console.log(data));
     

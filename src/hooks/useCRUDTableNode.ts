@@ -17,7 +17,7 @@ const basicStyleTableNode: {} = {
 }
 
 export const useCRUDTableNode = (setNodes: Function, setEdges: Function) => {
-  const { getNodes, getEdges, deleteElements } = useReactFlow();
+  const { getNodes, getEdges } = useReactFlow();
 
   // Send infos from canvas to socket
   const sendSocketTable = () => {
