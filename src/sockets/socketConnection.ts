@@ -24,7 +24,7 @@ export const socketConnection = () => {
   });
   
   console.log(socket)
-  socket?.on('socketError', (data: any) => console.log(data));  
+  socket?.on('socketError', (data: any) => console.log(data));
   console.log("Connection successful")
 
   return socket

@@ -37,11 +37,10 @@ export const CanvasInstance = () => {
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
   const { sendSocketTable, addTable, deleteTable, updateTableName, moveTable } = useCRUDTableNode(setNodes, setEdges);
-  const { sendSocketField, addField } = useCRUDFieldNode(setNodes, setEdges);
+  const { addField, updateField } = useCRUDFieldNode(setNodes, setEdges);
   const { getNodes } = useReactFlow();
-  const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
-  const { downloadSql } = useDownloadSql(convertedData);
-  const { sqlData, isFetching, fetchSQL } = useApi();
+  const { convertionData } = useDataToJson();
+  const { triggerSqlFetch } = useDownloadSql();
 
   useEffect(() => {
     // Wait the initialization of the socket
@@ -55,7 +54,7 @@ export const CanvasInstance = () => {
     
     // Fields
     socket.on('responseCreateField', (data: ResponseCreateFieldEvent) => addField(data.field, data.tableName));
-    socket.on('responseUpdateField', (data: ResponseUpdateFieldEvent) => console.log(data));
+    socket.on('responseUpdateField', (data: ResponseUpdateFieldEvent) => updateField(data.tableName, data.fieldName, data.field));
     socket.on('responseDeleteField', (data: ResponseDeleteFieldEvent) => console.log(data));
     
     // Edges
@@ -64,7 +63,11 @@ export const CanvasInstance = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
-  
+
+  const handleTriggerDataToJson = () => {
+    const data = convertionData({ nodes, edges });
+    return data
+  }
 
   return (
     <div className={styles.pagesContainer}>
@@ -104,9 +107,8 @@ export const CanvasInstance = () => {
             <button onClick={() => console.log(edges)}>Get Edges</button>
             <button onClick={() => console.log(getNodes())}>Get nodesList</button>
             <button onClick={() => sendSocketTable()}>Add a Table</button>
-            <button onClick={() => console.log(convertedData)}>Get converted Data</button>
-            <button onClick={downloadSql}>Download SQL</button>
-            <button onClick={() => fetchSQL(convertedData)}>API Call</button>
+            <button onClick={() => handleTriggerDataToJson()}>Get converted Data</button>
+            <button onClick={() => triggerSqlFetch(handleTriggerDataToJson())}>Download SQL</button>
           </Panel>
         </ReactFlow>
       </div>

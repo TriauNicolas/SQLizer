@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Node, Edge } from 'reactflow';
 import { ConvertedData, Table } from '@/types/tables';
 
-type DataToJsonProps = {
+type ConvertionDataProps = {
   nodes: Node[];
   edges: Edge[];
 }
 
-export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
-  const [ dataJSON, setDataJSON ] = useState<ConvertedData | null>(null);
+export const useDataToJson = () => {
 
-  useEffect(() => {
+  const convertionData = ({ nodes, edges }: ConvertionDataProps) => {
     const objectJSON: ConvertedData = {"dbName": 'MyFirstDB', 'tables': [], 'relations': []};
 
     const tables = nodes.filter((node: Node): boolean => node.expandParent == true);
@@ -25,6 +24,7 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
       
       const fieldsTable = nodes.filter((node: Node) => table.id == node.parentNode)
       fieldsTable.forEach((node: Node) => {
+        console.log(node);
         const objectField = {
           title: node.data.title,
           name: node.data.name, 
@@ -41,8 +41,8 @@ export const useDataToJson = ({ nodes, edges }: DataToJsonProps) => {
       objectJSON.tables.push(objectTable);
     })
 
-    setDataJSON(objectJSON);
-  }, [nodes])
+    return objectJSON
+  }
 
-  return dataJSON
+  return { convertionData }
 }
