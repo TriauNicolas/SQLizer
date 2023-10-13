@@ -1,6 +1,6 @@
 import { useReactFlow, Node } from 'reactflow';
 import { addFieldSocket } from '../sockets/socketEmitter';
-import { Field, Table } from '@/types/tables';
+import { Field } from '@/types/tables';
 
 export const useCRUDFieldNode = (setNodes: Function, setEdges: Function) => {
   const { getNodes, getEdges } = useReactFlow();
@@ -39,9 +39,6 @@ export const useCRUDFieldNode = (setNodes: Function, setEdges: Function) => {
   }
 
   const updateField = (tableName: string, fieldName: string, data: Field) => {
-    console.log({ tableName })
-    console.log({ fieldName })
-    console.log({ data })
     const allNodes = getNodes();
 
     // Update the fieldNode
@@ -53,5 +50,27 @@ export const useCRUDFieldNode = (setNodes: Function, setEdges: Function) => {
     }));
   }
 
-  return { sendSocketField, addField, updateField }
+  const deleteField = (tableName: string, fieldName: string) => {
+    const allNodes = getNodes();
+    const fieldToDelete = allNodes.find((node) => node.data.name === fieldName);
+    const newNodes = allNodes.filter((node) => node.data.name !== fieldName)
+
+    // Manage the Y position of the fieldNode of the same table
+    if (fieldToDelete) {
+      setNodes((nodes: Node<any>[]) => nodes.map((node):any => {
+        if (node.id != fieldToDelete.id && parseInt(node.id) > parseInt(fieldToDelete.id) && fieldToDelete?.parentNode === node.parentNode) {
+          if (node.positionAbsolute) node.position.y -= 40;
+        }
+      }));
+  
+      // Delete node and related edges
+      const newEdges = getEdges().filter((edge) => fieldToDelete?.id !== edge.source && fieldToDelete?.id !== edge.target);
+
+      // Update nodes & edges
+      setNodes(newNodes);
+      setEdges(newEdges);
+    }
+  }
+
+  return { sendSocketField, addField, updateField, deleteField }
 }
