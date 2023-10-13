@@ -19,7 +19,6 @@ export const socketConnection = (token: string, roomId: string) => {
       }
     }
   });
-
   socket?.on('socketError', (data: any) => console.log(data));
   console.log("Connection successful")
 

@@ -24,6 +24,7 @@ export const useDataToJson = () => {
       
       const fieldsTable = nodes.filter((node: Node) => table.id == node.parentNode)
       fieldsTable.forEach((node: Node) => {
+        console.log(node);
         const objectField = {
           title: node.data.title,
           name: node.data.name, 
