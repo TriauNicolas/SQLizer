@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactFlow, {
   Panel,
   Controls,
@@ -17,8 +17,6 @@ import { FieldNode } from '../FieldNode/FieldNode';
 import { InfosTable } from '../InfosTable/InfosTable';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
-import { ConvertedData } from '../../types/tables';
-import { useApi } from '@/hooks/useApi';
 import { useNodes } from '@/hooks/useNodes';
 import { useCRUDTableNode } from '@/hooks/useCRUDTableNode';
 import { useEdges } from '@/hooks/useEdges';
@@ -37,7 +35,7 @@ export const CanvasInstance = () => {
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
   const { sendSocketTable, addTable, deleteTable, updateTableName, moveTable } = useCRUDTableNode(setNodes, setEdges);
-  const { addField, updateField } = useCRUDFieldNode(setNodes, setEdges);
+  const { addField, updateField, deleteField } = useCRUDFieldNode(setNodes, setEdges);
   const { getNodes } = useReactFlow();
   const { convertionData } = useDataToJson();
   const { triggerSqlFetch } = useDownloadSql();
@@ -55,7 +53,7 @@ export const CanvasInstance = () => {
     // Fields
     socket.on('responseCreateField', (data: ResponseCreateFieldEvent) => addField(data.field, data.tableName));
     socket.on('responseUpdateField', (data: ResponseUpdateFieldEvent) => updateField(data.tableName, data.fieldName, data.field));
-    socket.on('responseDeleteField', (data: ResponseDeleteFieldEvent) => console.log(data));
+    socket.on('responseDeleteField', (data: ResponseDeleteFieldEvent) => deleteField(data.tableName, data.fieldName));
     
     // Edges
     // socket.on('requestCreateEdge', (data: ResponseCreateEdgeEvent) => console.log(data));

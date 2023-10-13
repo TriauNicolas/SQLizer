@@ -27,3 +27,7 @@ export const addFieldSocket = (field: Field, tableName: string) => {
 export const updateFieldSocket = (tableName: string, fieldName: string, data: Field) => {
   socket.emit("requestUpdateField", { tableName: tableName, fieldName: fieldName, field: data });
 };
+
+export const deleteFieldSocket = (tableName: string, fieldName: string) => {
+  socket.emit("requestDeleteField", { tableName: tableName, fieldName: fieldName });
+};
