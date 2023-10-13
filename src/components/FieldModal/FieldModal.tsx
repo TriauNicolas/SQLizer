@@ -3,7 +3,7 @@ import Image from 'next/image'
 import closeSVG from '../../../public/CloseCross.svg'
 import { useReactFlow, Node } from 'reactflow'
 import { useEffect, useState } from 'react'
-import { addFieldSocket } from '@/sockets/socketEmitter'
+import { addFieldSocket, updateFieldSocket } from '@/sockets/socketEmitter'
 
 type FieldModalProps = {
   idTable: string | undefined | null;
@@ -77,11 +77,12 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
       }
     } 
     else {
-      const currentNode: any = idField ? getNode(idField) : undefined;
+      const currentNode: Node<any> | undefined = idField ? getNode(idField) : undefined;
 
       if (currentNode) {
-        const allNodes = getNodes();
-        const titleParent = (infosField?.data.title).split('.')[0];
+        // const allNodes = getNodes();
+        const titleParent: string = (infosField?.data.title).split('.')[0];
+        const nameField: string = currentNode.data.name;
 
         // Prepare node object
         const updatedField = {
@@ -93,13 +94,8 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
           pk: event.target[4].checked,
           nullable: event.target[5].checked,
         }
-
-        setNodes(allNodes.map((node) => {
-          if (node.id === idField) {
-            return ({...node, data: updatedField})
-          }
-          return ({...node})
-        }))
+        
+        updateFieldSocket(titleParent, nameField, updatedField);
       }
     }
   }

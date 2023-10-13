@@ -139,7 +139,6 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
           onClick={() => setSavedTitleTable(titleTable)}
           onChange={(event) => handleChangeTitle(event)}
           onBlur={() => updateTableNameSocket(savedTitleTable, titleTable)}
-          autoFocus
         />
       ) : (
         <div className={tableStyle.tableTitle} onClick={handleNodeClick}>
