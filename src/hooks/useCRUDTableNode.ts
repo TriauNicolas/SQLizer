@@ -49,10 +49,23 @@ export const useCRUDTableNode = (setNodes: Function, setEdges: Function) => {
     const allIds = allNodesRelatedToTable.map((node) => node.id);
     const edgesFiltered = getEdges().filter((edge) => allIds.includes(edge.source) && allIds.includes(edge.target));
     
-    // Remove function elements
+    // Remove from the canvas
     setNodes(nodesFiltered);
     setEdges(edgesFiltered);
   }
 
-  return { sendSocketTable, addTable, deleteTable }
+  const updateTableName = (tableName: string, newTableName: string) => {
+    const allNodes = getNodes();
+    const changedNodes = allNodes.map((node) => {
+      if (node.data.title === tableName) {
+        return ({...node, data: { title: newTableName } })
+      }
+      return ({...node})
+    })
+
+    console.log(changedNodes)
+    setNodes(changedNodes);
+  }
+
+  return { sendSocketTable, addTable, deleteTable, updateTableName }
 };

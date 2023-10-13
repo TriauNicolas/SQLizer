@@ -4,7 +4,7 @@ import { Field } from '../../types/tables';
 import { useReactFlow } from 'reactflow';
 import { AddFieldNode } from '../AddFieldNode/AddFieldNode';
 import { FieldModal } from '../FieldModal/FieldModal';
-
+import { updateTableNameSocket } from '@/sockets/socketEmitter';
 
 type TableNodeProps = {
   id: string;
@@ -14,6 +14,7 @@ type TableNodeProps = {
 
 export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const [ titleTable, setTitleTable ] = useState<string>(data.title ? data.title : '');
+  const [ savedTitleTable, setSavedTitleTable ] = useState('');
   const [ isEditing, setIsEditing ] = useState(false);
   const [ numberOfFields, setNumberOfFields ] = useState(0);
   const titleRef = useRef<HTMLInputElement>(null);
@@ -109,13 +110,15 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
           className={tableStyle.tableInput}
           type="text"
           ref={titleRef}
-          defaultValue={titleTable}
+          defaultValue={data.title}
+          onClick={() => setSavedTitleTable(titleTable)}
           onChange={(event) => handleChangeTitle(event)}
+          onBlur={() => updateTableNameSocket(savedTitleTable, titleTable)}
           autoFocus
         />
       ) : (
         <div className={tableStyle.tableTitle} onClick={handleNodeClick}>
-          {titleTable}
+          {data.title}
         </div>
         )}
       {selected ? <AddFieldNode numberFields={numberOfFields} openModal={openModal} /> : ''}

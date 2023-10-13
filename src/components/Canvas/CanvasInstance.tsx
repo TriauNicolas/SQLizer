@@ -35,7 +35,7 @@ export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
-  const { sendSocketTable, addTable, deleteTable } = useCRUDTableNode(setNodes, setEdges);
+  const { sendSocketTable, addTable, deleteTable, updateTableName } = useCRUDTableNode(setNodes, setEdges);
   const { getNodes } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
@@ -47,9 +47,9 @@ export const CanvasInstance = () => {
     
     // Tables
     socket.on('responseCreateTable', (data: ResponseCreateTableEvent) => addTable(data.table));
-    socket.on('responseUpdateTableName', (data: ResponseUpdateTableNameEvent) => console.log(data));
+    socket.on('responseUpdateTableName', (data: ResponseUpdateTableNameEvent) => updateTableName(data.tableName, data.newTableName));
     socket.on('responseDeleteTable', (data: ResponseDeleteTableEvent) => deleteTable(data.tableName));
-    socket.on('requestMoveTable', (data: ResponseMoveTableEvent) => console.log(data));
+    socket.on('responseMoveTable', (data: ResponseMoveTableEvent) => console.log(data));
     
     // Fields
     socket.on('responseCreateField', (data: ResponseCreateFieldEvent) => console.log(data));
@@ -102,7 +102,6 @@ export const CanvasInstance = () => {
             <button onClick={() => console.log(edges)}>Get Edges</button>
             <button onClick={() => console.log(getNodes())}>Get nodesList</button>
             <button onClick={() => sendSocketTable()}>Add a Table</button>
-            {/* <button onClick={() => setNodes([...getNodes(), { id: '100', type: 'tableNode', position: { x: 0, y: 0 }, data: { title: 'title100' }, style: basicStyleTableNode, expandParent: true }])}>Add a Table</button> */}
             <button onClick={() => console.log(convertedData)}>Get converted Data</button>
             <button onClick={downloadSql}>Download SQL</button>
             <button onClick={() => fetchSQL(convertedData)}>API Call</button>
