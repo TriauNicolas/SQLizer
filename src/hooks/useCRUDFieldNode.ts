@@ -5,10 +5,6 @@ import { Field } from '@/types/tables';
 export const useCRUDFieldNode = (setNodes: Function, setEdges: Function) => {
   const { getNodes, getEdges } = useReactFlow();
 
-  const sendSocketField = (field: Field, tableName: string) => {
-    addFieldSocket(field, tableName);
-  }
-
   const addField = (field: Field, tableName: string) => {
     const allNodes = getNodes();
     const parentTable = allNodes.find((node) => node.data.title === tableName);
@@ -72,5 +68,5 @@ export const useCRUDFieldNode = (setNodes: Function, setEdges: Function) => {
     }
   }
 
-  return { sendSocketField, addField, updateField, deleteField }
+  return { addField, updateField, deleteField }
 }
