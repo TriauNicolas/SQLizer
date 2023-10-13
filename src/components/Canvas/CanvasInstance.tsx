@@ -17,7 +17,7 @@ import { FieldNode } from '../FieldNode/FieldNode';
 import { InfosTable } from '../InfosTable/InfosTable';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
-import { ConvertedData, Table } from '../../types/tables';
+import { ConvertedData } from '../../types/tables';
 import { useApi } from '@/hooks/useApi';
 import { useNodes } from '@/hooks/useNodes';
 import { useCRUDTableNode } from '@/hooks/useCRUDTableNode';
@@ -35,7 +35,7 @@ export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
-  const { sendSocketTable, addTable, deleteTable, updateTableName } = useCRUDTableNode(setNodes, setEdges);
+  const { sendSocketTable, addTable, deleteTable, updateTableName, moveTable } = useCRUDTableNode(setNodes, setEdges);
   const { getNodes } = useReactFlow();
   const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
   const { downloadSql } = useDownloadSql(convertedData);
@@ -49,7 +49,7 @@ export const CanvasInstance = () => {
     socket.on('responseCreateTable', (data: ResponseCreateTableEvent) => addTable(data.table));
     socket.on('responseUpdateTableName', (data: ResponseUpdateTableNameEvent) => updateTableName(data.tableName, data.newTableName));
     socket.on('responseDeleteTable', (data: ResponseDeleteTableEvent) => deleteTable(data.tableName));
-    socket.on('responseMoveTable', (data: ResponseMoveTableEvent) => console.log(data));
+    socket.on('responseMoveTable', (data: ResponseMoveTableEvent) => moveTable(data.tableName, data.posX, data.posY));
     
     // Fields
     socket.on('responseCreateField', (data: ResponseCreateFieldEvent) => console.log(data));

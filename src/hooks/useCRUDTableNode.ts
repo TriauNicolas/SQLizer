@@ -40,12 +40,12 @@ export const useCRUDTableNode = (setNodes: Function, setEdges: Function) => {
   }
 
   // Delete Table from socket
-  const deleteTable = (tableID: string) => {
+  const deleteTable = (tableName: string) => {
     // Remove the tableNode and the fieldNode related to the table
-    const nodesFiltered = getNodes().filter((node) => node.data.title != tableID && node.parentNode != tableID);
+    const nodesFiltered = getNodes().filter((node) => node.data.title != tableName && node.parentNode != tableName);
 
     // Remove the edges related
-    const allNodesRelatedToTable = getNodes().filter((node) => node.data.title != tableID && node.parentNode != tableID);
+    const allNodesRelatedToTable = getNodes().filter((node) => node.data.title != tableName && node.parentNode != tableName);
     const allIds = allNodesRelatedToTable.map((node) => node.id);
     const edgesFiltered = getEdges().filter((edge) => allIds.includes(edge.source) && allIds.includes(edge.target));
     
@@ -63,9 +63,20 @@ export const useCRUDTableNode = (setNodes: Function, setEdges: Function) => {
       return ({...node})
     })
 
-    console.log(changedNodes)
     setNodes(changedNodes);
   }
 
-  return { sendSocketTable, addTable, deleteTable, updateTableName }
+  const moveTable = (tableName: string, posX: number, posY: number) => {
+    const allNodes = getNodes();
+    const changedNodes = allNodes.map((node) => {
+      if (node.data.title === tableName) {
+        return ({...node, position: { x: posX, y: posY } })
+      }
+      return ({...node})
+    })
+
+    setNodes(changedNodes);
+  }
+
+  return { sendSocketTable, addTable, deleteTable, updateTableName, moveTable }
 };

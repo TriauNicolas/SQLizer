@@ -4,7 +4,7 @@ import { Field } from '../../types/tables';
 import { useReactFlow } from 'reactflow';
 import { AddFieldNode } from '../AddFieldNode/AddFieldNode';
 import { FieldModal } from '../FieldModal/FieldModal';
-import { updateTableNameSocket } from '@/sockets/socketEmitter';
+import { moveTableSocket, updateTableNameSocket } from '@/sockets/socketEmitter';
 
 type TableNodeProps = {
   id: string;
@@ -21,12 +21,37 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const { getNodes, setNodes, setCenter, getNode } = useReactFlow();
   const [ displayModal, setDisplayModal ] = useState(false);
 
+  // Get number of nodes for addFieldNode
   useEffect(() => {
       setNumberOfFields((getNodes().filter((node) => node.parentNode === id)).length)
-  }, [selected, getNodes, numberOfFields, id])
+  }, [getNodes, numberOfFields, id])
+
+  // Manage changing position and so trigger the socket
+  useEffect(() => {
+    let positionLoopChecking: number | NodeJS.Timeout;
+    if (selected) {
+      const currentTable = getNode(id);
+      if (currentTable) {
+        let posX = currentTable?.position.x;
+        let posY = currentTable?.position.y;
+        
+        positionLoopChecking = setInterval(() => {
+          const currentTable = getNode(id);
+          if (currentTable && (currentTable?.position.x != posX || currentTable?.position.y != posY)) {
+            moveTableSocket(data.title, currentTable?.position.x, currentTable?.position.y);
+          }
+        }, 1000);
+      }
+    }
+
+    // Stop the loop if the table is not selected
+    return () => {
+      if (positionLoopChecking) clearInterval(positionLoopChecking);
+    };
+  }, [selected, id, getNode, data.title])
 
   const openModal = () => {
-    setDisplayModal(true)
+    setDisplayModal(true);
 
     // Make the modal not moving
     document.documentElement.style.setProperty("--secondaryPointerEvents", "none");
