@@ -1,9 +1,9 @@
-import { DataTable } from "./tables";
+import { Field } from "./tables";
 
 export type InfosTableType = {
   tableParent: {
     id: string | undefined | null | '';
-    data: DataTable;
+    data: Field;
   };
   fieldsChildren: Node[];
 }

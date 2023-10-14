@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReactFlow, {
   Panel,
   Controls,
@@ -17,13 +17,14 @@ import { FieldNode } from '../FieldNode/FieldNode';
 import { InfosTable } from '../InfosTable/InfosTable';
 import { useDataToJson } from '@/hooks/useDataToJson';
 import { useDownloadSql } from '@/hooks/useDownloadSql'
-import { ConvertedData } from '../../types/tables';
-import { useApi } from '@/hooks/useApi';
 import { useNodes } from '@/hooks/useNodes';
-import { useAddTableNode } from '@/hooks/useAddTableNode';
+import { useCRUDTableNode } from '@/hooks/useCRUDTableNode';
 import { useEdges } from '@/hooks/useEdges';
-import { socket } from '../../sockets/socketConnection';
-import { useSocketListeners } from '../../sockets/useSocketListener';
+import { ResponseCreateFieldEvent, ResponseCreateTableEvent, ResponseDeleteFieldEvent, ResponseDeleteTableEvent, ResponseMoveTableEvent, ResponseUpdateFieldEvent, ResponseUpdateTableNameEvent } from '@/types/socketEvent';
+import { socket } from './CanvasElement';
+import { useCRUDFieldNode } from '@/hooks/useCRUDFieldNode';
+import { useCRUDEdge } from '@/hooks/useCRUDEdge';
+import { Relation } from '@/types/tables';
 
 // Different nodes Types used for the canvas
 const nodeTypes: NodeTypes = {
@@ -47,28 +48,40 @@ const basicStyleTableNode: {} = {
 export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
-  const { edges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
-  const { sendSocketTable, getSocketTable } = useAddTableNode();
+  const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
+  const { sendSocketTable, addTable, deleteTable, updateTableName, moveTable } = useCRUDTableNode(setNodes, setEdges);
+  const { addField, updateField, deleteField } = useCRUDFieldNode(setNodes, setEdges);
+  const { addEdge, deleteEdge } = useCRUDEdge(setNodes, setEdges);
   const { getNodes } = useReactFlow();
-  const convertedData: ConvertedData | null = useDataToJson({ nodes, edges });
-  const { downloadSql } = useDownloadSql(convertedData);
-  const { sqlData, isFetching, fetchSQL } = useApi();
+  const { convertionData } = useDataToJson();
+  const { triggerSqlFetch } = useDownloadSql();
 
   useEffect(() => {
-    const handleResponseCreateTable = (data: any) => {
-      console.log("Received responseCreateTable:", data.table);
-      getSocketTable(data.table);
-    };
-    
+    // Wait the initialization of the socket
     if (!socket) return;
+    
+    // Tables
+    socket.on('responseCreateTable', (data: ResponseCreateTableEvent) => addTable(data.table));
+    socket.on('responseUpdateTableName', (data: ResponseUpdateTableNameEvent) => updateTableName(data.tableName, data.newTableName));
+    socket.on('responseDeleteTable', (data: ResponseDeleteTableEvent) => deleteTable(data.tableName));
+    socket.on('responseMoveTable', (data: ResponseMoveTableEvent) => moveTable(data.tableName, data.posX, data.posY));
+    
+    // Fields
+    socket.on('responseCreateField', (data: ResponseCreateFieldEvent) => addField(data.field, data.tableName));
+    socket.on('responseUpdateField', (data: ResponseUpdateFieldEvent) => updateField(data.tableName, data.fieldName, data.field));
+    socket.on('responseDeleteField', (data: ResponseDeleteFieldEvent) => deleteField(data.tableName, data.fieldName));
+    
+    // Edges
+    socket.on('responseCreateEdge', (relation: Relation) => addEdge(relation));
+    socket.on('responseDeleteEdge', (relation: Relation) => deleteEdge(relation));
 
-    socket.on("responseCreateTable", (data) => handleResponseCreateTable(data));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
 
-    // Cleanup the listener when the component using the hook is unmounted
-    return () => {
-        socket.off("responseCreateTable", handleResponseCreateTable);
-    };
-}, [getSocketTable]);  // <-- Add this empty array
+  const handleTriggerDataToJson = () => {
+    const data = convertionData({ nodes, edges });
+    return data
+  }
 
   return (
     <div className={styles.pagesContainer}>
@@ -108,10 +121,8 @@ export const CanvasInstance = () => {
             <button onClick={() => console.log(edges)}>Get Edges</button>
             <button onClick={() => console.log(getNodes())}>Get nodesList</button>
             <button onClick={() => sendSocketTable()}>Add a Table</button>
-            {/* <button onClick={() => setNodes([...getNodes(), { id: '100', type: 'tableNode', position: { x: 0, y: 0 }, data: { title: 'title100' }, style: basicStyleTableNode, expandParent: true }])}>Add a Table</button> */}
-            <button onClick={() => console.log(convertedData)}>Get converted Data</button>
-            <button onClick={downloadSql}>Download SQL</button>
-            <button onClick={() => fetchSQL(convertedData)}>API Call</button>
+            <button onClick={() => handleTriggerDataToJson()}>Get converted Data</button>
+            <button onClick={() => triggerSqlFetch(handleTriggerDataToJson())}>Download SQL</button>
           </Panel>
         </ReactFlow>
       </div>

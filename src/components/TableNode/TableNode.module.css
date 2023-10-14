@@ -15,7 +15,7 @@
 }
 
 .tableInput {
-  width: var(--baseWidthTableNode);
+  width: var(--base-width-table-node);
   height: 50px;
   border-radius: 2px;
   display: flex;
@@ -27,14 +27,14 @@
 .tableInput:focus {
   outline: none;
   border: 0;
-  border-bottom: 1.5px solid var(--borderColorTableNode);
   background-color: transparent;
 }
 
 .tableTitle {
-  width: var(--baseWidthTableNode);
+  width: var(--base-width-table-node);
+  background-color: #5093C0;
   height: 50px;
-  border-bottom: 1.5px solid var(--borderColorTableNode);
+  border-bottom: 1.5px solid var(--border-color-table-node);
   border-radius: 2px;
   display: flex;
   flex-direction: column;

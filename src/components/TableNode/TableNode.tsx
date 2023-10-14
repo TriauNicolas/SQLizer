@@ -1,31 +1,57 @@
 import { useCallback, useState, useRef, ChangeEvent, useEffect } from 'react';
 import tableStyle from './TableNode.module.css';
-import { DataTable } from '../../types/tables';
+import { Field } from '../../types/tables';
 import { useReactFlow } from 'reactflow';
 import { AddFieldNode } from '../AddFieldNode/AddFieldNode';
 import { FieldModal } from '../FieldModal/FieldModal';
-
+import { moveTableSocket, updateTableNameSocket } from '@/sockets/socketEmitter';
 
 type TableNodeProps = {
   id: string;
-  data: DataTable;
+  data: Field;
   selected: boolean;
 }
 
 export const TableNode = ({ id, data, selected }: TableNodeProps) => {
   const [ titleTable, setTitleTable ] = useState<string>(data.title ? data.title : '');
+  const [ savedTitleTable, setSavedTitleTable ] = useState('');
   const [ isEditing, setIsEditing ] = useState(false);
   const [ numberOfFields, setNumberOfFields ] = useState(0);
   const titleRef = useRef<HTMLInputElement>(null);
   const { getNodes, setNodes, setCenter, getNode } = useReactFlow();
   const [ displayModal, setDisplayModal ] = useState(false);
 
+  // Get number of nodes for addFieldNode
   useEffect(() => {
       setNumberOfFields((getNodes().filter((node) => node.parentNode === id)).length)
-  }, [selected, getNodes, numberOfFields, id])
+  }, [getNodes, numberOfFields, id])
+
+  // Manage changing position and so trigger the socket
+  useEffect(() => {
+    let positionLoopChecking: number | NodeJS.Timeout;
+    if (selected) {
+      const currentTable = getNode(id);
+      if (currentTable) {
+        let posX = currentTable?.position.x;
+        let posY = currentTable?.position.y;
+        
+        positionLoopChecking = setInterval(() => {
+          const currentTable = getNode(id);
+          if (currentTable && (currentTable?.position.x != posX || currentTable?.position.y != posY)) {
+            moveTableSocket(data.title, currentTable?.position.x, currentTable?.position.y);
+          }
+        }, 1000);
+      }
+    }
+
+    // Stop the loop if the table is not selected
+    return () => {
+      if (positionLoopChecking) clearInterval(positionLoopChecking);
+    };
+  }, [selected, id, getNode, data.title])
 
   const openModal = () => {
-    setDisplayModal(true)
+    setDisplayModal(true);
 
     // Make the modal not moving
     document.documentElement.style.setProperty("--secondaryPointerEvents", "none");
@@ -109,13 +135,14 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
           className={tableStyle.tableInput}
           type="text"
           ref={titleRef}
-          defaultValue={titleTable}
+          defaultValue={data.title}
+          onClick={() => setSavedTitleTable(titleTable)}
           onChange={(event) => handleChangeTitle(event)}
-          autoFocus
+          onBlur={() => updateTableNameSocket(savedTitleTable, titleTable)}
         />
       ) : (
         <div className={tableStyle.tableTitle} onClick={handleNodeClick}>
-          {titleTable}
+          {data.title}
         </div>
         )}
       {selected ? <AddFieldNode numberFields={numberOfFields} openModal={openModal} /> : ''}

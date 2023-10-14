@@ -1,38 +1,30 @@
 import styleInfoField from './InfoField.module.css'
 import { useState } from 'react';
-import { DataTable } from '../../types/tables';
+import { Field } from '../../types/tables';
 import Image from 'next/image';
 import deleteSVG from '../../../public/delete-circle.svg';
 import modifySVG from '../../../public/edit-pencil.svg'
 import { useReactFlow, Node } from 'reactflow';
+import { deleteFieldSocket } from '@/sockets/socketEmitter';
 
 type InfosFieldProps = {
   idNode: string;
-  data: DataTable | undefined;
+  data: Field | undefined;
   updateField: () => void;
 }
 
 export const InfosField = ({ idNode, data, updateField }: InfosFieldProps) => {
-  const { setNodes, getNode, getEdges, setEdges } = useReactFlow();
+  const { getNode } = useReactFlow();
   const [ isDeleted, setIsDeleted ] = useState(false);
 
   const deleteField = () => {
     setIsDeleted(true);
 
     const nodeToDelete: Node<any> | undefined = getNode(idNode);
+    const tableParentName = (nodeToDelete?.data.title).split('.')[0];
+    const fieldName = (nodeToDelete?.data.title).split('.')[1];
     
-    // Manage the Y position of the fieldNode of the same table
-    setNodes((nodes: Node<any>[]) => nodes.map((node):any => {
-      if (node.id != idNode && parseInt(node.id) > parseInt(idNode) && nodeToDelete?.parentNode === node.parentNode) {
-        if (node.positionAbsolute) node.position.y -= 40;
-      }
-    }));
-
-    // Delete node and related edges
-    const edgesToDelete = getEdges().filter((edge) => nodeToDelete?.id === edge.source || nodeToDelete?.id === edge.target);
-    const allIds = edgesToDelete.map((edge) => edge.id);
-    setNodes((nodes) => nodes.filter((node) => node.id != idNode));
-    setEdges((edges) => edges.filter((edge) => !allIds.includes(edge.id)));
+    deleteFieldSocket(tableParentName, fieldName);
   }
 
   return (

@@ -8,10 +8,10 @@ export type Table = {
   name: string;
   posX: number;
   posY: number;
-  fields: DataTable[]
+  fields: Field[]
 }
 
-export type DataTable = {
+export type Field = {
   title: string;
   name: string;
   type: string;
@@ -19,4 +19,9 @@ export type DataTable = {
   autoIncrement: boolean;
   pk: boolean;
   nullable: boolean;
+}
+
+export type Relation = {
+  from: { table: string; field: string };
+  to: { table: string; field: string };
 }
