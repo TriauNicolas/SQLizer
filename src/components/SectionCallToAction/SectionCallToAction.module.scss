@@ -1,0 +1,26 @@
+.callToAction {
+  min-height: 35vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xxxl) var(--spacing-xl);
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    h2 {
+      margin-bottom: var(--spacing-l);
+    }
+
+    .cta {
+      background-color: var(--primary-color);
+      color: white;
+      padding: var(--spacing-s) var(--spacing-m);
+      border-radius: var(--border-radius-m);
+    }
+  }
+}

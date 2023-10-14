@@ -1,0 +1,63 @@
+.navbarContainer {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: var(--nav-height);
+  background-color: var(--secondary-white);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--gray-30);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--max-width);
+  width: 100%;
+  padding: var(--spacing-m) var(--spacing-xl);
+
+  h2 {
+    color: var(--primary);
+    cursor: pointer;
+    &:hover {
+      color: var(--primary-dark);
+    }
+  }
+
+  .navItems {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    text-decoration: none;
+
+    .navItem {
+      text-decoration: none;
+    }
+
+    .login {
+      color: var(--primary);
+      &:hover {
+        color: var(--primary-dark);
+      }
+    }
+    .register {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: var(--border-radius-m);
+      color: var(--gray);
+      background-color: var(--gray-light);
+      padding: var(--spacing-s) var(--spacing-l);
+      cursor: pointer;
+
+      &:hover {
+        color: var(--primary);
+      }
+    }
+  }
+}
