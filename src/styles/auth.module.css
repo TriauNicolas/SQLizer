@@ -1,4 +1,28 @@
 .container{
+  background: rgb(230, 230, 230);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.inner_container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 70vw;
+  height: 70vh;
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 5px 5px 10px grey;
+}
+.welcome_container{
+  display: flex;
+  font-family:Helvetica;
+  justify-content: space-around;
+  align-items: center;
+  height: 20vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .form_main{
   max-width: 420px;
@@ -6,7 +30,6 @@
 }
 
 .title_t1 {
-  margin-top: 64px;
   color: black;
   text-align: center;
   padding-bottom: 10px;

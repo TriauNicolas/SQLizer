@@ -1,5 +1,6 @@
 "use client"
-
+import Image from 'next/image';
+import logo from '../../public/logosqlizer.svg';
 import React from "react"
 import styles from "../../src/styles/auth.module.css"
 import { getAxiosInstance } from "@/api/axios"
@@ -34,43 +35,59 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title_t1}>Connectez-vous</h1>
-      <form className={styles.form_main} onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label className={styles.title_label} htmlFor="email">Email</label>
-          <input
-            className={styles.input_block}
-            type="email"
-            autoComplete="off"
-            placeholder="Entrez votre email"
-            {...register("email", { required: 'Ce champ ne peut être vide', pattern: /^\S+@\S+$/i })}
+      <div className={styles.inner_container}>
+        <div className={styles.welcome_container}>
+          <h1 className={styles.title_t1}>Bienvenue</h1>
+          <Image 
+            src={logo}
+            height={100}
+            width={108}
+            priority
+            alt="Add a field to the table"
+            onClick={() => openModal()}
           />
-          {errors.email && <p>{errors.email.message}</p>}
         </div>
         <div>
-          <label className={styles.title_label} htmlFor="password">Mot de passe</label>
-          <input
-            className={styles.input_block}
-            type="password"
-            autoComplete="off"
-            placeholder="Entrez votre mot de passe"
-            {...register("password", {
-              required: 'Ce champ ne peut être vide',
-              max: 32,
-              min: 8,
-            })}
-          />
-          {errors.password && <p>{errors.password.message}</p>}
+        <h1 className={styles.title_t1}>Connectez-vous</h1>
+        <form className={styles.form_main} onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <label className={styles.title_label} htmlFor="email">Email</label>
+            <input
+              className={styles.input_block}
+              type="email"
+              autoComplete="off"
+              placeholder="Entrez votre email"
+              {...register("email", { required: 'Ce champ ne peut être vide', pattern: /^\S+@\S+$/i })}
+            />
+            {errors.email && <p>{errors.email.message}</p>}
+          </div>
+          <div>
+            <label className={styles.title_label} htmlFor="password">Mot de passe</label>
+            <input
+              className={styles.input_block}
+              type="password"
+              autoComplete="off"
+              placeholder="Entrez votre mot de passe"
+              {...register("password", {
+                required: 'Ce champ ne peut être vide',
+                max: 32,
+                min: 8,
+              })}
+            />
+            {errors.password && <p>{errors.password.message}</p>}
+          </div>
+          <div>
+            <input className={styles.input_block} type="submit" value={`Se connecter`} />
+          </div>
+          <div>
+            <span className={styles.subtitle}>Pas de compte ?</span>
+            <Link href="/register">{`Créer un compte`}</Link>
+          </div>
+        </form>
         </div>
-        <div>
-          <input className={styles.input_block} type="submit" value={`Se connecter`} />
-        </div>
-        <div>
-          <span className={styles.subtitle}>Pas de compte ?</span>
-          <Link href="/register">{`Créer un compte`}</Link>
-        </div>
-      </form>
+      </div>
     </div>
+    
   )
 }
 
