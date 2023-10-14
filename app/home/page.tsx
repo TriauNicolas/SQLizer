@@ -1,93 +1,39 @@
-"use client"
-
-import React from "react"
-import "@/styles/home.css"
-import canvasDemo from '../../public/canvas.png';
-import logo from '../../public/logo.svg';
-import Image from "next/image"
+import React from "react";
+import NavBar from "@/components/NavBar/NavBar";
+import HeroSection from "@/components/HeroSection/HeroSection";
+import FeatureSection from "@/components/FeatureSection/FeatureSection";
+import CallToActionSection from "@/components/SectionCallToAction/SectionCallToAction";
+import Footer from "@/components/Footer/Footer";
+import styles from "./page.module.scss";
+import canvasDemo from "@/../public/canvas.png";
 
 const Home = () => {
-    return (
-        <div className="body">
-            <header>
-                <div className="logo-holder">
-                <Image 
-                    src={logo}
-                    priority
-                    alt="Logo"
-                    className="logo"
-                />
-                </div>
-                <div className="navbar">
-                    <div className="item"><a className="link" href="/login">Se connecter</a></div>
-                    <div className="item alt"><a className="link" href="/register">Commencer Maintenant</a></div>
-                </div>
-            </header>
-            <main>
-                <section id="section-1">
-                    <div className="wrap">
-                        <h1><span className="american">SQLizer</span> est l&apos;éditeur <span className="fat">collaboratif</span> <br/>de SQL que vous attendiez pour venir <br/>à bout de vos projets d&apos;envergure !
-                            <button className="cta"><a href="/register">Commencer</a></button>
-                        </h1>
-                        <div className="img-holder">
-                            <Image 
-                                src={canvasDemo}
-                                priority
-                                alt="Demo"
-                                className="demo"
-                            />
-                        </div>
-                        <p className="accroche">Rejoignez-nous dès maintenant et augmentez votre productivité !</p>
-                    </div>
-                </section>
-                <section id="section-2">
-                    <div className="wrap">
-                        <h2>Vous ne <span className="fat">confondrez plus</span> les clées <br/><span className="fat">Primaires</span> et <span className="fat">Secondaires</span> <br/>en un seul clin d&apos;oeil</h2>
-                        <div className="wrapper">
-                            <p className="side">
-                                Grâce à l&apos;interface graphique de <span className="fat">SQLizer</span>, les tables et leurs dépendences deviennent simple et compréhensibles rapidement
-                                <button className="cta"><a href="/register">C&apos;est parti</a></button>
-                            </p>
-                            <div className="img-holder">
-                                <Image 
-                                    src={canvasDemo}
-                                    priority
-                                    alt="Demo"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="section-3">
-                    <div className="wrap">
-                        <h2><span className="fat">Accélérez</span> et <span className="fat">améliorez</span> la conception <br/>de votre <span className="american">database</span></h2>
-                        <div className="wrapper">
-                            <div className="img-holder">
-                                <Image 
-                                    src={canvasDemo}
-                                    priority
-                                    alt="Demo"
-                                />
-                            </div>
-                            <p className="side alt">
-                                Grâce à l&apos;interface graphique de <span className="fat">SQLizer</span>, les erreurs et possibles optimisations sautent littérallement aux yeux !
-                                <button className="cta"><a href="/register">Je me lance</a></button>
-                            </p>
-                        </div>
-                        <div className="box">
-                            <p>Commencez à <span className="fat">concevoir</span> <br/>votre database <br/>avec <span className="american">SQLizer</span></p>
-                            <button className="cta"><a href="/register">Créer un compte</a></button>
-                        </div>
-                    </div>
-                </section>
-            </main>
-            <footer>
+  return (
+    <div className={styles.homeBody}>
+      <NavBar />
+      <HeroSection />
+      <FeatureSection
+        title={`Édition visuelle intuitive`}
+        desc={`Oubliez les scripts SQL conventionnels. Grâce à l'interface de SQLizer, créez visuellement des tables, établissez des relations et définissez des contraintes en temps réel.`}
+        src={canvasDemo}
+        reverse
+      />
+      <FeatureSection
+        title={`Modélisation interactive de la base de données`}
+        desc={`Représentez sans effort l'architecture complète de votre base de données, en veillant à ce que les données circulent efficacement et à ce que votre structure soit optimisée.`}
+        buttonText={`Allez !`}
+        src={canvasDemo}
+      />
+      <FeatureSection
+        title={`Collaboration en temps réel`}
+        desc={`Le travail d'équipe en toute simplicité. Collaborez avec les membres de votre équipe en temps réel, comme sur Figma. Discutez, concevez et livrez des bases de données en collaboration.`}
+        src={canvasDemo}
+        reverse
+      />
+      <CallToActionSection buttonText="Je me lance !" />
+      <Footer />
+    </div>
+  );
+};
 
-            </footer>
-        </div>
-        
-    )
-}
-
-
-export default Home
+export default Home;

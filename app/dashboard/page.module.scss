@@ -1,6 +1,26 @@
 .dashboard {
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+
+  .title {
+    margin-bottom: var(--spacing-xxl);
+
+    h1 {
+      display: inline;
+    }
+    .hi {
+      color: var(--gray);
+      margin-right: var(--spacing-s);
+    }
+    .user {
+      color: var(--primary-dark);
+    }
+
+    h2 {
+      color: var(--gray-60);
+      margin-top: var(--spacing-m);
+    }
+  }
 
   .mainContent {
     flex: 1;

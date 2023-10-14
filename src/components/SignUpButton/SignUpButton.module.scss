@@ -1,0 +1,16 @@
+.signUpButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: var(--border-radius-m);
+  color: var(--primary-white);
+  background-color: var(--primary);
+  padding: var(--spacing-m) var(--spacing-l);
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--primary-dark);
+  }
+}

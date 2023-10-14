@@ -8,6 +8,7 @@ export default async function middleware(req: NextRequest) {
     { url: "/register", mustBeConnected: false },
     { url: "/login", mustBeConnected: false },
     { url: "/dashboard", mustBeConnected: true },
+    { url: "/home", mustBeConnected: true }, // TODO : temporary
   ];
 
   const httpProtocol = req.headers.get("referer")?.split("://")[0]

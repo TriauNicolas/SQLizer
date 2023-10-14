@@ -1,0 +1,10 @@
+.homeBody {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: calc(var(--nav-height));
+  margin: 0 auto;
+}
