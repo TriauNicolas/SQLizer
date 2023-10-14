@@ -41,6 +41,7 @@ const Register = () => {
               height={100}
               width={108}
               alt="logo Sqilizer"
+              />
           </div>
         <div>
         <h1 className={styles.title_t1} >Créer votre compte</h1>
