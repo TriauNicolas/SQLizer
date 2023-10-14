@@ -1,32 +1,27 @@
 import { ConvertedData } from '@/types/tables';
 import { saveAs } from 'file-saver';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useApi } from '@/hooks/useApi';
 
-export const useDownloadSql = (convertedData: ConvertedData | null) => {
-  const [ apiSql, setApiSql ] = useState('');
-  const { sqlData, isFetching, fetchSQL } = useApi();
+export const useDownloadSql = () => {
+  const { sqlData, fetchSQL } = useApi();
 
-  // Attribute the value when the call is finished
-  useEffect(() => {
-    if (!isFetching) setApiSql(sqlData)
-  }, [sqlData, isFetching])
-
-  // Download callback
-  const downloadSql = useCallback(() => {
-
-    // Api Call
+  const triggerSqlFetch = useCallback((convertedData: ConvertedData | null) => {
     fetchSQL(convertedData);
+  }, [fetchSQL]);
 
-    // Create the SQL content (replace with your data)
-    const sqlContent = apiSql;
+  // Trigger the download when sqlData is updated
+  useEffect(() => {
+    if (sqlData) {
+        const sqlContent = sqlData;
 
-    // Convert the content to a Blob
-    const blob = new Blob([sqlContent], { type: 'text/plain;charset=utf-8' });
+        // Convert the content to a Blob
+        const blob = new Blob([sqlContent], { type: 'text/plain;charset=utf-8' });
 
-    // Trigger the file download
-    saveAs(blob, 'data.sql');
-  }, [apiSql, fetchSQL, convertedData])
+        // Trigger the file download
+        saveAs(blob, 'data.sql');
+    }
+  }, [sqlData]);
 
-  return { downloadSql }
+  return { triggerSqlFetch };
 };
