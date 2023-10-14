@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
-import "@/styles/auth.css";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { AuthProperties } from "@/types/auth";
-import { useForm } from "react-hook-form";
-import { doFetchRequest } from "@/api/fetch";
+import React from "react"
+import styles from "../../src/styles/auth.module.css"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { AuthProperties } from "@/types/auth"
+import { getAxiosInstance } from "@/api/axios"
+import { useForm } from "react-hook-form"
 
 const auth_register = "/auth/register";
 
@@ -31,12 +31,13 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h1>Créer votre compte</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className={styles.container}>
+      <h1 className={styles.title_t1} >Créer votre compte</h1>
+      <form className={styles.form_main} onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor="first_name">Prénom</label>
+          <label className={styles.title_label} htmlFor="first_name">Prénom</label>
           <input
+            className={styles.input_block}
             type="text"
             autoComplete="off"
             placeholder="Entrez votre prénom"
@@ -48,8 +49,9 @@ const Register = () => {
           {errors.first_name && <p>{errors.first_name.message}</p>}
         </div>
         <div>
-          <label htmlFor="last_name">Nom de famille</label>
+          <label className={styles.title_label}  htmlFor="last_name">Nom de famille</label>
           <input
+            className={styles.input_block}
             type="text"
             autoComplete="off"
             placeholder="Entrez votre nom de famille"
@@ -58,11 +60,12 @@ const Register = () => {
               pattern: /^[a-z ,.'-]+$/i,
             })}
           />
-          {errors.last_name && <p>{errors.last_name.message}</p>}
+          {errors.last_name && <p className={styles.writing}>{errors.last_name.message}</p>}
         </div>
         <div>
-          <label htmlFor="email">Email</label>
+          <label className={styles.title_label}  htmlFor="email">Email</label>
           <input
+            className={styles.input_block}
             type="email"
             autoComplete="off"
             placeholder="Entrez votre email"
@@ -71,11 +74,12 @@ const Register = () => {
               pattern: /^\S+@\S+$/i,
             })}
           />
-          {errors.email && <p>{errors.email.message}</p>}
+          {errors.email && <p className={styles.writing}>{errors.email.message}</p>}
         </div>
         <div>
-          <label htmlFor="password">Mot de passe</label>
+          <label className={styles.title_label}  htmlFor="password">Mot de passe</label>
           <input
+            className={styles.input_block}
             type="password"
             autoComplete="off"
             placeholder="Entrez votre mot de passe"
@@ -85,13 +89,13 @@ const Register = () => {
               min: 8,
             })}
           />
-          {errors.password && <p>{errors.password.message}</p>}
+          {errors.password && <p className={styles.writing}>{errors.password.message}</p>}
         </div>
         <div>
-          <input type="submit" value={`Créer un compte`} />
+          <input className={styles.input_block} type="submit" value={`Créer un compte`} />
         </div>
         <div>
-          <span>{"Vous possédez déjà un compte ?"}</span>
+          <span className={styles.subtitle}>{"Vous possédez déjà un compte ?"}</span>
           <Link href="/login">{"Se connecter"}</Link>
         </div>
       </form>

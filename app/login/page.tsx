@@ -1,7 +1,8 @@
 "use client"
 
 import React from "react"
-import "@/styles/auth.css"
+import styles from "../../src/styles/auth.module.css"
+import { getAxiosInstance } from "@/api/axios"
 import { AuthProperties } from "@/types/auth"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -32,12 +33,13 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <h1>Connectez-vous</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className={styles.container}>
+      <h1 className={styles.title_t1}>Connectez-vous</h1>
+      <form className={styles.form_main} onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor="email">Email</label>
+          <label className={styles.title_label} htmlFor="email">Email</label>
           <input
+            className={styles.input_block}
             type="email"
             autoComplete="off"
             placeholder="Entrez votre email"
@@ -46,8 +48,9 @@ const Login = () => {
           {errors.email && <p>{errors.email.message}</p>}
         </div>
         <div>
-          <label htmlFor="password">Mot de passe</label>
+          <label className={styles.title_label} htmlFor="password">Mot de passe</label>
           <input
+            className={styles.input_block}
             type="password"
             autoComplete="off"
             placeholder="Entrez votre mot de passe"
@@ -60,10 +63,10 @@ const Login = () => {
           {errors.password && <p>{errors.password.message}</p>}
         </div>
         <div>
-          <input type="submit" value={`Se connecter`} />
+          <input className={styles.input_block} type="submit" value={`Se connecter`} />
         </div>
         <div>
-          <span>Pas de compte ?</span>
+          <span className={styles.subtitle}>Pas de compte ?</span>
           <Link href="/register">{`Créer un compte`}</Link>
         </div>
       </form>
