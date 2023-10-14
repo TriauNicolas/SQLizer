@@ -6,8 +6,8 @@ import styles from "../../src/styles/auth.module.css"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { AuthProperties } from "@/types/auth"
-import { getAxiosInstance } from "@/api/axios"
 import { useForm } from "react-hook-form"
+import { doFetchRequest } from '@/api/fetch';
 
 const auth_register = "/auth/register";
 

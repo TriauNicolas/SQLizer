@@ -3,7 +3,6 @@ import Image from 'next/image';
 import logo from '../../public/logosqlizer.svg';
 import React from "react"
 import styles from "../../src/styles/auth.module.css"
-import { getAxiosInstance } from "@/api/axios"
 import { AuthProperties } from "@/types/auth"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -43,6 +42,7 @@ const Login = () => {
             height={100}
             width={108}
             alt="logo Sqilizer"
+            priority
           />
         </div>
         <div>
