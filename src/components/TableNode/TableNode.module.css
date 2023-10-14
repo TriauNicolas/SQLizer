@@ -31,9 +31,10 @@
 }
 
 .tableTitle {
-  background-color: #CFF5FF;
+  width: var(--base-width-table-node);
+  background-color: #5093C0;
   height: 50px;
-  border-bottom: 2px solid black;
+  border-bottom: 1.5px solid var(--border-color-table-node);
   border-radius: 2px;
   display: flex;
   flex-direction: column;
