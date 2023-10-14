@@ -3,10 +3,30 @@
 import React, { useState } from "react"
 import "@/styles/user.css"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { doFetchRequest } from "@/api/fetch"
+import { Workgroups } from "@/types/Workgroups"
 
 
 const User = () => {
+  const session = useSession()
+  // @ts-ignore
+  const token = session?.data?.user?.token
   const router = useRouter()
+  let workgroups:Workgroups[]
+
+  doFetchRequest({method:"GET", token, url:"/workgroups/getUserWorkgroupsDatas"})
+
+  const getWorkGroups = async () => {
+    try {
+      workgroups = await doFetchRequest({method:"GET", token, url:"/workgroups/getUserWorkgroupsDatas"});
+      console.log(workgroups);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  getWorkGroups()
 
   interface Rights {
     create_right: boolean;
@@ -77,25 +97,17 @@ const User = () => {
   };
 
   const addUserToGroup = (groupId:number, newUser:any) => {
-    // Find the group by its ID
     const groupIndex = groups.findIndex((group) => group.id === groupId);
-  
     if (groupIndex !== -1) {
-      // Update the group's user list with the new user
       const updatedGroup = { ...groups[groupIndex] };
       updatedGroup.users = [...updatedGroup.users, newUser];
-  
-      // Update the groups array in the state
       const updatedGroups = [...groups];
       updatedGroups[groupIndex] = updatedGroup;
-  
-      // Set the updated groups array in the state
       setGroups(updatedGroups);
     }
   };
 
   const handleAddUserToGroup = (groupId: number) => {
-    // Create a new user object (you can replace this with real user data)
     const newUser = {
       first_name: 'New',
       last_name: 'User',
@@ -107,44 +119,34 @@ const User = () => {
       },
     };
   
-    // Call the new function to add the user to the group
     addUserToGroup(groupId, newUser);
-  
-    // Clear the input field after adding the user
     setNewUserEmail('');
   };
 
   const handleDeleteUserFromGroup = (groupId:number, userEmail:string) => {
     const groupIndex = groups.findIndex((group) => group.id === groupId);
-
     if (groupIndex !== -1) {
       const updatedGroup = { ...groups[groupIndex] };
       updatedGroup.users = updatedGroup.users.filter(
         (user) => user.email !== userEmail
       );
-
       const updatedGroups = [...groups];
       updatedGroups[groupIndex] = updatedGroup;
-
       setGroups(updatedGroups);
     }
   };
 
   const handleToggleRight = (groupId: number, userEmail: string, rightName: keyof Rights) => {
     const groupIndex = groups.findIndex((group) => group.id === groupId);
-
     if (groupIndex !== -1) {
       const updatedGroup = { ...groups[groupIndex] };
       const userIndex = updatedGroup.users.findIndex(
         (user) => user.email === userEmail
       );
-
       if (userIndex !== -1) {
         updatedGroup.users[userIndex].rights[rightName] = !updatedGroup.users[userIndex].rights[rightName];
-
         const updatedGroups = [...groups];
         updatedGroups[groupIndex] = updatedGroup;
-
         setGroups(updatedGroups);
       }
     }
@@ -180,8 +182,8 @@ const User = () => {
                 </div>
                 <div className="users">
                   {group.users.map((user, index) => (
-                    <div className="user">
-                      <div key={user.id} className="user__inGroups">
+                    <div className="user" key={index}>
+                      <div className="user__inGroups">
                         <p>Email: {user.email}</p>
                         <p>Create Right: {user.rights.create_right ? 'Yes' : 'No'}</p>
                         <button
