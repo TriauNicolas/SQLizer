@@ -21,9 +21,6 @@ export const useEdges = () => {
   const onEdgeUpdate = useCallback((oldEdge: Edge, newConnection: Connection) => {
     edgeUpdateSuccessful.current = true;
 
-    console.log(oldEdge);
-    console.log(newConnection);
-
     // Delete socket infos & call
     const oldInfosFrom = (oldEdge.id).split('-')[0];
     const oldTableNameFrom = oldInfosFrom.split('.')[0];
@@ -67,8 +64,6 @@ export const useEdges = () => {
 
   const onConnect: OnConnect = useCallback(
     (connection) => {
-
-      console.log(connection);
       
       // Add socket infos & call
       if (connection.source && connection.target) {

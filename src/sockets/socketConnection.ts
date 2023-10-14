@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-import { getToken } from '@/utils/auth.utils';
+// import { getToken } from '@/utils/auth.utils';
 
 export const socketConnection = () => {
   console.log("Start connection")
@@ -23,7 +23,6 @@ export const socketConnection = () => {
     }
   });
   
-  console.log(socket)
   socket?.on('socketError', (data: any) => console.log(data));
   console.log("Connection successful")
 

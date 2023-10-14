@@ -80,7 +80,6 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
       const currentNode: Node<any> | undefined = idField ? getNode(idField) : undefined;
 
       if (currentNode) {
-        // const allNodes = getNodes();
         const titleParent: string = (infosField?.data.title).split('.')[0];
         const nameField: string = currentNode.data.name;
 
