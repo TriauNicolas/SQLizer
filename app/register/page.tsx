@@ -41,6 +41,7 @@ const Register = () => {
               height={100}
               width={108}
               alt="logo Sqilizer"
+              priority
               />
           </div>
         <div>
