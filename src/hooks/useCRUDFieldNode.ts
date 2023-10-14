@@ -1,5 +1,4 @@
 import { useReactFlow, Node } from 'reactflow';
-import { addFieldSocket } from '../sockets/socketEmitter';
 import { Field } from '@/types/tables';
 
 export const useCRUDFieldNode = (setNodes: Function, setEdges: Function) => {

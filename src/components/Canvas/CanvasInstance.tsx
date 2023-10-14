@@ -20,9 +20,11 @@ import { useDownloadSql } from '@/hooks/useDownloadSql'
 import { useNodes } from '@/hooks/useNodes';
 import { useCRUDTableNode } from '@/hooks/useCRUDTableNode';
 import { useEdges } from '@/hooks/useEdges';
-import { ResponseCreateEdgeEvent, ResponseCreateFieldEvent, ResponseCreateTableEvent, ResponseDeleteEdgeEvent, ResponseDeleteFieldEvent, ResponseDeleteTableEvent, ResponseMoveTableEvent, ResponseUpdateFieldEvent, ResponseUpdateTableNameEvent } from '@/types/socketEvent';
+import { ResponseCreateFieldEvent, ResponseCreateTableEvent, ResponseDeleteFieldEvent, ResponseDeleteTableEvent, ResponseMoveTableEvent, ResponseUpdateFieldEvent, ResponseUpdateTableNameEvent } from '@/types/socketEvent';
 import { socket } from './CanvasElement';
 import { useCRUDFieldNode } from '@/hooks/useCRUDFieldNode';
+import { useCRUDEdge } from '@/hooks/useCRUDEdge';
+import { Relation } from '@/types/tables';
 
 // Different nodes Types used for the canvas
 const nodeTypes: NodeTypes = {
@@ -36,6 +38,7 @@ export const CanvasInstance = () => {
   const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
   const { sendSocketTable, addTable, deleteTable, updateTableName, moveTable } = useCRUDTableNode(setNodes, setEdges);
   const { addField, updateField, deleteField } = useCRUDFieldNode(setNodes, setEdges);
+  const { addEdge, deleteEdge } = useCRUDEdge(setNodes, setEdges);
   const { getNodes } = useReactFlow();
   const { convertionData } = useDataToJson();
   const { triggerSqlFetch } = useDownloadSql();
@@ -56,8 +59,8 @@ export const CanvasInstance = () => {
     socket.on('responseDeleteField', (data: ResponseDeleteFieldEvent) => deleteField(data.tableName, data.fieldName));
     
     // Edges
-    // socket.on('requestCreateEdge', (data: ResponseCreateEdgeEvent) => console.log(data));
-    // socket.on('requestDeleteEdge', (data: ResponseDeleteEdgeEvent) => console.log(data));
+    socket.on('responseCreateEdge', (relation: Relation) => addEdge(relation));
+    socket.on('responseDeleteEdge', (relation: Relation) => deleteEdge(relation));
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);

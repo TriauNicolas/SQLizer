@@ -20,3 +20,8 @@ export type Field = {
   pk: boolean;
   nullable: boolean;
 }
+
+export type Relation = {
+  from: { table: string; field: string };
+  to: { table: string; field: string };
+}

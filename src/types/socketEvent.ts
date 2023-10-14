@@ -36,12 +36,3 @@ export type ResponseDeleteFieldEvent = {
     tableName: string;
     fieldName: string;
 }
-
-///// EDGES /////
-export type ResponseCreateEdgeEvent = {
-    table: Table
-}
-
-export type ResponseDeleteEdgeEvent = {
-    table: Table
-}
