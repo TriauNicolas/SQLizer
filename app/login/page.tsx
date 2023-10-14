@@ -42,9 +42,7 @@ const Login = () => {
             src={logo}
             height={100}
             width={108}
-            priority
-            alt="Add a field to the table"
-            onClick={() => openModal()}
+            alt="logo Sqilizer"
           />
         </div>
         <div>
