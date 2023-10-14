@@ -27,12 +27,12 @@
 .tableInput:focus {
   outline: none;
   border: 0;
-  border-bottom: 1.5px solid var(--border-color-table-node);
   background-color: transparent;
 }
 
 .tableTitle {
   width: var(--base-width-table-node);
+  background-color: #5093C0;
   height: 50px;
   border-bottom: 1.5px solid var(--border-color-table-node);
   border-radius: 2px;
