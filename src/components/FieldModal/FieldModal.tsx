@@ -3,7 +3,7 @@ import Image from 'next/image'
 import closeSVG from '../../../public/CloseCross.svg'
 import { useReactFlow, Node } from 'reactflow'
 import { useEffect, useState } from 'react'
-import { DataTable } from '@/types/tables'
+import { addFieldSocket, updateFieldSocket } from '@/sockets/socketEmitter'
 
 type FieldModalProps = {
   idTable: string | undefined | null;
@@ -56,55 +56,32 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
   const validateField = (event: any) => {
     event.preventDefault();
     
-    if (!isUpdate) {
-      const allNodes = getNodes();
-      const numberFieldsInParent = allNodes.filter((node) => node.parentNode === idTable).length;
-      const offsetY = 50 + (40 * numberFieldsInParent);
-  
-      if (idTable) {
-        const tableParentNode = getNode(idTable);
-        
-        if (tableParentNode) {
-
-          // Prepare node object
-          const newField = { 
-            id: (allNodes.length + 1).toString(),
-            type: "fieldNode", 
-            position: { x: 0, y: offsetY },
-            positionAbsolute: { x: 0, y: offsetY },
-            data: { 
-              title: `${tableParentNode.data.title}.${event.target[0].value}`, 
-              name: (event.target[0].value.replace(/ /g, '_')).toString(), 
-              type: (event.target[1].value).toString(), 
-              default: (event.target[2].value).toString(),
-              autoIncrement: event.target[3].checked,
-              pk: event.target[4].checked,
-              nullable: event.target[5].checked,
-            },
-            parentNode: idTable,
-            draggable: false,
-            selected: false,
-            hidden: true
-          }
-          
-          // Update the nodes
-          setNodes((nodes) => nodes.concat(newField));
-
-          // Update height parent
-          if (tableParentNode.style) {
-            tableParentNode.style.height = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--baseHeightTableNode").replace("px", "")) + 40;
-          }
-        } else {
-          console.log("tableParentNode not exists");
+    if (!isUpdate && idTable) {
+      const tableParentNode = getNode(idTable);        
+      
+      if (tableParentNode) {
+        const newField = { 
+          title: `${tableParentNode.data.title}.${event.target[0].value}`, 
+          name: (event.target[0].value.replace(/ /g, '_')).toString(), 
+          type: (event.target[1].value).toString(), 
+          default: (event.target[2].value).toString(),
+          autoIncrement: event.target[3].checked,
+          pk: event.target[4].checked,
+          nullable: event.target[5].checked,
         }
+        
+        // Send socket
+        addFieldSocket(newField, tableParentNode.data.title);
+      } else {
+        console.log("tableParentNode not exists");
       }
     } 
     else {
-      const currentNode: any = idField ? getNode(idField) : undefined;
+      const currentNode: Node<any> | undefined = idField ? getNode(idField) : undefined;
 
       if (currentNode) {
-        const allNodes = getNodes();
-        const titleParent = (infosField?.data.title).split('.')[0];
+        const titleParent: string = (infosField?.data.title).split('.')[0];
+        const nameField: string = currentNode.data.name;
 
         // Prepare node object
         const updatedField = {
@@ -116,13 +93,8 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
           pk: event.target[4].checked,
           nullable: event.target[5].checked,
         }
-
-        setNodes(allNodes.map((node) => {
-          if (node.id === idField) {
-            return ({...node, data: updatedField})
-          }
-          return ({...node})
-        }))
+        
+        updateFieldSocket(titleParent, nameField, updatedField);
       }
     }
   }
