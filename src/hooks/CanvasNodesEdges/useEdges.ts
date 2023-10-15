@@ -2,8 +2,6 @@ import { useState, useCallback, useRef } from 'react';
 import { Edge, OnEdgesChange, applyEdgeChanges, Connection, OnConnect, updateEdge, addEdge, useReactFlow} from 'reactflow';
 import { addEdgeSocket, deleteEdgeSocket } from '@/sockets/socketEmitter';
 
-// const initialEdges = [{ id: 'Users.2-UsersGroup.3', source: '2', target: '4', animated: true }];
-
 export const useEdges = () => {
   const [ edges, setEdges ] = useState<Edge[]>([]);
   const edgeUpdateSuccessful = useRef(true);

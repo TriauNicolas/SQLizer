@@ -3,7 +3,7 @@ import { addTableSocket } from '../../sockets/socketEmitter';
 import { Table } from '@/types/tables';
 
 // CSS Table
-const basicStyleTableNode: {} = {
+export const basicStyleTableNode: {} = {
   width: "var(--base-width-table-node)",
   minHeight: "var(--base-height-table-node)",
   backgroundColor: "#fff",
@@ -13,7 +13,6 @@ const basicStyleTableNode: {} = {
   flexDirection: "column",
   alignItems: "top",
   justifyContent: "flex-start",
-  color: "#000",
 }
 
 export const useCRUDTableNode = (setNodes: Function, setEdges: Function) => {
@@ -21,8 +20,7 @@ export const useCRUDTableNode = (setNodes: Function, setEdges: Function) => {
 
   // Send infos from canvas to socket
   const sendSocketTable = () => {
-    // const numberOfNodes = getNodes().length + 1;
-    const numberOfNodes = new Date;
+    const numberOfNodes = getNodes().length + 1;
 
     const tableSocket = { name: `NewTable${numberOfNodes}`, posX: 0, posY: 0, fields: [] };
 
@@ -43,7 +41,9 @@ export const useCRUDTableNode = (setNodes: Function, setEdges: Function) => {
   // Delete Table from socket
   const deleteTable = (tableName: string) => {
     // Remove the tableNode and the fieldNode related to the table
-    const nodesFiltered = getNodes().filter((node) => node.data.title != tableName && node.parentNode != tableName);
+    const allNodes = getNodes();
+    const nodeToDelete = allNodes.find((node) => node.data.title === tableName)
+    const nodesFiltered = allNodes.filter((node) => node.data.title != tableName && node.parentNode != nodeToDelete?.id);
 
     // Remove the edges related
     const allNodesRelatedToTable = getNodes().filter((node) => node.data.title != tableName && node.parentNode != tableName);

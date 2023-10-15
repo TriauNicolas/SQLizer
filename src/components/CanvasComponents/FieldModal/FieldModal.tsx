@@ -65,7 +65,6 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
       const tableParentNode = getNode(idTable);        
       
       if (tableParentNode) {
-        console.log(event.target)
         const type = (typeSelectValue === 'varchar' || typeSelectValue === 'char') ? (event.target[1].value).toString() + `(${(event.target[2].value).toString()})` : (event.target[1].value).toString()
         const newField = { 
           title: `${tableParentNode.data.title}.${event.target[0].value}`, 

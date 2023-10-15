@@ -8,11 +8,14 @@ import { Socket } from 'socket.io-client';
 import { socketConnection } from '@/sockets/socketConnection';
 
 export let socket: Socket
- 
-export const CanvasElement = () => {
+interface Props {
+  token: string,
+  databaseId: string
+}
+export const CanvasElement = ({token, databaseId}: Props) => {
   useEffect(() => {
-    if (!socket) socket = socketConnection();
-  }, [])
+    if (!socket) socket = socketConnection(token, databaseId);
+  }, [token, databaseId])
 
   return (
     <>

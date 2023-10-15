@@ -1,4 +1,11 @@
-import { Field, Table } from "./tables"
+import { Field, Relation, Table } from "./tables"
+
+///// Database /////
+export type ResponseGetDatabaseEvent = {
+    dbName: string;
+    tables: Table[];
+    relations: Relation[];
+}
 
 ///// TABLE /////
 export type ResponseCreateTableEvent = {
