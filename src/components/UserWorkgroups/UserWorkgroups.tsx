@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./UserWorkgroups.module.scss";
 import { doFetchRequest } from "@/api/fetch";
 
@@ -32,10 +32,9 @@ interface Props {
 }
 
 const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
-  console.log(users)
-  const [ toggleCreateRight, setToggleCreateRight ] = useState(false);
-  const [ toggleUpdateRight, setToggleUpdateRight ] = useState(false);
-  const [ toggleDeleteRight, setToggleDeleteRight ] = useState(false);
+  const [ toggleCreateRight, setToggleCreateRight ] = useState(users.rights.create_right);
+  const [ toggleUpdateRight, setToggleUpdateRight ] = useState(users.rights.update_right);
+  const [ toggleDeleteRight, setToggleDeleteRight ] = useState(users.rights.delete_right);
 
   const handleToggleRight = async (
     userId: string,
@@ -46,13 +45,12 @@ const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
     try {
       let url = '';
 
-      let rightBool: boolean = false
+      let rightBool: boolean;
 
       switch (rightName) {
         case 'create_right':
           url = '/workgroups/updateUserCreateRight';
           setToggleCreateRight(!toggleCreateRight)
-          console.log(rightBool)
           rightBool = toggleCreateRight
           break;
         case 'delete_right':
@@ -74,7 +72,7 @@ const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
         method: 'PUT',
         url,
         token: token,
-        data: { userId, groupId, [rightName]:rightBool },
+        data: { userId, groupId, [rightName]:!rightBool },
       });
   
       if (response.success) {
@@ -122,6 +120,10 @@ const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
                     'create_right'
                   )
                 }
+                onChange={() => {
+
+                }}
+                checked={toggleCreateRight}
               />
               <span 
               className={style.userGroupToggleButtonSpan}></span>
@@ -140,6 +142,10 @@ const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
                     'update_right'
                   )
                 }
+                onChange={() => {
+
+                }}
+                checked={toggleUpdateRight}
               />
               <span 
               className={style.userGroupToggleButtonSpan}></span>
@@ -158,6 +164,10 @@ const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
                     'delete_right'
                   )
                 }
+                onChange={() => {
+
+                }}
+                checked={toggleDeleteRight}
               />
               <span 
               className={style.userGroupToggleButtonSpan}></span>

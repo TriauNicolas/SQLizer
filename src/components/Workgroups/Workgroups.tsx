@@ -54,7 +54,7 @@ const Workgroups = ({group, token, initialUserEmail, status}:Props) => {
 
   const handleAddUserToGroup = async ( groupId: string ) => {
     const newUser = await doFetchRequest({method: 'PUT', url: '/workgroups/addUserToWorkgroup', token: token, data: {email: newUserEmail, groupId, update_right: true}})
-    console.log(newUser);
+
     setNewUserEmail('');
   };
 
@@ -62,7 +62,7 @@ const Workgroups = ({group, token, initialUserEmail, status}:Props) => {
     // Define handleAddUserToGroup function
     const handleAddUserToGroup = async (groupId: string) => {
       const newUser = await doFetchRequest({method: 'PUT', url: '/workgroups/addUserToWorkgroup', token, data: {email: newUserEmail, groupId, update_right: true}})
-      console.log(newUser);
+
       setNewUserEmail('');
     };
   }, [ newUserEmail, status ])
