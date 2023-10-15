@@ -62,8 +62,6 @@ const User = () => {
 
       getData().then((response) => {
         setData(response)
-
-        console.log(response)
       })
       .catch((error) => {
         console.log(error)
