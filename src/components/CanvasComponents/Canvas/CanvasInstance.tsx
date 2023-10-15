@@ -21,11 +21,12 @@ import { useDownloadSql } from '@/hooks/CanvasSQLCall/useDownloadSql'
 import { useNodes } from '@/hooks/CanvasNodesEdges/useNodes';
 import { useCRUDTableNode } from '@/hooks/CanvasCRUD/useCRUDTableNode';
 import { useEdges } from '@/hooks/CanvasNodesEdges/useEdges';
-import { ResponseCreateFieldEvent, ResponseCreateTableEvent, ResponseDeleteFieldEvent, ResponseDeleteTableEvent, ResponseMoveTableEvent, ResponseUpdateFieldEvent, ResponseUpdateTableNameEvent } from '@/types/socketEvent';
+import { ResponseGetDatabaseEvent, ResponseCreateFieldEvent, ResponseCreateTableEvent, ResponseDeleteFieldEvent, ResponseDeleteTableEvent, ResponseMoveTableEvent, ResponseUpdateFieldEvent, ResponseUpdateTableNameEvent } from '@/types/socketEvent';
 import { socket } from './CanvasElement';
 import { useCRUDFieldNode } from '@/hooks/CanvasCRUD/useCRUDFieldNode';
 import { useCRUDEdge } from '@/hooks/CanvasCRUD/useCRUDEdge';
 import { Relation } from '@/types/tables';
+import { useInitDatas } from '@/hooks/CanvasNodesEdges/useInitDatas';
 
 // Different nodes Types used for the canvas
 const nodeTypes: NodeTypes = {
@@ -37,6 +38,7 @@ export const CanvasInstance = () => {
   const [ variant, setVariant ] = useState<BackgroundVariant.Lines | BackgroundVariant.Dots | BackgroundVariant.Cross>(BackgroundVariant.Cross);
   const { nodes, setNodes, onNodesChange } = useNodes();
   const { edges, setEdges, onEdgeUpdateStart, onEdgesChange, onEdgeUpdate, onEdgeUpdateEnd, onConnect } = useEdges();
+  const { initDatasCanvas } = useInitDatas(setNodes, setEdges);
   const { sendSocketTable, addTable, deleteTable, updateTableName, moveTable } = useCRUDTableNode(setNodes, setEdges);
   const { addField, updateField, deleteField } = useCRUDFieldNode(setNodes, setEdges);
   const { addEdge, deleteEdge } = useCRUDEdge(setNodes, setEdges);
@@ -47,6 +49,9 @@ export const CanvasInstance = () => {
   useEffect(() => {
     // Wait the initialization of the socket
     if (!socket) return;
+
+    // Get datas from the database
+    socket.on('responseGetDatabase', (data: ResponseGetDatabaseEvent) => initDatasCanvas(data.tables, data.relations));
     
     // Tables
     socket.on('responseCreateTable', (data: ResponseCreateTableEvent) => addTable(data.table));
