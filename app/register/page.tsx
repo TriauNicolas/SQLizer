@@ -25,7 +25,7 @@ const Register = () => {
         url: auth_register,
         data,
       });
-      if (response.statusText === "OK") router.push("/login");
+      if (response.success) router.push("/login");
     } catch (error) {
       console.log(error);
     }
