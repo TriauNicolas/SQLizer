@@ -12,7 +12,7 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import stylesCanvas from './CanvasInstance.module.css';
-import styles from '../../styles/page.module.css';
+import styles from '../../../styles/page.module.css';
 import { TableNode } from '../TableNode/TableNode';
 import { FieldNode } from '../FieldNode/FieldNode';
 import { InfosTable } from '../InfosTable/InfosTable';
