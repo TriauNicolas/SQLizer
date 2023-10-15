@@ -46,7 +46,7 @@ const Login = () => {
           />
         </div>
         <div>
-        <h1 className={styles.title_t1}>Connectez-vous</h1>
+        <h2 className={styles.title_t2}>Connectez-vous</h2>
         <form className={styles.form_main} onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label className={styles.title_label} htmlFor="email">Email</label>

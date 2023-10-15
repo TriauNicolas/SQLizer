@@ -45,7 +45,7 @@ const Register = () => {
               />
           </div>
         <div>
-        <h1 className={styles.title_t1} >Créer votre compte</h1>
+        <h1 className={styles.title_t2} >Créer votre compte</h1>
           <form className={styles.form_main} onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className={styles.title_label} htmlFor="first_name">Prénom</label>
