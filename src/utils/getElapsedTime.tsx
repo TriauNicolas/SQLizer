@@ -1,7 +1,13 @@
-export function getElapsedTime(date: EpochTimeStamp): string {
-  const time = Math.trunc(Math.abs((date - new Date().getTime()) / 36e5));
-  if (time > 24 && time < 48) return `${Math.trunc(time / 24)} day`;
-  else if (time > 24) return `${Math.trunc(time / 24)} days`;
-  else if (time < 1) return `${time} hour`;
-  else return `${time} hours`;
+export function getElapsedTime(date: any): string {
+  const timestamp = new Date(date).getTime();
+  const elapsedMilliseconds = Math.abs(timestamp - new Date().getTime());
+
+  const hours = Math.trunc(elapsedMilliseconds / 36e5);
+  const minutes = Math.trunc((elapsedMilliseconds % 36e5) / 60000);
+
+  if (hours >= 48) return `${Math.trunc(hours / 24)} days`;
+  else if (hours >= 24) return `${Math.trunc(hours / 24)} day`;
+  else if (hours === 1) return `${hours} hour ${minutes} minutes`;
+  else if (hours > 1) return `${hours} hours ${minutes} minutes`;
+  else return `${minutes} minutes`;
 }

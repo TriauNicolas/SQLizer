@@ -1,6 +1,6 @@
 "use client";
 import styles from "./Sidebar.module.scss";
-import { Key, useState } from "react";
+import { Key, useContext, useEffect, useState } from "react";
 
 // Images
 import GroupIcon from "../Icons/GroupIcon";
@@ -10,15 +10,68 @@ import EditIcon from "../Icons/EditIcon";
 import FavIcon from "../Icons/FavIcon";
 import MentionIcon from "../Icons/MentionIcon";
 import PersonIcon from "../Icons/PersonIcon";
-
-// Dummy Data
-// TODO: Temporary groups, Load true data
-import { groups } from "@/dummiesData/groups";
 import CreateGroupButton from "../CreateGroupButton/CreateGroupButton";
+import { DashboardContext } from "../../../app/dashboard/layout";
+import { doFetchRequest } from "@/api/fetch";
+import CrossIcon from "../Icons/CrossIcon";
 
 const SideBar = () => {
   const [showGroups, setShowGroups] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
+  const [groupName, setGroupName] = useState("");
+
+  const { token, data, setData, selectedGroupId, setSelectedGroupId } =
+    useContext(DashboardContext);
+
+  const handleDeleteWorkGroup = async (group_id: string) => {
+    try {
+      const deletedWorkGroup = await doFetchRequest({
+        method: "DELETE",
+        url: "/workgroups/deleteWorkgroup",
+        token,
+        data: {
+          group_id,
+        },
+      });
+
+      if (deletedWorkGroup && deletedWorkGroup.success) {
+        const updatedGroups = data.workgroups.filter(
+          (group: { group_id: string }) => group.group_id !== group_id
+        );
+        setData((prevData: any) => ({
+          ...prevData,
+          workgroups: updatedGroups,
+        }));
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error(`Error deleting group: ${group_id}`, error);
+    }
+  };
+  const handleCreateWorkGroup = async (group_name: string) => {
+    try {
+      const newWorkGroup = await doFetchRequest({
+        method: "POST",
+        url: "/workgroups/createWorkgroup",
+        token,
+        data: {
+          group_name,
+        },
+      });
+      window.location.reload();
+      if (newWorkGroup) {
+        console.log("AHHA", newWorkGroup);
+        const updatedGroups = [...data.workgroups, newWorkGroup];
+        setData((prevData: any) => ({
+          ...prevData,
+          workgroups: updatedGroups,
+        }));
+        setGroupName("");
+      }
+    } catch (error) {
+      console.error(`Error creating new group: ${group_name}`, error);
+    }
+  };
 
   return (
     <div className={styles.sidebar}>
@@ -55,21 +108,35 @@ const SideBar = () => {
                 <DropdownArrow />
               </span>
             </span>
-            <ul
-              className={`${styles.dropdown} ${
-                groups.length > 5 && styles.overflow
-              }`}
-            >
-              {groups.map((_group: any, _key: Key) => {
+            <ul className={`${styles.dropdown}`}>
+              {data.workgroups.map((_group: any, _key: Key) => {
                 return (
-                  <li className={styles.link} key={_key}>
-                    {_group.name}
+                  <li
+                    onClick={() => {
+                      setSelectedGroupId(_group.workgroups.id);
+                    }}
+                    className={`${styles.link} ${
+                      _group.group_id === selectedGroupId && styles.selected
+                    }`}
+                    key={_key}
+                  >
+                    {_group?.workgroups?.group_name
+                      ? _group.workgroups.group_name
+                      : "New Group ..."}
+                    {_group.delete_right && (
+                      <span
+                        style={{ display: "flex" }}
+                        onClick={() => handleDeleteWorkGroup(_group.group_id)}
+                      >
+                        <CrossIcon />
+                      </span>
+                    )}
                   </li>
                 );
               })}
             </ul>
           </li>
-          <li className={styles.link}>
+          <li className={`${styles.link} ${styles.upcoming}`}>
             <div className={styles.linkSubContainer}>
               <span className={styles.svgContainer}>
                 <PersonIcon />
@@ -77,7 +144,7 @@ const SideBar = () => {
               <p>Assigned to me</p>
             </div>
           </li>
-          <li className={styles.link}>
+          <li className={`${styles.link} ${styles.upcoming}`}>
             <div className={styles.linkSubContainer}>
               <span className={styles.svgContainer}>
                 <MentionIcon />
@@ -85,7 +152,7 @@ const SideBar = () => {
               <p>Mentioned</p>
             </div>
           </li>
-          <li className={styles.link}>
+          <li className={`${styles.link} ${styles.upcoming}`}>
             <div className={styles.linkSubContainer}>
               <span className={styles.svgContainer}>
                 <FavIcon />
@@ -93,7 +160,7 @@ const SideBar = () => {
               <p>Favorites</p>
             </div>
           </li>
-          <li className={styles.link}>
+          <li className={`${styles.link} ${styles.upcoming}`}>
             <div className={styles.linkSubContainer}>
               <span className={styles.svgContainer}>
                 <CheckmarkIcon />
@@ -101,7 +168,7 @@ const SideBar = () => {
               <p>Closed</p>
             </div>
           </li>
-          <li className={styles.link}>
+          <li className={`${styles.link} ${styles.upcoming}`}>
             <div className={styles.linkSubContainer}>
               <span className={styles.svgContainer}>
                 <EditIcon />
@@ -110,7 +177,19 @@ const SideBar = () => {
             </div>
           </li>
         </ul>
-        <CreateGroupButton />
+        <input
+          type="text"
+          value={groupName}
+          onChange={(e) => {
+            setGroupName(e.target.value);
+          }}
+          placeholder="Enter workgroup name"
+          className={styles.groupInput}
+        />
+        <CreateGroupButton
+          active={groupName !== ""}
+          OnClick={() => handleCreateWorkGroup(groupName)}
+        />
       </div>
 
       <span className={styles.separator}></span>

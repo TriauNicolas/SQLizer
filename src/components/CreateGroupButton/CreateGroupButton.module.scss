@@ -6,10 +6,11 @@
   border: none;
   border-radius: var(--border-radius-m);
   color: var(--gray);
-  cursor: pointer;
+  cursor: not-allowed;
+  pointer-events: none;
   background-color: var(--gray-light);
   padding: var(--spacing-s) var(--spacing-xl);
-  margin-top: var(--spacing-xxl);
+  opacity: 0.35;
 
   &:hover {
     color: var(--primary);
@@ -17,5 +18,11 @@
 
   p {
     margin: 2px 0;
+  }
+
+  &.active {
+    cursor: pointer;
+    pointer-events: all;
+    opacity: 1;
   }
 }

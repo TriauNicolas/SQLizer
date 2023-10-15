@@ -7,15 +7,25 @@ import DeleteIcon from "../Icons/DeleteIcon";
 import FavIcon from "../Icons/FavIcon";
 import FilledFavIcon from "../Icons/FilledFavIcon";
 import placeholder from "@/../public/img/projectPH.jpg";
+import { doFetchRequest } from "@/api/fetch";
 
 interface Props {
-  title: string;
-  imageSrc: string | undefined;
-  fav: boolean;
+  name: string;
+  imageSrc?: string | undefined;
+  fav?: boolean;
   lastEdit: EpochTimeStamp;
+  Open: () => void;
+  Duplicate: () => void;
 }
 
-const ProjectPreview = ({ title, imageSrc, lastEdit, fav }: Props) => {
+const ProjectPreview = ({
+  name,
+  imageSrc,
+  lastEdit,
+  fav,
+  Open,
+  Duplicate,
+}: Props) => {
   const timePassed = getElapsedTime(lastEdit);
 
   return (
@@ -23,26 +33,34 @@ const ProjectPreview = ({ title, imageSrc, lastEdit, fav }: Props) => {
       <div className={styles.hoverIcons}>
         <div>
           {/*TODO: Create and use edit function */}
-          <EditNameIcon />
+          {/* <EditNameIcon /> */}
           {/*TODO: Create and use copy function */}
-          <CopyIcon />
+
+          <span onClick={Duplicate}>
+            <CopyIcon />
+          </span>
         </div>
         <div>
           {/*TODO: Create and use delete function */}
-          <DeleteIcon />
+          {/* <DeleteIcon /> */}
           {/*TODO: Create and use favorite function */}
-          {fav ? <FilledFavIcon /> : <FavIcon />}
+          {/* {fav ? <FilledFavIcon /> : <FavIcon />} */}
         </div>
       </div>
       <Image
         src={imageSrc ? imageSrc : placeholder}
-        alt={title}
+        alt={name}
         width={200}
         height={200}
+        onClick={Open}
       />
       {/* TODO: Create and use rename function */}
-      <p className={`body ${styles.title}`}>{title}</p>
-      <p className={`detail ${styles.edited}`}>{`Edited ${timePassed} ago`}</p>
+      <div onClick={Open}>
+        <p className={`body ${styles.title}`}>{name}</p>
+        <p
+          className={`detail ${styles.edited}`}
+        >{`Edited ${timePassed} ago`}</p>
+      </div>
     </div>
   );
 };
