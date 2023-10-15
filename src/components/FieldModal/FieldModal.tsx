@@ -2,7 +2,7 @@ import modalStyle from './FieldModal.module.css'
 import Image from 'next/image'
 import closeSVG from '../../../public/CloseCross.svg'
 import { useReactFlow, Node } from 'reactflow'
-import { useEffect, useState } from 'react'
+import { useEffect, useState} from 'react'
 import { addFieldSocket, updateFieldSocket } from '@/sockets/socketEmitter'
 
 type FieldModalProps = {
@@ -18,6 +18,7 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
   const [ boolAutoInc, setBoolAutoInc ] = useState(false);
   const [ boolPK, setBoolPK ] = useState(false);
   const [ boolNullable, setBoolNullable ] = useState(false);
+  const [ typeSelectValue, setTypeSelectValue ] = useState("");
 
   // Determine if the modal is for adding or update a field
   useEffect(() => {
@@ -33,6 +34,9 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
     }
   }, [idField, getNode, infosField])
   
+  const handleTypeSelectValueChange = (event) => {
+    setTypeSelectValue(event.target.value)
+  }
   // Manage possibilities with options
   const handleClickOptions = (type: string) => {
     switch (type) {
@@ -60,14 +64,16 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
       const tableParentNode = getNode(idTable);        
       
       if (tableParentNode) {
+        console.log(event.target)
+        const type = (typeSelectValue === 'varchar' || typeSelectValue === 'char') ? (event.target[1].value).toString() + `(${(event.target[2].value).toString()})` : (event.target[1].value).toString()
         const newField = { 
           title: `${tableParentNode.data.title}.${event.target[0].value}`, 
           name: (event.target[0].value.replace(/ /g, '_')).toString(), 
-          type: (event.target[1].value).toString(), 
-          default: (event.target[2].value).toString(),
-          autoIncrement: event.target[3].checked,
-          pk: event.target[4].checked,
-          nullable: event.target[5].checked,
+          type, 
+          default: (event.target[3].value).toString(),
+          autoIncrement: event.target[4].checked,
+          pk: event.target[5].checked,
+          nullable: event.target[6].checked,
         }
         
         // Send socket
@@ -88,17 +94,16 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
           title: `${titleParent}.${event.target[0].value}`, 
           name: (event.target[0].value.replace(/ /g, '_')).toString(), 
           type: (event.target[1].value).toString(), 
-          default: (event.target[2].value).toString(),
-          autoIncrement: event.target[3].checked,
-          pk: event.target[4].checked,
-          nullable: event.target[5].checked,
+          default: (event.target[3].value).toString(),
+          autoIncrement: event.target[4].checked,
+          pk: event.target[5].checked,
+          nullable: event.target[6].checked,
         }
         
         updateFieldSocket(titleParent, nameField, updatedField);
       }
     }
   }
-  
   return (
     <div className={`${idField == undefined ? modalStyle.modalContainer : modalStyle.modalUpdateContainer}`}>
       <Image 
@@ -120,7 +125,7 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
               </div>
               <div className={modalStyle.typeContainer}>
                 <label htmlFor="type">Type: </label>
-                <select name="type" id="type" className={modalStyle.selectType} defaultValue={infosField ? infosField.data.type : ''}>
+                <select name="type" id="type" className={modalStyle.selectType} defaultValue={infosField ? infosField.data.type : ''} onChange={handleTypeSelectValueChange}>
                 {[
                   "int",
                   "bit",
@@ -153,6 +158,18 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
                   </option>
                 ))}
                 </select>
+                <div className={(typeSelectValue !== 'varchar' && typeSelectValue !== 'char') ? modalStyle.inputSpecial : ''}>
+                  <label htmlFor="size">Size: </label>
+                  <input
+                   id="size" 
+                   name="size" 
+                   type="number" 
+                   min="1"
+                   max={typeSelectValue === 'varchar' ? "255" : "65535"}
+                   className={modalStyle.inputDefault} 
+                   defaultValue={infosField ? infosField.data.default : ''} 
+                   />
+                </div>
               </div>
               <div className={modalStyle.defaultContainer}>
                 <label htmlFor="defaultInput">Default: </label>

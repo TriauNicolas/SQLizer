@@ -7,7 +7,7 @@ export const socketConnection = () => {
   const url = process.env.API_URL
   if (!url) throw new Error("url is not defined");
   
-  const roomId = "d31d401f-b277-4940-b28d-7625db7224b9";
+  const roomId = "32b4a4a6-1f98-4862-932b-059f0b72f06c";
   
   const socket: Socket = io(url, {
     path: "/sqlizer/",
@@ -17,7 +17,7 @@ export const socketConnection = () => {
     transportOptions: {
       polling: {
         extraHeaders: {
-          BearerToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZhNjliOWU3LWMwMGItNDM4Mi1iNTExLTBlM2Q5OGRkZTgyNiIsImlhdCI6MTY5NzI1MjE5MCwiZXhwIjoxNjk3ODU2OTkwfQ.aZdtn066i30BWFW0H6Lw7fJbnk9za4uA5zh8iIue2GQ'
+          BearerToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFhOGRmNzU5LTA5ZDQtNGFiMy05Y2U1LTFjNjBiZDRlNGRiOSIsImlhdCI6MTY5NzMwNzAzMywiZXhwIjoxNjk3OTExODMzfQ.O-vuqIzEvjcVtVFo0FGd8dvOtksCmLc8_4AzrEImJys'
         }
       }
     }

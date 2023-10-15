@@ -12,6 +12,7 @@
   background: rgba(0, 0, 0, 0.6);
 }
 
+
 .modalUpdateContainer {
   position: absolute;
   top: 0;
@@ -84,6 +85,9 @@
 
 .inputName, .selectType, .inputDefault, .typeOptions, .autoInc, .primaryKey, .isNull {
   pointer-events: var(--primaryPointerEvents);
+}
+.inputSpecial{
+  display: none;
 }
 
 .infosContainer > div, .optionsContainer > div {
