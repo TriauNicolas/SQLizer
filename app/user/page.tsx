@@ -1,235 +1,201 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect, use } from "react"
 import "@/styles/user.css"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { doFetchRequest } from "@/api/fetch"
-import { Workgroups } from "@/types/Workgroups"
+import { session } from "../SessionProvider"
 
+interface Data {
+  success: boolean,
+  groups: Workgroups[]
+}
+
+interface Rights {
+  create_right: boolean;
+  update_right: boolean;
+  delete_right: boolean;
+}
+
+interface Workgroups {
+  group_id: string,
+  group_name: string,
+  rights: Rights,
+  is_admin: boolean,
+  users?: {
+    user_id: string,
+    first_name: string,
+    last_name: string,
+    email: string,
+    rights: Rights,
+  }[],
+}
+
+interface UserType {
+  first_name: string,
+  last_name: string,
+  email: string,
+}
 
 const User = () => {
-  const session = useSession()
-  // @ts-ignore
-  const token = session?.data?.user?.token
-  const router = useRouter()
-  let workgroups:Workgroups[]
+  const { data: session, status } = useSession();
 
-  doFetchRequest({method:"GET", token, url:"/workgroups/getUserWorkgroupsDatas"})
+  console.log(useSession())
 
-  const getWorkGroups = async () => {
-    try {
-      workgroups = await doFetchRequest({method:"GET", token, url:"/workgroups/getUserWorkgroupsDatas"});
-      console.log(workgroups);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  getWorkGroups()
-
-  interface Rights {
-    create_right: boolean;
-    update_right: boolean;
-    delete_right: boolean;
-  }
-
-  const fakeUser = {
-    email: 'robinpinon1@gmail.com',
-    first_name: 'robin',
-    last_name: 'pinon',
-  }
-
-  const fakeGroups = [
-    {
-      id: 1,
-      grpName: 'Group 1',
-      isAdmin: true,
-      rights: {
-        create_right: true,
-        update_right: true,
-        delete_right: false,
-      },
-      users: [
-        {
-          id: 1,
-          first_name: 'John',
-          last_name: 'Doe',
-          email: 'john@example.com',
-          rights: {
-            create_right: true,
-            update_right: false,
-            delete_right: false,
-          },
-        },
-        {
-          id: 2,
-          first_name: 'John',
-          last_name: 'Doe',
-          email: 'Doe@example.com',
-          rights: {
-            create_right: true,
-            update_right: false,
-            delete_right: false,
-          },
-        },
-      ],
-    },
-    {
-      id: 2,
-      grpName: 'Group 2',
-      isAdmin: false,
-      rights: {
-        create_right: false,
-        update_right: false,
-        delete_right: false,
-      },
-      users: [],
-    },
-  ];
-
-  const [groups, setGroups] = useState(fakeGroups);
-  const [newUserEmail, setNewUserEmail] = useState('');
-
-  const handleDeleteGroup = (groupId:number) => {
-    const updatedGroups = groups.filter((group) => group.id !== groupId);
-    setGroups(updatedGroups);
-  };
-
-  const addUserToGroup = (groupId:number, newUser:any) => {
-    const groupIndex = groups.findIndex((group) => group.id === groupId);
-    if (groupIndex !== -1) {
-      const updatedGroup = { ...groups[groupIndex] };
-      updatedGroup.users = [...updatedGroup.users, newUser];
-      const updatedGroups = [...groups];
-      updatedGroups[groupIndex] = updatedGroup;
-      setGroups(updatedGroups);
-    }
-  };
-
-  const handleAddUserToGroup = (groupId: number) => {
-    const newUser = {
-      first_name: 'New',
-      last_name: 'User',
-      email: newUserEmail,
-      rights: {
-        create_right: true,
-        update_right: true,
-        delete_right: false,
-      },
-    };
+  const [ workgroups, setWorkgroups ] = useState<Workgroups[]>();
+  const [ data, setData ] = useState<Data>();
+  const [ token, setToken ] = useState("");
+  const [ user, setUser ] = useState<UserType>();
+  const [ newUserEmail, setNewUserEmail ] = useState('');
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   
-    addUserToGroup(groupId, newUser);
+  useEffect(() => {
+    if (status === 'authenticated') {
+      // @ts-ignore
+      setToken(session?.user?.token)
+      setUser({
+        // @ts-ignore
+        first_name: session?.user?.firstName,
+        // @ts-ignore
+        last_name: session?.user?.lastName,
+        // @ts-ignore
+        email: session?.user?.email
+      })
+      const getData = async() => {
+        // @ts-ignore
+        return await doFetchRequest({method:"GET", token: session?.user?.token, url:"/workgroups/getUserWorkgroupsDatas"})
+      }
+
+      getData().then((response) => {
+        setData(response)
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    }
+  }, [status, session]);
+
+  useEffect(() => {
+    if (!data) return
+    setWorkgroups(data.groups)
+  }, [data])
+
+  useEffect(() => {
+    if (!workgroups) return
+  }, [workgroups])
+
+  const handleDeleteGroup = (groupId:string) => {
+    const updatedGroups = workgroups?.filter((group:Workgroups) => group.group_id !== groupId);
+    setWorkgroups(updatedGroups);
+  };
+  
+
+  const handleAddUserToGroup = async (groupId: string) => {
+    const newUser = await doFetchRequest({method: 'PUT', url: '/workgroups/addUserToWorkgroup', token, data: {email: newUserEmail, groupId, update_right: true}})
+    console.log(newUser);
     setNewUserEmail('');
   };
 
-  const handleDeleteUserFromGroup = (groupId:number, userEmail:string) => {
-    const groupIndex = groups.findIndex((group) => group.id === groupId);
-    if (groupIndex !== -1) {
-      const updatedGroup = { ...groups[groupIndex] };
-      updatedGroup.users = updatedGroup.users.filter(
-        (user) => user.email !== userEmail
-      );
-      const updatedGroups = [...groups];
-      updatedGroups[groupIndex] = updatedGroup;
-      setGroups(updatedGroups);
-    }
+  const handleDeleteUserFromGroup = async (groupId: string, userId: string) => {
+    // TODO : Link with back
+  };
+  
+
+  const handleToggleRight = async (groupId: string, userEmail: string, rightName: keyof Rights) => {
+    // TODO : Link with back
   };
 
-  const handleToggleRight = (groupId: number, userEmail: string, rightName: keyof Rights) => {
-    const groupIndex = groups.findIndex((group) => group.id === groupId);
-    if (groupIndex !== -1) {
-      const updatedGroup = { ...groups[groupIndex] };
-      const userIndex = updatedGroup.users.findIndex(
-        (user) => user.email === userEmail
-      );
-      if (userIndex !== -1) {
-        updatedGroup.users[userIndex].rights[rightName] = !updatedGroup.users[userIndex].rights[rightName];
-        const updatedGroups = [...groups];
-        updatedGroups[groupIndex] = updatedGroup;
-        setGroups(updatedGroups);
-      }
-    }
+  const handleSelectGroup = (groupId: string) => {
+    setSelectedGroup(groupId);
   };
 
   return (
     <div className="container">
-      <h1>Profil utilisateur de : {fakeUser.first_name} {fakeUser.last_name}</h1>
+      <h1>Profil utilisateur de : {user?.first_name} {user?.last_name}</h1>
       <h2>Mes groupes</h2>
       <div className="groups">
-        {groups.map((group) => (
-          <div key={group.id}>
+        {workgroups?.map((group:Workgroups) => (
+          <div key={group.group_id}>
             <h2>Group Information</h2>
-            {!group.isAdmin && (
+            {!group.is_admin && (
               <div className="groups__notAdmin">
-                <p>Group Name: {group.grpName}</p>
-                <button onClick={() => handleDeleteGroup(group.id)}>Quitter le groupe</button>
+                <p>Group Name: {group.group_name}</p>
+                <button onClick={() => handleDeleteGroup(group.group_id)}>Quitter le groupe</button>
               </div>
             )}
-            {group.isAdmin && (
+            {group.is_admin && (
               <div>
                 <div className="groups__isAdmin">
-                  <p>Group Name: {group.grpName}</p>
-                  <div>
-                    <input
-                      type="email"
-                      placeholder="Enter user's email"
-                      value={newUserEmail}
-                      onChange={(e) => setNewUserEmail(e.target.value)}
-                    />
-                    <button onClick={() => handleAddUserToGroup(group.id)}>Add User</button>
-                  </div>
+                  <p>Group Name: {group.group_name}</p>
+                  {group.group_name !== 'Mes Projets' && (
+                    <div>
+                      <button className="SelectedGroup" onClick={() => handleSelectGroup(group.group_id)}>AddUser</button>
+                    </div>
+                  )}
+                  {selectedGroup === group.group_id && (
+                    <div>
+                      <input
+                        type="email"
+                        placeholder="Enter user's email"
+                        value={newUserEmail} // Set the value based on newUserEmail
+                        onChange={(e) => setNewUserEmail(e.target.value)}
+                      />
+                      <button onClick={() => handleAddUserToGroup(group.group_id)}>Add User</button>
+                    </div>
+                  )}
                 </div>
                 <div className="users">
-                  {group.users.map((user, index) => (
+                  {group?.users?.map((users, index) => (
                     <div className="user" key={index}>
-                      <div className="user__inGroups">
-                        <p>Email: {user.email}</p>
-                        <p>Create Right: {user.rights.create_right ? 'Yes' : 'No'}</p>
-                        <button
-                          onClick={() =>
-                            handleToggleRight(
-                              group.id,
-                              user.email,
-                              'create_right'
-                            )
-                          }
-                        >
-                          Toggle Create Right
-                        </button>
-                        <p>Update right: {user.rights.update_right ? 'Yes' : 'No'}</p>
-                        <button
-                          onClick={() =>
-                            handleToggleRight(
-                              group.id,
-                              user.email,
-                              'update_right'
-                            )
-                          }
-                        >
-                          Toggle Update right
-                        </button>
-                        <p>Delete Right: {user.rights.delete_right ? 'Yes' : 'No'}</p>
-                        <button
-                          onClick={() =>
-                            handleToggleRight(
-                              group.id,
-                              user.email,
-                              'delete_right'
-                            )
-                          }
-                        >
-                          Toggle Delete Right
-                        </button>
-                        <button
-                          onClick={() =>
-                            handleDeleteUserFromGroup(group.id, user.email)
-                          }
-                        >
-                          Expulser
-                        </button>
-                      </div>
-                      
+                      {users.email != user?.email && (
+                        <div className="user__inGroups">
+                          <p>Email: {users.email}</p>
+                          <p>Create Right: {users.rights.create_right ? 'Yes' : 'No'}</p>
+                          <button
+                            onClick={() =>
+                              handleToggleRight(
+                                group.group_id,
+                                users.email,
+                                'create_right'
+                              )
+                            }
+                          >
+                            Toggle Create Right
+                          </button>
+                          <p>Update right: {users.rights.update_right ? 'Yes' : 'No'}</p>
+                          <button
+                            onClick={() =>
+                              handleToggleRight(
+                                group.group_id,
+                                users.email,
+                                'update_right'
+                              )
+                            }
+                          >
+                            Toggle Update right
+                          </button>
+                          <p>Delete Right: {users.rights.delete_right ? 'Yes' : 'No'}</p>
+                          <button
+                            onClick={() =>
+                              handleToggleRight(
+                                group.group_id,
+                                users.email,
+                                'delete_right'
+                              )
+                            }
+                          >
+                            Toggle Delete Right
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleDeleteUserFromGroup(group.group_id, users.user_id)
+                            }
+                          >
+                            Expulser
+                          </button>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
