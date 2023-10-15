@@ -1,8 +1,10 @@
 
 .userGroupToggle{
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   margin-bottom: 10px;
+  gap: .5rem;
+  padding: .5rem 0;
 }
 
 .userGroupToggle p {
@@ -63,6 +65,16 @@ input:checked + .userGroupToggleButtonSpan:before {
 
 .usersGroup {
   margin-left: 2vw;
+  padding: .5rem 0;
+}
+
+.user__inGroups{
+  display: flex;
+  flex-direction: column;  
+  justify-content: space-between;
+  > p {
+    margin-bottom: 1rem;
+  }
 }
 
 .userGroupRemove{

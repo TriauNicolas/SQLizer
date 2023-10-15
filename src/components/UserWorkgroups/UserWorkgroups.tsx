@@ -109,7 +109,7 @@ const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
         <div className={style.user__inGroups}>
           <p>Email: <strong>{users.email}</strong></p>
           <div className={style.userGroupToggle}>
-            <p>Create Right: <strong>{toggleCreateRight ? 'Yes' : 'No'}</strong></p>
+            <p>Create Right:</p>
             <div className={style.userGroupToggleButton}>
               <input
               className={style.userGroupToggleButtonInput}
@@ -131,7 +131,7 @@ const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
             </div>
           </div>
           <div className={style.userGroupToggle}>
-            <p>Update right: <strong>{toggleUpdateRight ? 'Yes' : 'No'}</strong></p>
+            <p>Update right:</p>
             <div className={style.userGroupToggleButton}>
               <input
                 className={style.userGroupToggleButtonInput}
@@ -153,7 +153,7 @@ const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
             </div>
           </div>
           <div className={style.userGroupToggle}>
-            <p>Delete Right: <strong>{toggleDeleteRight ? 'Yes' : 'No'}</strong></p>
+            <p>Delete Right:</p>
             <div className={style.userGroupToggleButton}>
               <input
                 className={style.userGroupToggleButtonInput}
