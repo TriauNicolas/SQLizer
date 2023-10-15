@@ -54,9 +54,12 @@
       background-color: var(--gray-light);
       padding: var(--spacing-s) var(--spacing-l);
       cursor: pointer;
+      transition: color var(--base-transition-speed) ease-in-out,
+        background-color var(--base-transition-speed) ease-in-out;
 
       &:hover {
-        color: var(--primary);
+        color: var(--primary-white);
+        background-color: var(--primary);
       }
     }
   }

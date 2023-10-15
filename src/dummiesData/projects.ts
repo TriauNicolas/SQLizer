@@ -42,7 +42,7 @@ export const projects: Project[] = [
     lastEdit: 1696264052000,
   },
   {
-    id: 0,
+    id: 5,
     title: "project 6",
     imageSrc: "/img/project2.jpg",
     convertedDataId: 0,
@@ -50,7 +50,7 @@ export const projects: Project[] = [
     lastEdit: 1696523252000,
   },
   {
-    id: 1,
+    id: 6,
     title: "project 7",
     imageSrc: "",
     convertedDataId: 1,
@@ -58,7 +58,7 @@ export const projects: Project[] = [
     lastEdit: 1696264052000,
   },
   {
-    id: 2,
+    id: 7,
     title: "project 8",
     imageSrc: "",
     convertedDataId: 2,
@@ -66,7 +66,7 @@ export const projects: Project[] = [
     lastEdit: 1696264052000,
   },
   {
-    id: 3,
+    id: 8,
     title: "project 9",
     imageSrc: "",
     convertedDataId: 3,
@@ -74,7 +74,7 @@ export const projects: Project[] = [
     lastEdit: 1696264052000,
   },
   {
-    id: 4,
+    id: 9,
     title: "project 10",
     imageSrc: "",
     convertedDataId: 4,
