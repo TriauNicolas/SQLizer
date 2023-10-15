@@ -1,5 +1,5 @@
 import { useReactFlow, Node } from 'reactflow';
-import { addTableSocket } from '../sockets/socketEmitter';
+import { addTableSocket } from '../../sockets/socketEmitter';
 import { Table } from '@/types/tables';
 
 // CSS Table

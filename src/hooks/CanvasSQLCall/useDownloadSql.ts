@@ -1,7 +1,7 @@
 import { ConvertedData } from '@/types/tables';
 import { saveAs } from 'file-saver';
 import { useCallback, useEffect } from 'react';
-import { useApi } from '@/hooks/useApi';
+import { useApi } from '@/hooks/CanvasSQLCall/useApi';
 
 export const useDownloadSql = () => {
   const { sqlData, fetchSQL } = useApi();
