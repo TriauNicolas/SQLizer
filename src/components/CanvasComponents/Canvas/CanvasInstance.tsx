@@ -128,7 +128,7 @@ export const CanvasInstance = () => {
                   <button onClick={() => setVariant(BackgroundVariant.Cross)} className={stylesCanvas.panel_button}>Cross</button>
                 </div>
               </div>
-              <div className={stylesCanvas.panel_Vertical_Menu}>
+              {/* <div className={stylesCanvas.panel_Vertical_Menu}>
                 <div className={stylesCanvas.panel_button}>Get Element</div>
                 <div className={stylesCanvas.panel_Vertical_Menu_Content}>
                   <button onClick={() => console.log(nodes)} className={stylesCanvas.panel_button}>Nodes</button>
@@ -136,7 +136,7 @@ export const CanvasInstance = () => {
                   <button onClick={() => console.log(getNodes())} className={stylesCanvas.panel_button}>NodesList</button>
                   <button onClick={() => handleTriggerDataToJson()} className={stylesCanvas.panel_button}>Converted Data</button>
                 </div>
-              </div>
+              </div> */}
               <button onClick={() => sendSocketTable()} className={stylesCanvas.panel_button}>Add a Table</button>
               <button onClick={() => triggerSqlFetch(handleTriggerDataToJson())} className={stylesCanvas.panel_button}>Download SQL</button>
               </div>
