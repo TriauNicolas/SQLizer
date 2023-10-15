@@ -12,7 +12,7 @@ export const useApi = () => {
 
     await doFetchRequest({method: 'POST', url: '/translation/translateJsonToSql', data: convertedData})
     .then(response => {
-      if (response.data) setSqlData(response.data.sql);
+      if (response.sql) setSqlData(response.sql);
       setIsFetching(false);
     })
     .catch((error: unknown) => {
