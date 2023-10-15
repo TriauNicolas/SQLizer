@@ -12,19 +12,19 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import stylesCanvas from './CanvasInstance.module.css';
-import styles from '../../styles/page.module.css';
+import styles from '../../../styles/page.module.css';
 import { TableNode } from '../TableNode/TableNode';
 import { FieldNode } from '../FieldNode/FieldNode';
 import { InfosTable } from '../InfosTable/InfosTable';
-import { useDataToJson } from '@/hooks/useDataToJson';
-import { useDownloadSql } from '@/hooks/useDownloadSql'
-import { useNodes } from '@/hooks/useNodes';
-import { useCRUDTableNode } from '@/hooks/useCRUDTableNode';
-import { useEdges } from '@/hooks/useEdges';
+import { useDataToJson } from '@/hooks/CanvasSQLCall/useDataToJson';
+import { useDownloadSql } from '@/hooks/CanvasSQLCall/useDownloadSql'
+import { useNodes } from '@/hooks/CanvasNodesEdges/useNodes';
+import { useCRUDTableNode } from '@/hooks/CanvasCRUD/useCRUDTableNode';
+import { useEdges } from '@/hooks/CanvasNodesEdges/useEdges';
 import { ResponseCreateFieldEvent, ResponseCreateTableEvent, ResponseDeleteFieldEvent, ResponseDeleteTableEvent, ResponseMoveTableEvent, ResponseUpdateFieldEvent, ResponseUpdateTableNameEvent } from '@/types/socketEvent';
 import { socket } from './CanvasElement';
-import { useCRUDFieldNode } from '@/hooks/useCRUDFieldNode';
-import { useCRUDEdge } from '@/hooks/useCRUDEdge';
+import { useCRUDFieldNode } from '@/hooks/CanvasCRUD/useCRUDFieldNode';
+import { useCRUDEdge } from '@/hooks/CanvasCRUD/useCRUDEdge';
 import { Relation } from '@/types/tables';
 
 // Different nodes Types used for the canvas

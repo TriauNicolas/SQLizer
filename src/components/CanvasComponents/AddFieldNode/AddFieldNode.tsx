@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import svgAdd from '../../../public/SVGAddField.svg';
+import svgAdd from '../../../../public/SVGAddField.svg';
 import { useEffect, useState } from 'react';
 
 type AddFieldNodeProps = {

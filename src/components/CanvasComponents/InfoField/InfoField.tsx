@@ -1,9 +1,9 @@
 import styleInfoField from './InfoField.module.css'
 import { useState } from 'react';
-import { Field } from '../../types/tables';
+import { Field } from '../../../types/tables';
 import Image from 'next/image';
-import deleteSVG from '../../../public/delete-circle.svg';
-import modifySVG from '../../../public/edit-pencil.svg'
+import deleteSVG from '../../../../public/delete-circle.svg';
+import modifySVG from '../../../../public/edit-pencil.svg'
 import { useReactFlow, Node } from 'reactflow';
 import { deleteFieldSocket } from '@/sockets/socketEmitter';
 

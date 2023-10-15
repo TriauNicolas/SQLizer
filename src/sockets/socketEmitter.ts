@@ -1,5 +1,5 @@
 import { Field, Relation, Table } from "@/types/tables";
-import { socket } from '../components/Canvas/CanvasElement';
+import { socket } from '../components/CanvasComponents/Canvas/CanvasElement';
 
 ///// Tables /////
 export const addTableSocket = (table: Table) => {

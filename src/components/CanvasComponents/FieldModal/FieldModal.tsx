@@ -1,6 +1,6 @@
 import modalStyle from './FieldModal.module.css'
 import Image from 'next/image'
-import closeSVG from '../../../public/CloseCross.svg'
+import closeSVG from '../../../../public/CloseCross.svg'
 import { useReactFlow, Node } from 'reactflow'
 import { useEffect, useState} from 'react'
 import { addFieldSocket, updateFieldSocket } from '@/sockets/socketEmitter'
@@ -34,9 +34,10 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
     }
   }, [idField, getNode, infosField])
   
-  const handleTypeSelectValueChange = (event) => {
+  const handleTypeSelectValueChange = (event: any) => {
     setTypeSelectValue(event.target.value)
   }
+
   // Manage possibilities with options
   const handleClickOptions = (type: string) => {
     switch (type) {

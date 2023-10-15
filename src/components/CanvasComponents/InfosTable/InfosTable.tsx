@@ -1,10 +1,10 @@
 import styleTableInfos from './InfosTable.module.css'
 import { useEffect, useState } from 'react';
-import { InfosTableType } from '../../types/infosTable';
+import { InfosTableType } from '../../../types/infosTable';
 import { InfosField } from '../InfoField/InfoField';
 import { FieldModal } from '../FieldModal/FieldModal';
 import { useReactFlow, Node } from 'reactflow';
-import { useNodes } from '@/hooks/useNodes';
+import { useNodes } from '@/hooks/CanvasNodesEdges/useNodes';
 import { deleteTableSocket } from '@/sockets/socketEmitter';
 
 type InfosTableProps = {
