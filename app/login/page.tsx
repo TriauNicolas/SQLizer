@@ -79,7 +79,7 @@ const Login = () => {
           </div>
           <div>
             <span className={styles.subtitle}>Pas de compte ?</span>
-            <Link href="/register">{`Créer un compte`}</Link>
+            <Link className={styles.subtitle} href="/register">{`Créer un compte`}</Link>
           </div>
         </form>
         </div>
