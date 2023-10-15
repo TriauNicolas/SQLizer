@@ -1,6 +1,6 @@
 .fieldNode {
-  width: var(--baseWidthTableNode);
-  height: var(--baseHeightFieldNode);
+  width: var(--base-width-table-node);
+  height: var(--base-height-field-node);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -10,14 +10,14 @@
 .fieldInput:focus {
   outline: none;
   border: none;
-  width: calc(var(--baseWidthTableNode) * 0.45);
-  height: var(--baseHeightFieldNode);
+  width: calc(var(--base-width-table-node) * 0.45);
+  height: var(--base-height-field-node);
   margin-top: 2px;
 }
 
 .fieldName {
-  width: calc(var(--baseWidthTableNode) / 2.2);
-  height: var(--baseHeightFieldNode);
+  width: calc(var(--base-width-table-node) / 2.2);
+  height: var(--base-height-field-node);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -28,8 +28,8 @@
 }
 
 .fieldType {
-  width: calc(var(--baseWidthTableNode) / 2);
-  height: var(--baseHeightFieldNode);
+  width: calc(var(--base-width-table-node) / 2);
+  height: var(--base-height-field-node);
   display: flex;
   justify-content: flex-end;
   align-items: center;

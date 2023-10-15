@@ -4,10 +4,10 @@ import { Table } from '@/types/tables';
 
 // CSS Table
 const basicStyleTableNode: {} = {
-  width: "var(--baseWidthTableNode)",
-  minHeight: "var(--baseHeightTableNode)",
+  width: "var(--base-width-table-node)",
+  minHeight: "var(--base-height-table-node)",
   backgroundColor: "#fff",
-  border: "1.5px solid var(--borderColorTableNode)",
+  border: "1.5px solid var(--border-color-table-node)",
   borderRadius: "2px",
   display: "flex",
   flexDirection: "column",

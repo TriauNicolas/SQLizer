@@ -29,6 +29,7 @@
   /* Widths */
   --base-width-table-node: 150px;
   --base-height-table-node: 250px;
+  --base-height-field-node: 40px;
 
   /* Transitions */
   --base-transition-speed: 0.3s;

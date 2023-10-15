@@ -23,8 +23,10 @@ export const TableNode = ({ id, data, selected }: TableNodeProps) => {
 
   // Get number of nodes for addFieldNode
   useEffect(() => {
+    if (selected) {
       setNumberOfFields((getNodes().filter((node) => node.parentNode === id)).length)
-  }, [getNodes, numberOfFields, id])
+    }
+  }, [getNodes, numberOfFields, id, selected])
 
   // Manage changing position and so trigger the socket
   useEffect(() => {
