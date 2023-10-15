@@ -1,6 +1,6 @@
 import modalStyle from './FieldModal.module.css'
 import Image from 'next/image'
-import closeSVG from '../'
+import closeSVG from '../../../../public/CloseCross.svg'
 import { useReactFlow, Node } from 'reactflow'
 import { useEffect, useState} from 'react'
 import { addFieldSocket, updateFieldSocket } from '@/sockets/socketEmitter'
