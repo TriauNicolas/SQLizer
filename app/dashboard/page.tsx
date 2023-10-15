@@ -87,7 +87,6 @@ const Dashboard = () => {
       <span className={styles.title}>
         <h1 className={`h1 semiBold ${styles.hi}`}>Hi</h1>
         <h1 className={`h1 semiBold ${styles.user}`}>{user?.first_name}</h1>
-        <h2 className={`h2 regular`}>Shrek is love</h2>
       </span>
 
       <InfoCardGrid />

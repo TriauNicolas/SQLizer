@@ -8,12 +8,9 @@ export const useApi = () => {
   
   const fetchSQL = async (convertedData: ConvertedData | null) => {
     if (!convertedData) return;
-  
-    const myJson = JSON.stringify(convertedData);
-
     setIsFetching(true);
 
-    await doFetchRequest({method: 'POST', url: '/translation/translateJsonToSql', data: myJson})
+    await doFetchRequest({method: 'POST', url: '/translation/translateJsonToSql', data: convertedData})
     .then(response => {
       if (response.data) setSqlData(response.data.sql);
       setIsFetching(false);
