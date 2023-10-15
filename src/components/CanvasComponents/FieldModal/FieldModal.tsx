@@ -34,9 +34,10 @@ export const FieldModal = ({ idTable, closeModal, idField }: FieldModalProps) =>
     }
   }, [idField, getNode, infosField])
   
-  const handleTypeSelectValueChange = (event) => {
+  const handleTypeSelectValueChange = (event: any) => {
     setTypeSelectValue(event.target.value)
   }
+
   // Manage possibilities with options
   const handleClickOptions = (type: string) => {
     switch (type) {
