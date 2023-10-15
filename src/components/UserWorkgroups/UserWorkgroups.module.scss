@@ -1,0 +1,83 @@
+
+.userGroupToggle{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.userGroupToggle p {
+  display: flex;
+  align-items: center;
+}
+
+.userGroupToggleButton{
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.userGroupToggleButtonInput{
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  opacity: 0;
+  width: 60px;
+  height: 34px;
+}
+
+.userGroupToggleButtonSpan{
+  height: 34px;
+  width: 60px;
+  cursor: pointer;
+  position: absolute;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px; 
+  z-index: 1; 
+}
+
+.userGroupToggleButtonSpan::before{
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .userGroupToggleButtonSpan{
+  background-color: #00618a;
+}
+
+input:focus + .userGroupToggleButtonSpan {
+  box-shadow: 0 0 1px #00618a;
+}
+
+input:checked + .userGroupToggleButtonSpan:before {
+  transform: translateX(26px);
+}
+
+.usersGroup {
+  margin-left: 2vw;
+}
+
+.userGroupRemove{
+  display: flex;
+  justify-content: end;
+}
+
+.UserGroupRemoveButton{
+  cursor: pointer;
+  background-color: #FF0000;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 26px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+}

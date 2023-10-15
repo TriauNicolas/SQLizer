@@ -1,0 +1,54 @@
+.groupsDiv{
+  margin-top: 2vh;
+}
+
+.UserGroupRemoveButton{
+  cursor: pointer;
+  background-color: #FF0000;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 26px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.groups__notAdmin, .groups__isAdmin{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-left: 2vw;
+}
+
+.groups__notAdmin p{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.userGroupAdd button{
+  cursor: pointer;
+  background-color: #00618a;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 26px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.userGroupAddForm{
+  display: flex;
+  margin-left: 1vw;
+}
+
+.userGroupAddForm input{
+  border-radius: 14px;
+  margin-right: 1vw;
+  padding-left: 1vw;
+}
+.userGroupAddFormImage{
+  cursor: pointer;
+}

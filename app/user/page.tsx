@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { doFetchRequest } from "@/api/fetch"
 import { session } from "../SessionProvider"
+import Workgroups from "@/components/Workgroups/Workgroups";
 
 interface Data {
   success: boolean,
@@ -21,20 +22,6 @@ interface Rights {
   delete_right: boolean;
 }
 
-interface Workgroups {
-  group_id: string,
-  group_name: string,
-  rights: Rights,
-  is_admin: boolean,
-  users?: {
-    user_id: string,
-    first_name: string,
-    last_name: string,
-    email: string,
-    rights: Rights,
-  }[],
-}
-
 interface UserType {
   first_name: string,
   last_name: string,
@@ -44,15 +31,18 @@ interface UserType {
 const User = () => {
   const { data: session, status } = useSession();
 
-  console.log(useSession())
-
   const [ workgroups, setWorkgroups ] = useState<Workgroups[]>();
   const [ data, setData ] = useState<Data>();
   const [ token, setToken ] = useState("");
   const [ user, setUser ] = useState<UserType>();
   const [ newUserEmail, setNewUserEmail ] = useState('');
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
-  
+
+
+  useEffect(() => {
+    if (!data) return
+    if (!workgroups) setWorkgroups(data.groups);
+  }, [data, workgroups])
+
   useEffect(() => {
     if (status === 'authenticated') {
       // @ts-ignore
@@ -72,46 +62,20 @@ const User = () => {
 
       getData().then((response) => {
         setData(response)
+
+        console.log(response)
       })
       .catch((error) => {
         console.log(error)
       });
     }
-  }, [status, session]);
 
-  useEffect(() => {
+    
+
     if (!data) return
-    setWorkgroups(data.groups)
-  }, [data])
+    setWorkgroups(data.groups);
 
-  useEffect(() => {
-    if (!workgroups) return
-  }, [workgroups])
-
-  const handleDeleteGroup = (groupId:string) => {
-    const updatedGroups = workgroups?.filter((group:Workgroups) => group.group_id !== groupId);
-    setWorkgroups(updatedGroups);
-  };
-  
-
-  const handleAddUserToGroup = async (groupId: string) => {
-    const newUser = await doFetchRequest({method: 'PUT', url: '/workgroups/addUserToWorkgroup', token, data: {email: newUserEmail, groupId, update_right: true}})
-    console.log(newUser);
-    setNewUserEmail('');
-  };
-
-  const handleDeleteUserFromGroup = async (groupId: string, userId: string) => {
-    // TODO : Link with back
-  };
-  
-
-  const handleToggleRight = async (groupId: string, userEmail: string, rightName: keyof Rights) => {
-    // TODO : Link with back
-  };
-
-  const handleSelectGroup = (groupId: string) => {
-    setSelectedGroup(groupId);
-  };
+  }, [status, session, newUserEmail, ]);
 
   return (
     <div className={style.container}>
@@ -128,124 +92,7 @@ const User = () => {
       <div className={style.groups}>
         <h2>Mes Groupes:</h2>
         {workgroups?.map((group:Workgroups) => (
-          <div className={style.groupsDiv} key={group.group_id}>
-            <h3>Group Information</h3>
-            {!group.is_admin && (
-              <div className={style.groups__notAdmin}>
-                <p>Group Name: {group.group_name}</p>
-                <div className={style.userGroupRemove}>
-                  <button className={style.UserGroupRemoveButton}onClick={() => handleDeleteGroup(group.group_id)}>Quitter</button>
-                </div>
-              </div>
-            )}
-            {group.is_admin && (
-              <div className={style.groupsDiv}>
-                <div className={style.groups__isAdmin}>
-                  <p>Group Name: {group.group_name}</p>
-                  {group.group_name !== 'Mes Projets' && (
-                    <div className={style.userGroupAdd}>
-                      <button className="SelectedGroup" onClick={() => handleSelectGroup(group.group_id)}>AddUser</button>
-                    </div>
-                  )}
-                  {selectedGroup === group.group_id && (
-                    <div className={style.userGroupAddForm}>
-                      <input
-                        type="email"
-                        placeholder="Enter user's email"
-                        value={newUserEmail} // Set the value based on newUserEmail
-                        onChange={(e) => setNewUserEmail(e.target.value)}
-                      />
-                      <Image 
-                        src={add}
-                        height={39}
-                        width={39}
-                        alt="logo Sqilizer"
-                        priority
-                        className={style.userGroupAddFormImage}
-                        onClick={() => handleAddUserToGroup(group.group_id)}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className={style.users}>
-                  {group?.users?.map((users, index) => (
-                    <div className="user" key={index}>
-                      {users.email != user?.email && (
-                        <div className={style.user__inGroups}>
-                          <p>Email: <strong>{users.email}</strong></p>
-                          <div className={style.userGroupToggle}>
-                            <p>Create Right: <strong>{users.rights.create_right ? 'Yes' : 'No'}</strong></p>
-                            <div className={style.userGroupToggleButton}>
-                              <input
-                              className={style.userGroupToggleButtonInput}
-                                type="checkbox"
-                                onClick={() =>
-                                  handleToggleRight(
-                                    group.group_id,
-                                    users.email,
-                                    'create_right'
-                                  )
-                                }
-                              />
-                              <span 
-                              className={style.userGroupToggleButtonSpan}></span>
-                            </div>
-                          </div>
-                          <div className={style.userGroupToggle}>
-                            <p>Update right: <strong>{users.rights.update_right ? 'Yes' : 'No'}</strong></p>
-                            <div className={style.userGroupToggleButton}>
-                              <input
-                              className={style.userGroupToggleButtonInput}
-                                type="checkbox"
-                                onClick={() =>
-                                  handleToggleRight(
-                                    group.group_id,
-                                    users.email,
-                                    'update_right'
-                                  )
-                                }
-                              />
-                              <span 
-                              className={style.userGroupToggleButtonSpan}></span>
-                            </div>
-                          </div>
-                          <div className={style.userGroupToggle}>
-                            <p>Delete Right: <strong>{users.rights.delete_right ? 'Yes' : 'No'}</strong></p>
-                            <div className={style.userGroupToggleButton}>
-                              <input
-                              className={style.userGroupToggleButtonInput}
-                                type="checkbox"
-                                onClick={() =>
-                                  handleToggleRight(
-                                    group.group_id,
-                                    users.email,
-                                    'delete_right'
-                                  )
-                                }
-                              />
-                              <span 
-                              className={style.userGroupToggleButtonSpan}></span>
-                            </div>
-                          </div>
-                          <div className={style.userGroupRemove}>
-                            <button
-                              className={style.UserGroupRemoveButton}
-                                onClick={() =>
-                                  handleDeleteUserFromGroup(group.group_id, users.user_id)
-                                }
-                              >
-                                Expulser
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-          </div>
+          <Workgroups status={status} key={group.group_id} token={token} group={group} initialUserEmail={user?.email}/>
         ))}
       </div>
     </div>
