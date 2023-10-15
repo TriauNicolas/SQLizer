@@ -25,7 +25,7 @@ const Register = () => {
         url: auth_register,
         data,
       });
-      if (response.statusText === "OK") router.push("/login");
+      if (response.success) router.push("/login");
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +45,7 @@ const Register = () => {
               />
           </div>
         <div>
-        <h1 className={styles.title_t1} >Créer votre compte</h1>
+        <h2 className={styles.title_t2} >Créer votre compte</h2>
           <form className={styles.form_main} onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className={styles.title_label} htmlFor="first_name">Prénom</label>
@@ -109,7 +109,7 @@ const Register = () => {
             </div>
             <div>
               <span className={styles.subtitle}>{"Vous possédez déjà un compte ?"}</span>
-              <Link href="/login">{"Se connecter"}</Link>
+              <Link className={styles.subtitle} href="/login">{"Se connecter"}</Link>
             </div>
           </form>
         </div>

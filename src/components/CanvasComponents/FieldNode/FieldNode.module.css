@@ -1,0 +1,38 @@
+.fieldNode {
+  width: var(--base-width-table-node);
+  height: var(--base-height-field-node);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 12px;
+}
+
+.fieldInput:focus {
+  outline: none;
+  border: none;
+  width: calc(var(--base-width-table-node) * 0.45);
+  height: var(--base-height-field-node);
+  margin-top: 2px;
+}
+
+.fieldName {
+  width: calc(var(--base-width-table-node) / 2.2);
+  height: var(--base-height-field-node);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fieldType {
+  width: calc(var(--base-width-table-node) / 2);
+  height: var(--base-height-field-node);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: end;
+  padding: 0 10px;
+}

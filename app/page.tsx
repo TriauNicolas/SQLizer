@@ -1,4 +1,4 @@
-import { CanvasElement } from '@/components/Canvas/CanvasElement'
+import { CanvasElement } from '@/components/CanvasComponents/Canvas/CanvasElement'
 import Layout from './layout'
 
 export default function Home() {

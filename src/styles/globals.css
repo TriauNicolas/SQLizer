@@ -1,4 +1,7 @@
 :root {
+  --max-width: 1200px;
+  --nav-height: 68px;
+
   /* Colors */
   --primary-white: hsl(0, 0%, 100%);
   --secondary-white: hsl(220, 100%, 99%);
@@ -6,6 +9,7 @@
   --border-color-table-node: hsl(0, 0%, 13%);
   --primary: hsl(256, 47%, 48%);
   --primary-20: hsla(256, 47%, 48%, 0.15);
+  --primary-05: hsla(256, 47%, 48%, 0.05);
   --primary-35: hsla(256, 47%, 48%, 0.35);
   --primary-dark: hsl(230, 53%, 23%);
   --gray:hsl(214, 11%, 37%);
@@ -25,6 +29,7 @@
   /* Widths */
   --base-width-table-node: 150px;
   --base-height-table-node: 250px;
+  --base-height-field-node: 40px;
 
   /* Transitions */
   --base-transition-speed: 0.3s;
@@ -39,6 +44,7 @@
   .mini{font-size: 10px;}
   .detail{font-size: 14px;}
   .body{font-size: 16px;}
+  .description{font-size: 18px;}
   .callout{font-size: 21px;}
   .h2{font-size: 24px;}
   .h1{font-size: 48px;}
@@ -47,6 +53,10 @@
   .regular{font-weight: 400;}
   .semiBold{font-weight: 600;}
   .bold{font-weight: 700;}
+
+  a {
+    text-decoration: none;
+  }
 
 * {
   box-sizing: border-box;
@@ -81,5 +91,5 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif !important;
 }

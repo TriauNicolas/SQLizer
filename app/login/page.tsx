@@ -46,7 +46,7 @@ const Login = () => {
           />
         </div>
         <div>
-        <h1 className={styles.title_t1}>Connectez-vous</h1>
+        <h2 className={styles.title_t2}>Connectez-vous</h2>
         <form className={styles.form_main} onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label className={styles.title_label} htmlFor="email">Email</label>
@@ -79,7 +79,7 @@ const Login = () => {
           </div>
           <div>
             <span className={styles.subtitle}>Pas de compte ?</span>
-            <Link href="/register">{`Créer un compte`}</Link>
+            <Link className={styles.subtitle} href="/register">{`Créer un compte`}</Link>
           </div>
         </form>
         </div>
