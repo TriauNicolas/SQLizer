@@ -41,7 +41,9 @@ export const useCRUDTableNode = (setNodes: Function, setEdges: Function) => {
   // Delete Table from socket
   const deleteTable = (tableName: string) => {
     // Remove the tableNode and the fieldNode related to the table
-    const nodesFiltered = getNodes().filter((node) => node.data.title != tableName && node.parentNode != tableName);
+    const allNodes = getNodes();
+    const nodeToDelete = allNodes.find((node) => node.data.title === tableName)
+    const nodesFiltered = allNodes.filter((node) => node.data.title != tableName && node.parentNode != nodeToDelete?.id);
 
     // Remove the edges related
     const allNodesRelatedToTable = getNodes().filter((node) => node.data.title != tableName && node.parentNode != tableName);
