@@ -32,7 +32,7 @@ interface User {
 interface Props {
   group: Workgroups,
   token: string,
-  initialUserEmail?: string 
+  initialUserEmail?: string,
   status: string, 
 }
 
@@ -44,28 +44,41 @@ const Workgroups = ({group, token, initialUserEmail, status}:Props) => {
   const [ newUserEmail, setNewUserEmail ] = useState('');
 
   const handleDeleteGroup = ( groupId:string ) => {
-    const updatedGroups = workgroups?.filter((group:Workgroups) => group.group_id !== groupId);
-    setWorkgroups(updatedGroups);
+    const deleteWorkgroup = async () => {
+      return await doFetchRequest({method: 'DELETE', url: '/workgroups/leaveWorkgroup/'+groupId, token: token, data: {groupId}})
+    }
+    deleteWorkgroup().then((response) => {
+      setWorkgroups(response);
+      window.location.reload();
+    }).catch((error) => {
+      console.log(error)
+    })
   };
 
   const handleSelectGroup = (groupId: string) => {
     setSelectedGroup(groupId);
   };
 
-  const handleAddUserToGroup = async ( groupId: string ) => {
-    const newUser = await doFetchRequest({method: 'PUT', url: '/workgroups/addUserToWorkgroup', token: token, data: {email: newUserEmail, groupId, update_right: true}})
+  const handleAddUserToGroup = ( groupId: string ) => {
+    const addUserToWorkgroup = async () => {
+      return await doFetchRequest({method: 'PUT', url: '/workgroups/addUserToWorkgroup', token: token, data: {email: newUserEmail, groupId, create_right: false, update_right: true, delete_right: false}})
+    }
 
+    addUserToWorkgroup().then((response:User) => {
+      const userToInsert:User = {
+        user_id: response.user_id,
+        first_name: response.first_name,
+        last_name: response.last_name,
+        email: response.email,
+        rights: response.rights
+      }
+      const newGroup = JSON.parse(JSON.stringify(group))
+      group?.users?.push(userToInsert)
+      setWorkgroups(newGroup)
+    })
+    window.location.reload();
     setNewUserEmail('');
   };
-
-  useEffect(() => {
-    // Define handleAddUserToGroup function
-    const handleAddUserToGroup = async (groupId: string) => {
-      const newUser = await doFetchRequest({method: 'PUT', url: '/workgroups/addUserToWorkgroup', token, data: {email: newUserEmail, groupId, update_right: true}})
-
-      setNewUserEmail('');
-    };
-  }, [ newUserEmail, status ])
 
   return (
     <div className={style.groupsDiv} key={group.group_id}>

@@ -32,9 +32,9 @@ interface Props {
 }
 
 const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
-  const [ toggleCreateRight, setToggleCreateRight ] = useState(users.rights.create_right);
-  const [ toggleUpdateRight, setToggleUpdateRight ] = useState(users.rights.update_right);
-  const [ toggleDeleteRight, setToggleDeleteRight ] = useState(users.rights.delete_right);
+  const [ toggleCreateRight, setToggleCreateRight ] = useState(users.rights?.create_right);
+  const [ toggleUpdateRight, setToggleUpdateRight ] = useState(users.rights?.update_right);
+  const [ toggleDeleteRight, setToggleDeleteRight ] = useState(users.rights?.delete_right);
 
   const handleToggleRight = async (
     userId: string,
@@ -94,6 +94,7 @@ const UserWorkgroups = ({users, group, token, initialUserEmail}: Props) => {
       const response = await doFetchRequest({ method: 'DELETE', url: '/workgroups/removeUserOfWorkgroup', token: token, data: { userId, groupId },});
       if (response.success) {
         console.log('User removed from the group:', response);
+        window.location.reload()
       } else {
         console.error('Error removing user from the group:', response.error);
       }

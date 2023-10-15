@@ -53,7 +53,7 @@ const User = () => {
         // @ts-ignore
         last_name: session?.user?.lastName,
         // @ts-ignore
-        email: session?.user?.email
+        email: session?.user?.email,
       })
       const getData = async() => {
         // @ts-ignore
@@ -68,12 +68,10 @@ const User = () => {
       });
     }
 
-    
-
     if (!data) return
     setWorkgroups(data.groups);
 
-  }, [status, session, newUserEmail, ]);
+  }, [status, session ]);
 
   return (
     <div className={style.container}>
