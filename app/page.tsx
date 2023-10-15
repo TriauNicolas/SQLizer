@@ -1,10 +1,10 @@
-import { CanvasElement } from '@/components/CanvasComponents/Canvas/CanvasElement'
+import Home from './home/page'
 import Layout from './layout'
 
-export default function Home() {
+export default function Homepage() {
   return (
       <Layout>
-        <CanvasElement />
+        <Home />
       </Layout>
   )
 }

@@ -1,14 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="391518f4-6af0-4302-ad0e-f0eda9eb6077" name="Changes" comment="" />
+    <list default="true" id="391518f4-6af0-4302-ad0e-f0eda9eb6077" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/SessionProvider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/auth/[...nextauth]/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/dashboard/layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/dashboard/page.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/dashboard/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/middleware.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/Montserrat-VariableFont_wght.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/OFL.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-Black.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-BlackItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-ExtraLight.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-ExtraLightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-LightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-Thin.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/Montserrat/static/Montserrat-ThinItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/donkey.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/icons/alertOff.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/icons/alertOn.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/project2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/projectPH.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puss.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/shrek.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/logosqlizer.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/fetch.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Canvas/CanvasInstance.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/CreateGroupButton/CreateGroupButton.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/CreateGroupButton/CreateGroupButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Header/Header.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Header/Header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/CheckmarkIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/CopyIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/DeleteIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/DropdownArrow.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/EditIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/EditNameIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/FavIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/FilledFavIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/GroupIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/MentionIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/PersonIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Icons/PlusIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/InfoCard/InfoCard.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/InfoCard/InfoCard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/InfoCardGrid/InfoCardGrid.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/InfoCardGrid/InfoCardGrid.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ProjectGrid/ProjectGrid.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ProjectGrid/ProjectGrid.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ProjectPreview/ProjectPreview.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ProjectPreview/ProjectPreview.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/SideBar/Sidebar.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/SideBar/Sidebar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UserTable/UserTable.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UserTable/UserTable.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dummiesData/groups.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dummiesData/projects.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dummiesData/users.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useCRUDEdge.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useCRUDFieldNode.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useCRUDTableNode.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/auth.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/canvaspanel.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/Group.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/Project.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/User.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/socketEvent.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/getElapsedTime.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.proto" beforeDir="false" afterPath="$PROJECT_DIR$/.env.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/register/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/axios.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Canvas/CanvasElement.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Canvas/CanvasElement.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Canvas/CanvasInstance.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Canvas/CanvasInstance.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/FieldModal/FieldModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FieldModal/FieldModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/FieldNode/FieldNode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FieldNode/FieldNode.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/InfoField/InfoField.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/InfoField/InfoField.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/InfosTable/InfosTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/InfosTable/InfosTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TableNode/TableNode.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TableNode/TableNode.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TableNode/TableNode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TableNode/TableNode.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useAddTableNode.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useAddTableNode.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useDataToJson.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDataToJson.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useDownloadSql.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDownloadSql.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useEdges.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useEdges.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useNodes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useNodes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sockets/socketConnection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sockets/socketConnection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sockets/socketEmitter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sockets/socketEmitter.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/auth.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/variables.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/infosTable.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/infosTable.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/tables.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/tables.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/auth.utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/auth.utils.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -22,7 +144,17 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Nicol/OneDrive/Documents/GitHub/new-energy-local-test"
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "C:/Users/Nicol/OneDrive/Documents/GitHub/new-energy-local-test",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -33,7 +165,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1694437542871</updated>
+      <workItem from="1697313178406" duration="596000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>false</integration-enabled>
+    <settings-migrated>true</settings-migrated>
   </component>
 </project>
