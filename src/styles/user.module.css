@@ -12,7 +12,8 @@
   margin-left: 2vw;
 }
 .groups__notAdmin p{
-  padding: 10px 26px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   text-align: center;
 }
 .groups{
